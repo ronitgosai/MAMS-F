@@ -1,0 +1,107 @@
+<div class="row-title">
+    <div class="row">
+        <button mat-flat-button class="save card-button" type="button" (click)="currentTable = 'stock'">
+            Stock
+        </button>
+    </div>
+</div>
+<!-- stock table -->
+<div class="row ml-20 mr-20" *ngIf="currentTable === 'stock'">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="stockForm">
+                    <h4 class="fs-18 fw-500">Stock</h4>
+                    <div class="col-md-12">
+                        <mat-select class="line fs-15 fw-400" formControlName="product_name"
+                            (selectionChange)="stockProductChange($event)" placeholder="Product Name"
+                            #singleSelect>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="productFilterCtrl"
+                                    placeholderLabel="Search here!"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of filteredProductName | async" [value]="data.product_id">
+                                {{ data.product_name }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </form>
+                <div class="mt-2">
+                    <button mat-flat-button type="reset" class="cancel pull-right mb-2 ml-2" data-toggle="collapse"
+                    data-target="#Stock" (click)="cancel()">
+                    <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                </button>
+                <button mat-flat-button type="submit" class="save pull-right mb-2" data-toggle="collapse"
+                    data-target="#Stock" (click)="getStockProductList()">
+                    <span class="fas fa-save"></span>&nbsp;&nbsp;Search Stock
+                </button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <table class="table collapse" id="Stock">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold max-width-200">#</th>
+                        <th class="font-weight-bold max-width-200">Product Name</th>
+                        <th class="font-weight-bold max-width-200">Technical Name</th>
+                        <th class="font-weight-bold max-width-200">Inventory</th>
+                        <th class="font-weight-bold max-width-200">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="stockProductTable">
+                    <tr *ngFor="let item of stockProduct">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_technical_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="allStockProductTable">
+                    <tr *ngFor="let item of allStockProduct">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_technical_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

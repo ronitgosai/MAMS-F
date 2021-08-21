@@ -1,0 +1,41 @@
+<div class="row-title">
+    <div class="row">
+        <button mat-flat-button class="save card-button" type="button" (click)="currentTable = 'customer'">
+            <!-- (click)="getCustomer()" -->
+            Customer
+        </button>
+    </div>
+</div>
+<!-- customer table -->
+<div class="row ml-20 mr-20" *ngIf="currentTable === 'customer'">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold max-width-200">#</th>
+                        <th class="font-weight-bold max-width-200">Customer Name</th>
+                        <th class="font-weight-bold max-width-200">Customer Number</th>
+                        <th class="font-weight-bold max-width-200">Customer Address</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="customerTable">
+                    <tr *ngFor="let item of customerDetails">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_contact }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_address }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

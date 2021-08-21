@@ -1,0 +1,26 @@
+.main-content{
+    margin-top: -20px;
+    .form-field{
+        margin-top: 13px !important;
+        width: 100%;
+    }
+    .name{
+        margin-top: 4px !important;
+    }
+    .line{
+        margin-top: 5px;
+        border-bottom: 1px solid;
+    }
+    .flex-even{
+        flex: 1 !important;
+    display: flex;
+        align-items: center;
+    }
+}
+::ng-deep{
+    .mat-select-search-input {
+      margin: 12px !important;
+      height: auto !important;
+      line-height: 0 !important;
+    }
+}

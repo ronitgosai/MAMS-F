@@ -1,0 +1,46 @@
+.main-content {
+  margin-top: -20px;
+  .table-custome {
+    width: 100% !important;
+    overflow: hidden !important;
+    z-index: 8 !important;
+  }
+  thead {
+    z-index: 7 !important;
+  }
+  .form-field {
+    margin-top: 13px !important;
+    width: 100%;
+  }
+  .material-type {
+    margin-left: 50% !important;
+  }
+  .date-picker {
+    width: 200% !important;
+  }
+  .top_row {
+    display: table;
+    width: 100%;
+  }
+  .flex-even {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  .line {
+    margin-top: 5px;
+    border-bottom: 1px solid;
+  }
+  .example-section {
+    margin: 12px 0;
+  }
+
+  .example-margin {
+    margin: 0 12px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin-top: 4px;
+  }
+}

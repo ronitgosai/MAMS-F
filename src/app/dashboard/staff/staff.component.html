@@ -1,0 +1,238 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="row row-title">
+                <div class="col-md-6"><br>
+                    <span class="fs-20 fw-600">User</span>
+                </div>
+                <div class="col-md-6"><br>
+                    <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" id="collapseButton" data-target="#staff" aria-expanded="false" aria-controls="collapseExample">
+                        <span class="fas fa-plus"></span>&nbsp;&nbsp;Add User
+                    </button>
+                </div>
+            </div>
+            <div class="row ml-20 mr-20">
+                <div class="col-md-12">
+                    <div class="collapse" id="staff">
+                        <div class="card-body">
+                            <form class="staffForm" [formGroup]="staffForm">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>User Role</mat-label>
+                                    <mat-select formControlName="user_role" required>
+                                        <mat-option value="397A244226452948404D635166546A576E5A7234753778214125442A462D4A61">Admin</mat-option>
+                                        <mat-option value="733676397924423F4528482B4D6251655468576D5A7134743777217A25432A46">Account</mat-option>
+                                        <mat-option value="58703273357638792F423F4428472B4B6250655368566D597133743677397A24">Production</mat-option>
+                                        <mat-option value="66556A586E3272357538782F413F442A472D4B6150645367566B597033733676">Sell</mat-option>
+                                        <mat-option value="4D635166546A576E5A7234753778214125432A462D4A614E645267556B587032">Staff</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="form-field" [formGroup]="staffForm">
+                                            <input matInput type="text" class="p-0" formControlName="full_name" placeholder="Full Name" required>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="form-field" [formGroup]="staffForm">
+                                            <input matInput type="email" class="p-0" formControlName="user_email" placeholder="Email Address" required>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="form-field" [formGroup]="staffForm">
+                                            <input matInput class="p-0" formControlName="user_contact" placeholder="Contact" required>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <mat-form-field class="form-field" [formGroup]="staffForm">
+                                            <input matInput class="p-0" formControlName="username" placeholder="Username" required>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="form-field" [formGroup]="staffForm">
+                                            <input matInput class="p-0" formControlName="password" [type]="hide ? 'password' : 'text'" placeholder="Password" required>
+                                            <mat-icon matSuffix (click)="hide = !hide" class="password">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <mat-form-field class="form-field" [formGroup]="staffForm">
+                                            <input matInput class="p-0" formControlName="confirm_password" [type]="hidden ? 'password' : 'text'" placeholder="Confirm Password" required>
+                                            <mat-icon matSuffix (click)="hidden = !hidden" class="password">{{hidden ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                        </mat-form-field>
+                                        <div class="invlaid-feedback" *ngIf="is_submitted && staffForm.get('confirm_password').errors">
+                                            <div *ngIf="is_submitted && !staffForm.get('confirm_password').errors.isMatching" class="c-red"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                <button mat-flat-button type="reset" data-toggle="collapse" data-target="#staff" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                <button mat-flat-button type="submit" class="save pull-right" (click)="insertUser()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Staff</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-0 mt-10">
+            <div class="row ml-20 mr-20">
+                <div class="col-md-12">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="col-md-12">
+                                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="full_name" [(ngModel)]="full_name" (ngModelChange)="search()" placeholder="Search Staff Name">
+                                </mat-search-bar>
+                            </div><br>
+                            <table id="example" class="table table-custome width-100">
+                                <thead class="text">
+                                    <th>
+                                        <div class="d-flex">
+                                            <div class="align-items-center d-flex min-width-85">#</div>
+                                            <div class="flex-even justify-content-start">Role</div>
+                                            <div class="flex-even justify-content-start">Full Name</div>
+                                            <div class="flex-even justify-content-start">Username</div>
+                                            <div class="flex-even justify-content-start">Email</div>
+                                            <div class="flex-even justify-content-end">Contact</div>
+                                            <div class="flex-even justify-content-end">Action</div>
+                                        </div>
+                                    </th>
+                                </thead>
+                                <div *ngIf="isProgressBar" class="m-20 p-20">
+                                    <mat-progress-bar mode="indeterminate">
+                                    </mat-progress-bar>
+                                </div>
+                                <div class="align-items-center m-20 text-center" *ngIf="is_data">
+                                    <p class="fs-16 fw-400">No Data Available.</p>
+                                </div>
+                                <tbody *ngIf="is_table">
+                                    <tr *ngFor="let data of obj_staff_data | paginate: {itemsPerPage:entries_per_page,currentPage:p}; let i = index">
+                                        <td>
+                                            <div class="top_row">
+                                                <div class="d-flex">
+                                                    <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
+                                                    <div class="flex-even justify-content-start">
+                                                        <ng-container>
+                                                            <div *ngIf="data.user_role == '397A244226452948404D635166546A576E5A7234753778214125442A462D4A61'">Admin</div>
+                                                            <div *ngIf="data.user_role == '733676397924423F4528482B4D6251655468576D5A7134743777217A25432A46'">Account</div>
+                                                            <div *ngIf="data.user_role == '58703273357638792F423F4428472B4B6250655368566D597133743677397A24'">Production</div>
+                                                            <div *ngIf="data.user_role == '66556A586E3272357538782F413F442A472D4B6150645367566B597033733676'">Sell</div>
+                                                            <div *ngIf="data.user_role == '4D635166546A576E5A7234753778214125432A462D4A614E645267556B587032'">Staff</div>
+                                                        </ng-container>
+                                                    </div>
+                                                    <div class="flex-even justify-content-start">{{ data.full_name }}</div>
+                                                    <div class="flex-even justify-content-start">{{ data.username }}</div>
+                                                    <div class="flex-even justify-content-start">{{ data.user_email }}</div>
+                                                    <div class="flex-even justify-content-end">{{ data.user_contact }}</div>
+                                                    <div class="flex-even justify-content-end">
+                                                        <div>
+                                                            <ng-container>
+                                                                <div>
+                                                                    <button mat-stroked-button class="mr-3 mb-2" data-toggle="collapse" [attr.data-target]="'#staffInfo' + i" (click)="editStaff(data.user_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                                                </div>
+                                                            </ng-container>
+                                                            <ng-container>
+                                                                <div>
+                                                                    <button mat-stroked-button class="mr-3 mb-2" data-toggle="collapse" [attr.data-target]="'#staffPassword' + i" (click)="editStaffPassword(data.user_id,i)"><span class="fas fa-key c-dark"></span></button>
+                                                                </div>
+                                                            </ng-container>
+                                                            <ng-container>
+                                                                <div>
+                                                                    <button mat-stroked-button class="mr-3" (click)="deleteStaff(data.user_id)"><span class="fa fa-trash c-red"></span></button>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="top_row">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="collapse" id="staffInfo{{ i }}">
+                                                            <div class="card-body">
+                                                                <form class="updateStaffForm"
+                                                                    [formGroup]="updateStaffForm">
+                                                                    <div class="col-md-12">
+                                                                        <span class="fs-16 fw-500">Please enter update user name OR user email OR user contact for above user.<br></span>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <mat-form-field class="form-field">
+                                                                                <input matInput class="p-0" formControlName="update_full_name" placeholder="Full Name">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <mat-form-field class="form-field">
+                                                                                <input matInput class="p-0" formControlName="update_user_email" placeholder="Email">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <mat-form-field class="form-field">
+                                                                                <input matInput class="p-0" formControlName="update_user_contact" placeholder="Contact">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                                    <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#staffInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                                    <button mat-flat-button type="button" class="save pull-right" (click)="updateUserInfo(data.user_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Staff Details</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <div class="collapse" id="staffPassword{{ i }}">
+                                                            <div class="card-body">
+                                                                <form class="updateStaffPassword" [formGroup]="updateStaffPassword">
+                                                                    <div class="col-md-12">
+                                                                        <span class="fs-16 fw-500">Please enter new passsword and confirm paasword to above user.<br></span>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <mat-form-field class="form-field">
+                                                                                <input matInput class="p-0" formControlName="new_password" [type]="hideNewPassword ? 'password' : 'text'" placeholder="New Password">
+                                                                                <mat-icon matSuffix (click)="hideNewPassword = !hideNewPassword" class="password cursor-pointer">{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <mat-form-field class="form-field">
+                                                                                <input matInput class="p-0" formControlName="new_confirm_password" [type]="hideConfirmPassword ? 'password' : 'text'"  placeholder="New Confirm Password">
+                                                                                <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" class="password cursor-pointer">{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                                            </mat-form-field>
+                                                                            <!-- <div class="invlaid-feedback" *ngIf="updateStaffPassword.get('new_confirm_password').errors">
+                                                                                <div *ngIf="updateStaffPassword.get('new_confirm_password').errors.isMatchingNewPassword" class="c-red">New Password and New Confirm Password</div>
+                                                                            </div> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                                    <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#staffPassword' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                                    <button mat-flat-button type="button" class="save pull-right" (click)="updateUserPassword(data.user_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Staff Password</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr><br>
+                                    <div class="row">
+                                        <div class="col-md-6 mt-3">
+                                            <pagination-controls (pageChange)="p = $event"  class="f-l"></pagination-controls>
+                                        </div>
+                                        <div class="col-md-6 z-index-9">
+                                            <mat-form-field appearance="fill" class="width-22 f-r">
+                                                <mat-label>Entries per page</mat-label>
+                                                <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
+                                                    <mat-option value="10">10</mat-option>
+                                                    <mat-option value="20">20</mat-option>
+                                                    <mat-option value="35">35</mat-option>
+                                                    <mat-option value="40">40</mat-option>
+                                                    <mat-option value="50">50</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

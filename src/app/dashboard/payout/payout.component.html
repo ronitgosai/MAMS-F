@@ -1,0 +1,26 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="row col-md-12">
+                <mat-tab-group class="card">
+                    <!-- Salary -->
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="fas fa-wallet"></mat-icon>&nbsp;&nbsp;
+                            Salary
+                        </ng-template>
+                        <app-salary></app-salary>
+                    </mat-tab>
+                    <!-- Advance Salary -->
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="fas fa-hand-holding-usd"></mat-icon>&nbsp;&nbsp;
+                            Advance Salary
+                        </ng-template>
+                        <app-advance-salary></app-advance-salary>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>

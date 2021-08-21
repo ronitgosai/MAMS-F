@@ -1,0 +1,27 @@
+.main-content {
+  margin-top: -20px;
+  .table-custom {
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  .top_row {
+    display: table;
+    width: 100%;
+  }
+  .flex-even {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+}
+.access {
+  // overflow: hidden !important;
+  margin-top: 25px !important;
+  min-height: calc(100vh - 480px);
+  h3{
+    margin-top: 20% !important;
+  }
+}
+::ng-deep .mat-select-panel {
+  max-height: 80vh !important;
+}

@@ -1,0 +1,61 @@
+.bg-white{
+    background-color: white !important;
+}
+
+.c-red{
+    color: red !important;
+}
+
+.c-black{
+    color: black !important;
+}
+
+.c-blue{
+    color: #147efb !important;
+}
+
+.c-yellow{
+    color: #fbf714 !important;
+}
+
+.c-green{
+    color: green !important;
+}
+
+.c-b{
+    background-color: rgb(27, 78, 160) !important;
+}
+
+.c-r{
+    background-color: rgb(243, 66, 66) !important;
+}
+
+.c-g{
+    background-color: rgb(76, 175, 80) !important;
+}
+
+.c-b-c{
+   color: rgb(27, 78, 160) !important;
+}
+
+.c-r-c{
+   color: rgb(243, 66, 66) !important;
+}
+
+.c-g-c{
+   color: rgb(76, 175, 80) !important;
+}
+
+.edit{
+    &:hover{
+        background-color: transparent !important;
+        color: blue !important;
+    }
+
+}
+.trash{
+    &:hover{
+        background-color: transparent !important;
+        color: blue !important;
+    }
+}

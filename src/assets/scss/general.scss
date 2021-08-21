@@ -1,0 +1,150 @@
+.table-custome {
+  width: 100% !important;
+  overflow: hidden;
+}
+.btn {
+  box-shadow: none !important;
+}
+.top_row {
+  display: table !important;
+  width: 100% !important;
+}
+.table-responsive {
+  overflow: hidden !important;
+}
+.flex-even {
+  flex: 1 !important;
+  // justify-content: flex-start;
+  display: flex !important;
+  align-items: center !important;
+  word-break: break-all !important;
+}
+::ng-deep {
+  .mat-select-search-input {
+    margin: 11px !important;
+    height: auto !important;
+    line-height: 0 !important;
+  }
+}
+
+.line {
+  margin-top: 5px;
+  border-bottom: 1px solid;
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.box-shadow {
+  box-shadow: none !important;
+}
+
+.none {
+  display: none !important;
+}
+
+.bold {
+  text-decoration: bold !important;
+  // text-align: b;
+}
+
+.word-break-all {
+  word-break: break-all !important;
+}
+
+.text-align-end {
+  text-align: end !important;
+}
+
+.card-button {
+  width: 100% !important;
+  // button
+  // white-space: pre-line !important;
+  // -webkit-text-size-adjust: 100% !important;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: blue !important;
+}
+
+::ng-deep .mat-progress-bar {
+  border-radius: 2px !important;
+}
+
+.example-button-row button,
+.example-button-row a {
+  margin-right: 8px !important;
+}
+.border-none {
+  border: none !important;
+}
+
+.border-radius-10 {
+  border-radius: 10px !important;
+}
+
+.card {
+  box-shadow: none !important;
+}
+
+.br-15 {
+  border-radius: 15px !important;
+}
+
+.br-row {
+  border: 1px solid !important;
+  padding: 5px !important;
+}
+
+.cancel-button {
+  margin-left: -20px !important;
+}
+
+.access {
+  // overflow: hidden !important;
+  margin-top: 25px !important;
+  min-height: calc(100vh - 480px);
+  h3 {
+    margin-top: 20% !important;
+  }
+}
+
+.ngx-pagination .current {
+  background-color: green !important;
+  color: white;
+}
+.ngx-pagination a, .ngx-pagination button{
+  &:hover {
+    background-color: blue !important;
+    color:white;
+  }
+}
+
+.pagination{
+  .ngx-pagination .current {
+    background-color: green !important;
+    color: white;
+  }
+  .ngx-pagination a, .ngx-pagination button{
+    &:hover {
+      background-color: blue !important;
+      color:white;
+    }
+  }
+}
+
+.row-title{
+  padding: 20px;
+  .col-md-6{
+    display: flex !important;
+    align-items: center !important;
+    &:last-child{
+      flex-direction: row-reverse !important;
+    }
+  }
+}

@@ -1,0 +1,467 @@
+<div class="row-title">
+    <div class="row">
+        <button mat-flat-button class="save card-button" type="button" (click)="current_table = 'sell'">
+            Sell
+        </button>
+    </div>
+</div><!-- sell table -->
+<div class="row ml-20 mr-20" *ngIf="current_table === 'sell'">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="sellForm">
+                    <h4 class="fs-18 fw-500">Sell</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                                <mat-select class="line fs-15 fw-400" formControlName="customer_id"
+                                    (selectionChange)="sellCustomerChange($event)" placeholder="Customer"
+                                    #singleSelect>
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="sell_customer_name_FilterCtrl"
+                                            placeholderLabel="Search here!"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of filtered_sell_customer_name | async"
+                                        [value]="data.customer_id">
+                                        {{ data.customer_name }}
+                                    </mat-option>
+                                </mat-select>
+                        </div>
+                        <div class="col-md-4">
+                                <mat-select class="line fs-15 fw-400" formControlName="product_id"
+                                    (selectionChange)="sellProductChange($event)" placeholder="Product"
+                                    #singleSelect>
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="sell_product_name_FilterCtrl"
+                                            placeholderLabel="Search here!"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of filtered_sell_product_name | async"
+                                        [value]="data.product_id">
+                                        {{ data.product_name }}
+                                    </mat-option>
+                                </mat-select>
+                        </div>
+                        <div class="col-md-4">
+                                <mat-select class="line fs-15 fw-400" formControlName="category_id"
+                                    (selectionChange)="sellCategoryChange($event)" placeholder="Category"
+                                    #singleSelect>
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="sell_category_name_FilterCtrl"
+                                            placeholderLabel="Search here!"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of filtered_sell_category_name | async"
+                                        [value]="data.category_id">
+                                        {{ data.category_name }}
+                                    </mat-option>
+                                </mat-select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput class="form-field" formControlName="start_date" #start
+                                    (focusout)="onStart($event, start.value)" placeholder="From Date to"
+                                    [matDatepicker]="newPicker1" (click)="newPicker1.open()" #newDate />
+                                <mat-datepicker #newPicker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput class="form-field" formControlName="end_date" #end
+                                    (focusout)="onEnd($event, end.value)" placeholder="End Date"
+                                    [matDatepicker]="newPicker2" (click)="newPicker2.open()" #newDate />
+                                <mat-datepicker #newPicker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-2">
+                    <button mat-flat-button type="reset" class="cancel pull-right mb-2 ml-2" data-toggle="collapse"
+                    data-target="#Sell" (click)="cancel()">
+                    <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                </button>
+                <button mat-flat-button type="submit" class="save pull-right mb-2" data-toggle="collapse"
+                    data-target="#Sell" (click)="getSellList()">
+                    <span class="fas fa-save"></span>&nbsp;&nbsp;Search Sell
+                </button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <table class="table collapse" id="Sell">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold max-width-200">#</th>
+                        <th class="font-weight-bold max-width-200">Customer Name</th>
+                        <th class="font-weight-bold max-width-200">Product Name</th>
+                        <th class="font-weight-bold max-width-200">Inventory</th>
+                        <th class="font-weight-bold max-width-200">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="sell_product_table">
+                    <tr *ngFor="let item of sell_product">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_customer_table">
+                    <tr *ngFor="let item of sell_customer">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_category_table">
+                    <tr *ngFor="let item of sell_category">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_table">
+                    <tr *ngFor="let item of sell">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr *ngFor="let item of start_date_arr">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_customer_product_table">
+                    <tr *ngFor="let item of sell_customer_product">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_customer_category_table">
+                    <tr *ngFor="let item of sell_customer_category">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_customer_date_range_table">
+                    <tr *ngFor="let item of sell_customer_date_range">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_product_category_table">
+                    <tr *ngFor="let item of sell_product_category">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_product_date_range_table">
+                    <tr *ngFor="let item of sell_product_date_range">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_category_date_range_table">
+                    <tr *ngFor="let item of sell_category_date_range">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_customer_product_category_table">
+                    <tr *ngFor="let item of sell_customer_product_category">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_customer_product_category_date_range_table">
+                    <tr *ngFor="let item of sell_customer_product_category_date_range">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="sell_product_category_date_range_table">
+                    <tr *ngFor="let item of sell_product_category_date_range">
+                        <td class="max-width-200">
+                            {{ item.index }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.customer_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.inventory_name }}
+                        </td>
+                        <td class="max-width-200">
+                            {{ item.product_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

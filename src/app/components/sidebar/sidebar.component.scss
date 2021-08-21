@@ -1,0 +1,30 @@
+.menubar {
+  box-shadow: none !important;
+}
+.logo {
+  width: 100% !important;
+  background-color: white !important;
+}
+.sidebar-wrapper {
+  background-color: white !important;
+}
+.logo_image {
+  width: 100% !important;
+  /* margin-top: -80px; */
+  float: none;
+  margin-left: 5px !important;
+}
+.nav-item {
+  &:hover {
+    background-color: rgb(25, 73, 157) !important;
+    a {
+      color: white !important;
+      background-color: transparent !important;
+    }
+    .subMenu{
+      &:hover { 
+        background-color: rgb(76, 175, 80) !important;
+      }
+    }
+  }
+}

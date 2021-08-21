@@ -1,0 +1,29 @@
+.main-content {
+  overflow: hidden !important;
+  margin-top: -20px;
+  .produce {
+    margin-top: 13px;
+  }
+  .inventory {
+    align-content: center !important;
+    text-align: center !important;
+  }
+  .invalid {
+    border-bottom-color: red !important;
+  }
+  .table-custom::-webkit-scrollbar {
+    display: none !important;
+    // -ms-overflow-style: none;  /* IE and Edge */
+    // scrollbar-width: none;
+    //  padding: 0px !important;
+  }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}

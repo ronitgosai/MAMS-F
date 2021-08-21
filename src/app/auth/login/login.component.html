@@ -1,0 +1,34 @@
+<div class="login d-flex justify-content-center align-items-center h-100">
+  <ng-container *ngIf="isProgressBar">
+    <div class="m-20 p-20 width-50 height-50">
+      <mat-progress-bar mode="indeterminate">
+      </mat-progress-bar>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!isSubmitted">
+    <form class="form-container bg-white p-20 border-radius-10" [formGroup]="loginForm">
+      <img src="assets/img/logo.png" width="100%" />
+      <!-- username -->
+      <mat-form-field class="form-field">
+        <input matInput type="text" placeholder="Username" formControlName="username" />
+      </mat-form-field>
+      <div class="c-red" *ngIf="isSubmitted && loginForm.get('username').errors">
+        Please Enter Username
+      </div>
+      <!-- password -->
+      <mat-form-field class="form-field">
+        <input matInput type="password" placeholder="Password" [type]="hide ? 'password' : 'text'"
+          formControlName="password" />
+        <mat-icon matSuffix (click)="hide = !hide" class="d-inline cursor-pointer">{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </mat-form-field>
+      <div class="c-red" *ngIf="isSubmitted && loginForm.get('password').errors">
+        Please Enter password
+      </div>
+      <!-- login button -->
+      <button type="submit" mat-stroked-button class="btn btn-block c-g login-btn" (click)="login()">
+        Login
+      </button>
+    </form>
+  </ng-container>
+</div>
+<app-footer></app-footer>

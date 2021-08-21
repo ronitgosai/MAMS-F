@@ -1,0 +1,125 @@
+<div class="">
+    <div class="row row-title">
+        <div class="col-md-6">
+            <span class="fs-20 fw-600">Work Area</span>
+        </div>
+        <div class="col-md-6">
+            <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#workArea" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+                <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Work Area
+            </button>
+        </div>
+    </div>
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="collapse " id="workArea">
+                <div class="card-body">
+                    <form class="workAreaForm" [formGroup]="workAreaForm">
+                        <div class="col-md-12">
+                            <mat-form-field class="form-field">
+                                <input matInput formControlName="workAreaName" placeholder="Work Area Name">
+                            </mat-form-field>
+                        </div>
+                        <div class="form-group"><br>
+                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                            <button mat-flat-button type="reset" data-toggle="collapse" data-target="#workArea" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button mat-flat-button type="button" class="save pull-right" (click)="insertWorkArea()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Work Area</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 mt-10">
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" type='text' name="workAreName" [(ngModel)]="workAreName" (ngModelChange)="search()" placeholder="Search Mobile Network Name">
+                    </mat-search-bar>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custome">
+                        <thead class="text">
+                            <th>
+                                <div class="d-flex">
+                                    <div class="align-items-center d-flex min-width-85">#</div>
+                                    <div class="flex-even" scope="col">Work Area Name</div>
+                                    <div class="flex-even justify-content-end" scope="col">Action</div>
+                                </div>
+                            </th>
+                        </thead>
+                        <ng-container *ngIf="isProgressBar">
+                            <div class="m-20 p-20">
+                                <mat-progress-bar mode="indeterminate">
+                                </mat-progress-bar>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="isData">
+                            <div class="align-items-center m-20 text-center">
+                                <p class="fs-16 fw-400">No Data Available.</p>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="isTable">
+                            <tbody>
+                                <tr *ngFor="let data of workArea | paginate: {id:'paginationWorkArea',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                    <td>
+                                        <div class="top_row">
+                                            <div class="d-flex">
+                                                <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
+                                                <div class="flex-even">{{ data.work_area_name }}</div>
+                                                <div class="flex-even justify-content-end">
+                                                    <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#workAreaInfo' + i" (click)="editWorkArea(data.work_area_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                                    <button mat-stroked-button class="ml-3" (click)="deleteWorkArea(data.work_area_id,data.work_area_name)"><span class="fa fa-trash c-red"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="top_row">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="collapse" id="workAreaInfo{{ i }}">
+                                                        <div class="card-body">
+                                                            <form class="updateWorkAreaForm" [formGroup]="updateWorkAreaForm">
+                                                                <div class="col-md-12">
+                                                                    <span class="fs-16 fw-500">Please enter updated mbile network name for selected mobile network.<br></span>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <mat-form-field class="form-field">
+                                                                        <input matInput class="p-0" formControlName="updateWorkAreaName" placeholder="Work Area Name">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <button type="reset" class="btn btn-success pull-right ml-2 c-b c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                                <button type="reset" class="btn btn-danger pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#workAreaInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                                <button type="button" class="btn btn-success pull-right" data-toggle="collapse" [attr.data-target]="'#workAreaInfo' + i" (click)="updateWorkArea(data.work_area_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Network Mobile Network</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr><br>
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <pagination-controls id="paginationWorkArea" (pageChange)="p = $event" class="f-l"></pagination-controls>
+                                    </div>
+                                    <div class="col-md-6 z-index-9">
+                                        <mat-form-field appearance="fill" class="width-22 f-r">
+                                            <mat-label>Entries per page</mat-label>
+                                            <mat-select id='entriesPerPage' [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                                <mat-option value="10">10</mat-option>
+                                                <mat-option value="20">20</mat-option>
+                                                <mat-option value="35">35</mat-option>
+                                                <mat-option value="40">40</mat-option>
+                                                <mat-option value="50">50</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </tbody><br>
+                        </ng-container>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<div class="row row-title">
+    <div class="col-md-6">
+        <span class="fs-20 fw-600 p-20">Salary</span>
+    </div>
+    <div class="col-md-6">
+        <button mat-flat-button class="float-right save fs-16" type="button" data-toggle="collapse" id="collapseButton" data-target="#salaryCollapse" aria-expanded="false" aria-controls="collapseExample">
+            <span class="fas fa-plus"></span>&nbsp;&nbsp;Salary
+        </button>
+    </div>
+</div>
+<div class="row ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="collapse border-none" id="salaryCollapse">
+            <div class="card-body">
+                <form class="salaryForm" [formGroup]="salaryForm">
+                    <div class="row">
+                        <div class="col-md-4 align-items-center d-flex">
+                            <mat-select class="name fs-15 fw-400" formControlName="staffId" placeholder="Staff Name"
+                                (selectionChange)="staffSalary($event)" #singleSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="staffFilterCtrl"
+                                        placeholderLabel="Search here!"></ngx-mat-select-search>
+                                </mat-option>
+                                <!-- <ng-container *ngIf="table.length">
+                                </ng-container> -->
+                                <mat-option *ngFor="let data of filteredStaff" [value]="data.staff_id">
+                                    {{ data.staff_name }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                        <div class="col-md-4 mt-10">
+                            <mat-form-field class="form-field">
+                                <input matInput type="text" formControlName="actualSalary" [(ngModel)]="actualSalary" (keyup)="print()" placeholder="Actual Salary">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4 mt-10">
+                            <mat-form-field class="form-field">
+                                <input matInput type="text" formControlName="salary" [(ngModel)]="salary" (keyup)="printNumber()" placeholder="Salary">
+                            </mat-form-field>
+                        </div>
+                    </div><br>
+                    <ng-containe *ngIf="isAdvanceSalaryTable">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of details">
+                                        <td>{{ data.created_date | date:'dd/MMMM/yyyy' }}</td>
+                                        <td>{{ data.advance_salary }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-800">Total:</td>
+                                        <ng-container *ngIf="advanceSalarySum.length > 0">
+                                            <td *ngFor="let data of advanceSalarySum">{{ data.total }}</td>
+                                        </ng-container>
+                                        <ng-container *ngIf="advanceSalarySum.length === 0">
+                                            <td *ngFor="let data of salarySum">{{ data.staff_salary }}
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-containe>
+                    <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b" (click)="cancel()"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                    <button mat-flat-button type="reset" data-toggle="collapse" data-target="#salaryCollapse" class="cancel pull-right ml-2" (click)="cancel()"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                    <button mat-flat-button type="button" class="save pull-right" (click)="insertSalary()"><span class="fas fa-save"></span>&nbsp;&nbsp;Salary</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<hr class="m-0 mt-10">
+<div class="row ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="card-body">
+            <div class="col-md-12">
+                <!-- <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="raw_material_name" [(ngModel)]="raw_material_name" (ngModelChange)="search()" placeholder="Search Raw Material Name">
+                            </mat-search-bar> -->
+            </div>
+            <div class="table-responsive">
+                <table class="hover table table-custome width-100">
+                    <thead class="text sticky-top">
+                        <th>
+                            <div class="d-flex">
+                                <div class="align-items-center d-flex min-width-85">#</div>
+                                <div class="flex-even justify-content-start" scope="col">Staff Name</div>
+                                <div class="flex-even justify-content-center" scope="col">Salary</div>
+                                <div class="flex-even justify-content-center" scope="col">Date</div>
+                                <div class="flex-even justify-content-end z-index-8" scope="col">Action
+                                </div>
+                            </div>
+                        </th>
+                    </thead>
+                    <div *ngIf="isProgressBar" class="m-20 p-20">
+                        <mat-progress-bar mode="indeterminate">
+                        </mat-progress-bar>
+                    </div>
+                    <div class="m-20 text-center" *ngIf="isData">
+                        <p class="fs-16 fw-400">No Data Available.</p>
+                    </div>
+                    <tbody *ngIf="isTable">
+                        <tr
+                            *ngFor="let data of salaryDetail | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                            <td>
+                                <div class="top_row">
+                                    <div class="d-flex">
+                                        <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
+                                        <div class="flex-even justify-content-start">{{ data.staff_name }}</div>
+                                        <div class="flex-even justify-content-center">{{ data.salary }}</div>
+                                        <div class="flex-even justify-content-center">{{ data.created_date | date }}
+                                        </div>
+                                        <div class="flex-even justify-content-end">
+                                            <button mat-stroked-button class="ml-3"
+                                                (click)="deleteSalaryInfo(data.salary_id,data.staff_name)"><span
+                                                    class="fa fa-trash c-red"></span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr><br>
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
+                                </pagination-controls>
+                            </div>
+                            <div class="col-md-6 z-index-9">
+                                <mat-form-field appearance="fill" class="width-22 f-r">
+                                    <mat-label>Entries per page</mat-label>
+                                    <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
+                                        [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </tbody><br>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

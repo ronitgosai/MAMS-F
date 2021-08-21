@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-transparent sticky-top">
+    <div class="container-fluid">
+      <div class="navbar-wrapper">
+        <a class="navbar-brand fs-30 fw-700" href="javascript:void(0)">{{getTitle()}}</a>
+      </div>
+      <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="navbar-toggler-icon icon-bar"></span>
+        <span class="navbar-toggler-icon icon-bar"></span>
+        <span class="navbar-toggler-icon icon-bar"></span>
+      </button>
+      <div class="collapse navbar-collapse menu-item" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="dropdown">
+            <a class="nav-link mr-3 c-black" data-toggle="dropdown"><img src="../assets/img/settings.png" class="height10" /></a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <span class="dropdown-item cursor-pointer box-shadow" routerLink="/dashboard/user-profile"><img src="../assets/img/user.png" class="height10 mr-2" />User Profile</span>
+              <span class="dropdown-item cursor-pointer box-shadow" routerLink="/auth/reset-password"><img src="../assets/img/reset-password.png" class="height10 mr-2" />Reset Password</span>
+              <span class="dropdown-item cursor-pointer box-shadow" (click)="logOut()"><img src="../assets/img/logout.png" class="height10 mr-2" />Logout</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>

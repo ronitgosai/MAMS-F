@@ -1,0 +1,430 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="row row-title">
+                <div class="col-md-6 f-l">
+                    <span class="fs-20 fw-600">Today's Production</span>
+                </div>
+                <div class="col-md-6 f-r">
+                    <button mat-flat-button class="save" data-toggle="collapse" data-target="#production" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+                        <span class="fas fa-plus"></span>&nbsp;&nbsp;Ongoing production
+                    </button>
+                </div>
+            </div>
+            <div class="row ml-20 mr-20">
+                <div class="col-md-12">
+                    <div class="collapse" id="production">
+                        <div class="card-body">
+                            <form [formGroup]="productionForm">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Category</mat-label>
+                                            <mat-select formControlName="category_name" (selectionChange)="productCategoryChange($event)" required>
+                                                <ng-container *ngFor="let data of categoryName">
+                                                    <mat-option value="{{ data.category_id }}">{{ data.category_name }}</mat-option>
+                                                </ng-container>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <!-- <div *ngIf="isProgressBar" class="m-20 p-20">
+                                            <mat-progress-bar mode="indeterminate">
+                                            </mat-progress-bar>
+                                        </div> -->
+                                        <!-- <div *ngIf="is_data_table">
+                                            No Data Avaible
+                                        </div> -->
+                                    </div>
+                                    <div class="col-md-6" *ngIf="is_disabled">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Product Name</mat-label>
+                                            <mat-select formControlName="product_name" (selectionChange)="productChange($event)" required>
+                                                <mat-option *ngFor="let data of arr_product_from_category" [value]="data.product_id">
+                                                    {{ data.product_name }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <form>
+                                    <table *ngIf="full_table" class="table table-custom">
+                                        <thead class="text">
+                                            <th>
+                                                <div class="d-flex">
+                                                    <div class="align-items-center d-flex min-width-65"> # </div>
+                                                    <div class="flex-even mr-3"> Raw Material Name </div>
+                                                    <div class="flex-even mr-3"> Stock Quantity </div>
+                                                    <div class="flex-even mr-2"> In Use Quantity </div>
+                                                    <div class="flex-even"> Unit </div>
+                                                </div>
+                                            </th>
+                                        </thead>
+                                        <div *ngIf="isProgressBar_table" class="m-20 p-20">
+                                            <mat-progress-bar mode="indeterminate">
+                                            </mat-progress-bar>
+                                        </div>
+                                        <tbody *ngIf="is_table">
+                                            <tr *ngFor="let data of arr_raw_material; let i = index">
+                                                <td>
+                                                    <div class="top_row">
+                                                        <div class="d-flex">
+                                                            <div class="align-items-center d-flex min-width-65">{{ i+1 }}</div>
+                                                            <div class="flex-even form-group mr-3">{{ data.raw_material_name }}</div>
+                                                            <div class="flex-even form-group mr-3">{{ data.raw_material_quantity }}</div>
+                                                            <div class="flex-even form-group mr-2">
+                                                                <input class="p-0" type="number" min="0" oninput="this.value = Math.abs(this.value)" [ngClass]="{'invalid': isSubmitted && (data.raw_material_quantity < arr_raw_material_backup[i] || arr_raw_material_backup[i] === '')}" [(ngModel)]="arr_raw_material_backup[i]" [value]="data.raw_material_quantity" placeholder="Raw Material Quantity">
+                                                            </div>
+                                                            <div class="flex-even form-group">{{ data.raw_material_unit }}</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form><br>
+                                <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b" (click)="cancel()"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                <button mat-flat-button type="reset" data-toggle="collapse" data-target="#production" class="cancel pull-right ml-2" (click)="cancel()"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                <button mat-flat-button type="button" class="save pull-right" (click)="startProduction()"><span class="fas fa-save"></span>&nbsp;&nbsp;Start Production</button><br><br><br>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="m-0 mt-10">
+            <div class="row ml-20 mr-20">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="col-md-12">
+                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="category_name" [(ngModel)]="category_name" (ngModelChange)="search()" placeholder="Search" placeholder="Search Category Name">
+                            </mat-search-bar>
+                        </div>
+                        <span class="fs-20 fw-500 p-10">Ongoing Production</span>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="example" class="table table-custom">
+                                    <thead class="fs-14 fw-500">
+                                            <th class="max-width-100"> # </th>
+                                            <th class="max-width-200"> Product Name </th>
+                                            <th class="max-width-200"> Raw Material Info </th>
+                                            <th class="max-width-200 text-align-end"> Start Time </th>
+                                            <th class="max-width-100 text-align-end"> Action </th>
+                                    </thead>
+                                        <tr *ngIf="isProgressBar" class="border-none">
+                                            <td colspan="7"> 
+                                                <mat-progress-bar mode="indeterminate">   
+                                                </mat-progress-bar>
+                                            </td>
+                                        </tr>
+                                    <tbody *ngFor="let data of productionData | paginate: {id:'ongoing_pagination',itemsPerPage:entries_per_page,currentPage:p}; let i = index; is_ongoing_table">
+                                        <tr>
+                                            <td clsss="max-width-100"> {{ data.index }} </td>
+                                            <td clsss="max-width-200" appColor [id]="data.category_id"> 
+                                                {{ data.product_name }}
+                                                <div>
+                                                    <small>
+                                                        <ng-container *ngIf="data.category_id == 0">(FUNGICIDES)</ng-container>
+                                                        <ng-container *ngIf="data.category_id == 1">(HERBICIDES)</ng-container>
+                                                        <ng-container *ngIf="data.category_id == 2">(INSECTICIDES)</ng-container>
+                                                    </small>
+                                                </div>
+                                            </td>
+                                            <td class="max-width-200">
+                                                <div>
+                                                    <ng-container *ngFor="let name of data.raw_material_names.split(','); let i = index">
+                                                        <div>
+                                                            {{ name }}
+                                                        </div>
+                                                        <div class="font-weight-bold">
+                                                            ({{ data.raw_material_quantity[i]}}
+                                                            {{ data.raw_material_unit.split(',')[i]}})
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </td>
+                                            <td class="max-width-200 text-align-end"> {{ data.start_date | date: 'dd/MMMM/YYYY' }}<br>{{ data.start_time }}
+                                            </td>
+                                            <!-- <td>
+                                                date without pipe {{ data.start_date }}
+                                            </td> -->
+                                            <!-- <td>
+                                                time without pipe {{ data.start_time }}
+                                            </td> -->
+                                            <td class="max-width-100 text-align-end">
+                                                <div>
+                                                    <ng-container>
+                                                        <div>
+                                                            <button mat-stroked-button class="mb-2 demo" data-toggle="collapse" [attr.data-target]="'#ongoing_production' + i" (click)="editOngoingProduction(i,data.raw_material_quantity)"><span class="fa fa-pen c-blue"></span>&nbsp;&nbsp;Edit</button>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div>
+                                                            <button mat-stroked-button class="mb-2 demo c-red" data-toggle="collapse" [attr.data-target]="'#stop_production' + i" (click)="tblStopProduction(i)"><span class="far fa-stop-circle"></span>&nbsp;&nbsp;Stop</button>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-container>
+                                                        <div>
+                                                            <button mat-stroked-button (click)="deleteOngoingProduction(data.production_id,i)"><span class="fa fa-trash c-red"></span>&nbsp;&nbsp;Delete</button>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Update production -->
+                                        <tr>
+                                            <td colspan="7" class="border-none">
+                                                <div class="collapse" id="ongoing_production{{ i }}">
+                                                    <div class="card-body">
+                                                        <div class="col-md-12">
+                                                            <span class="fs-16 fw-500">Please enter updated raw material quantity for above production.<br><br></span>
+                                                        </div>
+                                                        <table reset id="example"
+                                                            class="table table-custom width-100">
+                                                            <thead class="text">
+                                                                <tr>
+                                                                    <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        #
+                                                                    </th>
+                                                                    <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        Raw Material Name
+                                                                    </th>
+                                                                    <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        Final Quantity
+                                                                    </th>
+                                                                    <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        Unit
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let name of data.raw_material_names.split(',');let i = index">
+                                                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        {{ i+1 }}
+                                                                    </td>
+                                                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        {{ name }}
+                                                                    </td>
+                                                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        <mat-form-field class="form-field">
+                                                                            <input matInput class="p-0" id="update_raw_material_quantity" type="number" min="0" oninput="this.value = Math.abs(this.value)" [(ngModel)]="updated_ongoing_production_quantity[i]" placeholder="New Quantity" required>
+                                                                        </mat-form-field>
+                                                                     </td>
+                                                                    <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 width10">
+                                                                        {{ data.raw_material_unit.split(',')[i] }}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <button mat-flat-button type="reset" id="reset_data" (click)="onClickreset()" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                        <button mat-flat-button type="reset" (click)="onClickreset()" data-toggle="collapse" [attr.data-target]="'#ongoing_production' + i" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                        <button mat-flat-button type="button" class="save pull-right" (click)="updatedOngoingProduction(i)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Raw Material</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Stop production -->
+                                        <tr>
+                                            <td colspan="7" class="border-none">
+                                                <div class="collapse" id="stop_production{{ i }}">
+                                                    <div class="card-body">
+                                                        <div class="col-md-12">
+                                                            <span class="fs-16 fw-500">Please select appropriate inventory and insert it's quantity.</span><br><br>
+                                                            <form [formGroup]="inventoryForm">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <mat-form-field appearance="fill">
+                                                                            <mat-label>Inventory Name</mat-label>
+                                                                            <mat-select (selectionChange)="inventory($event)" formControlName="inventory_name" required>
+                                                                                <mat-option *ngFor="let data of arr_product_inventory" [value]="data.inventory_name">
+                                                                                    {{ data.inventory_name }}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-4 mt-2">
+                                                                        <mat-form-field>
+                                                                            <input matInput type="number" formControlName="inventory_quantity" [value]="arr_product_inventory.inventory_quantity" class="p-0" placeholder="Inventory Quantity" required>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                    <div class="col-md-4 mt-2">
+                                                                        <mat-form-field>
+                                                                            <input matInput formControlName="inventory_unit" [readonly]="true" class="p-0" placeholder="Inventory Unit" required>
+                                                                        </mat-form-field>
+                                                                    </div>
+                                                                </div>
+                                                            </form><br><br>
+                                                            <div class="row">
+                                                                <span class="fs-16 fw-500">Please select other Inventory.<br><br></span>
+                                                                <table class="table table-custom">
+                                                                    <thead class="text">
+                                                                        <th>
+                                                                            <div class="d-flex">
+                                                                                <div class="flex-even"> # </div>
+                                                                                <div class="flex-even"> Inventory Name </div>
+                                                                                <div class="flex-even"> Quantity </div>
+                                                                                <div class="flex-even"> Unit </div>
+                                                                            </div>
+                                                                        </th>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let data of arr_other_inventory; let i = index">
+                                                                            <td>
+                                                                                <div class="top_row">
+                                                                                    <div class="d-flex">
+                                                                                        <div class="flex-even">
+                                                                                            {{ i+1 }}
+                                                                                        </div>
+                                                                                        <div class="flex-even" [value]="data.inventory_id">
+                                                                                            {{ data.inventory_name }}
+                                                                                        </div>
+                                                                                        <div class="flex-even">
+                                                                                            <input class="p-0" type="number" min="0" oninput="this.value = Math.abs(this.value)" [(ngModel)]="other_inventory_quantity[i]" [value]="data.inventory_quantity" placeholder="Inventory Quantity" required>
+                                                                                        </div>
+                                                                                        <div class="flex-even form-group">
+                                                                                            {{ data.inventory_unit }}
+                                                                                         </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <span class="fs-16 fw-500">Production's END DATE and END TIME will be updated automatically.<br><br></span>
+                                                            </div>
+                                                        </div>
+                                                        <button mat-flat-button type="reset" data-toggle="collapse" (click)="clickReset()" [attr.data-target]="'#stop_production' + i" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                        <button mat-flat-button type="button" class="cancel pull-right" (click)="stopOngoingProduction(data.production_id,i)"><span class="fas fa-save"></span>&nbsp;&nbsp;Stop Product</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <br>
+                                </table>
+                            </div>
+                            <div class="m-20 text-center" *ngIf="is_data">
+                                <p class="fs-16 fw-400">No Data Available.</p>
+                            </div>
+                            <div class="row text-center" *ngIf="is_show">
+                                <div class="col-md-6 mt-3">
+                                    <pagination-controls id="ongoing_pagination" (pageChange)="p = $event" class="f-l">
+                                    </pagination-controls>
+                                </div>
+                                <div class="col-md-6 z-index-9">
+                                    <mat-form-field appearance="fill" class="width-22 f-r">
+                                        <mat-label>Entries per page</mat-label>
+                                        <mat-select id='entries_per_page' [(value)]="entries_per_page"
+                                            [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="35">35</mat-option>
+                                            <mat-option value="40">40</mat-option>
+                                            <mat-option value="50">50</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Past Production -->
+
+        <div class="card row-title">
+            <br><p class="fs-20 fw-500 ml-20 mr-20">Past Production</p>
+            <hr class="m-0 mt-10">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value1" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="searchPastProduction()" placeholder="Search Product Name">
+                    </mat-search-bar>
+                </div>
+                <div class="table-responsive">
+                    <table id="example" class="table table-custom width-100 overflow-x">
+                        <thead>
+                            <tr>
+                                <th class="fs-14 fw-500 max-width-100"> # </th>
+                                <th class="fs-14 fw-500 max-width-200"> Product Name </th>
+                                <th class="fs-14 fw-500 max-width-200"> Raw Material </th>
+                                <th class="fs-14 fw-500 max-width-200"> Inventory </th>
+                                <th class="fs-14 fw-500 max-width-100 text-align-end"> Start Time </th>
+                                <th class="fs-14 fw-500 max-width-100 text-align-end"> End Time </th>
+                                <th class="fs-14 fw-500 max-width-100 text-align-end"> Action </th>
+                            </tr>
+                        </thead>
+                        <!-- <div *ngIf="isProgressBar_past" class="m-20 p-20">
+                            <mat-progress-bar mode="indeterminate">   
+                            </mat-progress-bar>
+                        </div> -->
+                        <tbody *ngIf="is_past_table">
+                            <tr *ngFor="let data of stop_production_data | paginate: {id:'past_pagination',itemsPerPage:entries_per_page_past,currentPage:past}; let i = index">
+                                <td class="max-width-100"> {{ data.index }} </td>
+                                <td class="max-width-200" appColor [id]="data.category_id"> 
+                                    {{ data.product_name }}
+                                    <div>
+                                        <small>
+                                            <ng-container *ngIf="data.category_id == 0">(FUNGICIDES)</ng-container>
+                                            <ng-container *ngIf="data.category_id == 1">(HERBICIDES)</ng-container>
+                                            <ng-container *ngIf="data.category_id == 2">(INSECTICIDES)</ng-container>
+                                        </small>
+                                    </div>
+                                </td>
+                                <td class="max-width-200">
+                                    <ng-container
+                                        *ngFor="let name of data.raw_material_names.split(','); let i = index">
+                                        <div>
+                                            {{ name }}
+                                        </div>
+                                        <div class="font-weight-bold">
+                                            ({{ data.raw_material_quantity[i] }}
+                                            {{ data.raw_material_unit.split(',')[i]}})
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <td class="max-width-200">
+                                    <ng-container
+                                        *ngFor="let inventory of  data.inventory_name.split(','); let i = index">
+                                        <div class="word-break">
+                                            {{ inventory }}
+                                        </div>
+                                        <div class="font-weight-bold">
+                                            ({{ data.inventory_qty[i] }}
+                                            {{ data.inventory_unit.split(',')[i] }})
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <td class="max-width-200 text-align-end"> {{ data.start_date | date: 'dd/MMMM/yyyy' }}<br>{{ data.start_time  }} </td>
+                                <td class="max-width-200 text-align-end"> {{ data.end_date | date: 'dd/MMMM/yyyy' }}<br>{{ data.end_time  }} </td>
+                                <td class="max-width-100 text-align-end">
+                                    <button mat-stroked-button (click)="deletePastProduction(data.production_id,i)"><span class="fa fa-trash c-red"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table><br>
+                    <div class="align-items-center m-20 text-center" *ngIf="is_data_past">
+                        <p class="fs-16 fw-400">No Data Available.</p>
+                    </div>
+                    <div class="row" *ngIf="is_show_past">
+                        <div class="col-md-6 mt-3">
+                            <pagination-controls id="past_pagination" (pageChange)="past = $event" class="f-l"></pagination-controls>
+                        </div>
+                        <div class="col-md-6 z-index-9">
+                            <mat-form-field appearance="fill" class="width-22 f-r">
+                                <mat-label>Entries per page</mat-label>
+                                <mat-select id='entries_per_page' [(value)]="entries_per_page_past"
+                                    [(ngModel)]="entries_per_page_past" (selectionChange)="paginationPast($event)">
+                                    <mat-option value="10">10</mat-option>
+                                    <mat-option value="20">20</mat-option>
+                                    <mat-option value="35">35</mat-option>
+                                    <mat-option value="40">40</mat-option>
+                                    <mat-option value="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

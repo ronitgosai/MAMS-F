@@ -1,0 +1,43 @@
+.page-not-access {
+  overflow: hidden !important;
+  min-height: calc(100vh - 150px) !important;
+}
+.page-not-access {
+  .container-fluid {
+    margin-top: 20vh;
+    .form-field {
+      padding: 10px;
+    }
+    .form-container {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+    .bg-green {
+      background-color: green !important;
+    }
+    .btn:hover {
+      background-color: rgb(25, 73, 157) !important;
+    }
+    .btn-success {
+      margin-left: 20vh;
+    }
+    .m-b {
+      margin-bottom: 100px;
+    }
+  }
+}
+
+.footer-content {
+  position: absolute !important;
+  height: 20px !important;
+  grid-column: 1 / -1 !important;
+  bottom: 0 !important;
+  // // margin-bottom: 0 !important;
+  padding: 4em !important;
+  margin-top: auto !important;
+  left: 0 !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}

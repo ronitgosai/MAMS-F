@@ -1,0 +1,33 @@
+<div class="menubar">
+  <div class="logo">
+    <a href="#"><img class="logo_image" src="/assets/img/logo.png" /></a>
+    <div *ngFor="let name of userDetails">
+      <span class="row justify-content-center mt-2 fs-16 fw-500">Welcome&nbsp;<b>{{ name.full_name }}</b></span>
+    </div>
+  </div>
+  <div class="sidebar-wrapper">
+    <div *ngIf="isMobileMenu()">
+      
+      <ul class="nav navbar-nav nav-mobile-menu">
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)">
+            <i class="material-icons">person</i>
+            <p>
+              <span class="d-lg-none d-md-block cursor-pointer box-shadow" (click)="logOut()">Logout</span>
+            </p>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <ul class="nav">
+      <ng-container *ngFor="let menuItem of menuItems; let i = index">
+        <li routerLinkActive="active"  class="nav-item">
+          <a class="nav-link" [routerLink]="[menuItem.path]" *ngIf="menuItem.role.indexOf(user_role) > -1">
+            <span class="{{ menuItem.icon }} fs-18"></span>
+            <span class="fs-18 fw-400 ml-3">{{ menuItem.title }}</span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>
