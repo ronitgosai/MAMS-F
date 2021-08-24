@@ -5,7 +5,6 @@ import { ProductCategoryService } from 'app/services/dashboard/master/product-ca
 import { GlobalService } from 'app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
-
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
@@ -40,11 +39,13 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
     this.isProgressBar = true;
     this.categoryForm = this.formBuilder.group({
-      categoryName: ['', [Validators.required]]
+      categoryName: ['', [Validators.required]],
+      categoryColor: ['', [Validators.required]]
     })
 
     this.updateCategoryForm = this.formBuilder.group({
-      updateCategoryName: ['', [Validators.required]]
+      updateCategoryName: ['', [Validators.required]],
+      updateCategoryColor: ['', [Validators.required]]
     })
 
     this.getProductCategory();
@@ -74,6 +75,7 @@ export class CategoryComponent implements OnInit {
   insertCategory() {
     let category = {
       'category_name': this.categoryForm.get('categoryName').value,
+      'category_color': this.categoryForm.get('categoryColor').value.hex,
       'session_id': localStorage.getItem('session_id'),
       'created_date': this.global.getDateZone(),
       'created_time': this.global.getTimeZone()
@@ -101,6 +103,7 @@ export class CategoryComponent implements OnInit {
     let editData = this.category.find(d => d.category_id === categoryId)
     this.updateCategoryForm.patchValue({
       updateCategoryName: editData.category_name,
+      updateCategoryColor: editData.category_color,
     })
   }
 
@@ -108,6 +111,7 @@ export class CategoryComponent implements OnInit {
     let updateCategoryInfo = {
       'category_id': id,
       'category_name': this.updateCategoryForm.get('updateCategoryName').value,
+      'category_color': this.updateCategoryForm.get('updateCategoryColor').value,
       'session_id': localStorage.getItem('session_id'),
       'updated_date': this.global.getDateZone(),
       'updated_time': this.global.getTimeZone()

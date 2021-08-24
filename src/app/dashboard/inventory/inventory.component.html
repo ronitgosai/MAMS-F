@@ -1,56 +1,8 @@
 <div class="main-content">
     <div class="container-fluid">
         <div class="card">
-            <div class="row row-title">
-                <div class="col-md-6">
-                    <span class="fs-20 fw-600">Inventory</span>
-                </div>
-                <div class="col-md-6">
-                    <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#inventory" id="collapse" aria-expanded="false" aria-controls="collapseExample">
-                        <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Inventory
-                    </button>
-                </div>
-            </div>
-            <div class="row ml-20 mr-20">
-                <div class="col-md-12">
-                    <div class="collapse " id="inventory">
-                        <div class="card-body">
-                            <form class="inventoryForm" [formGroup]="inventoryForm">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <mat-form-field class="form-field">
-                                            <input matInput class="p-0" formControlName="inventoryName" placeholder="Inventory Name">
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <mat-form-field appearance="fill">
-                                            <mat-label>Unit</mat-label>
-                                            <mat-select formControlName="inventoryUnit">
-                                                <mat-option value="Piece">Piece</mat-option>
-                                                <mat-option value="Dozen">Dozen</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <mat-form-field appearance="fill">
-                                            <mat-label>For Liquid / Solid / Other Inventory</mat-label>
-                                            <mat-select formControlName="productForm">
-                                                <mat-option value="1">For Liquid Product</mat-option>
-                                                <mat-option value="2">For Solid Product</mat-option>
-                                                <mat-option value="0">For Other Inventory</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="form-group"><br>
-                                    <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                    <button mat-flat-button type="reset" data-toggle="collapse" data-target="#inventory" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                    <button mat-flat-button type="button" class="save pull-right" (click)="insertInventory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Inventory</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            <div class="row row-title f-l">
+                <span class="ml-5 fs-20 fw-600">Inventory</span>
             </div>
             <hr class="m-0 mt-10">
             <div class="row ml-20 mr-20">
@@ -69,7 +21,6 @@
                                             <div class="flex-even" scope="col">Inventory Name</div>
                                             <div class="flex-even" scope="col">Unit</div>
                                             <div class="flex-even" scope="col">Quantity</div>
-                                            <div class="flex-even justify-content-end" scope="col">Action</div>
                                         </div>
                                     </th>
                                 </thead>
@@ -89,44 +40,6 @@
                                                     <div class="flex-even">{{ data.inventory_name }}</div>
                                                     <div class="flex-even">{{ data.inventory_unit }}</div>
                                                     <div class="flex-even">{{ data.inventory_quantity }}</div>
-                                                    <div class="flex-even justify-content-end">
-                                                        <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#invnetoryInfo' + i" (click)="editInventory(data.inventory_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                                        <button mat-stroked-button class="ml-3" (click)="deleteInventory(data.inventory_id,data.inventory_name)"><span class="fa fa-trash c-red"></span></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="top_row">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="collapse" id="invnetoryInfo{{ i }}">
-                                                            <div class="card-body">
-                                                                <form class="updateInventoryForm" [formGroup]="updateInventoryForm">
-                                                                    <div class="col-md-12">
-                                                                        <span class="fs-16 fw-500">Please enter updated inventory name OR inventory unit for selected inventory.<br></span>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-6">
-                                                                            <mat-form-field class="form-field">
-                                                                                <input matInput class="p-0" formControlName="updateInventoryName" placeholder="Inventory Name">
-                                                                            </mat-form-field>   
-                                                                        </div>
-                                                                        <div class="col-md-6">
-                                                                            <mat-form-field class="form-field">
-                                                                                <mat-label>Unit</mat-label>
-                                                                                <mat-select formControlName="updateInventoryUnit">
-                                                                                    <mat-option value="Piece">Piece</mat-option>
-                                                                                    <mat-option value="Dozen">Dozen</mat-option>
-                                                                                </mat-select>
-                                                                            </mat-form-field>
-                                                                        </div>
-                                                                    </div>
-                                                                    <button type="reset" class="btn btn-success pull-right ml-2 c-b c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                                                    <button type="reset" class="btn btn-danger pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#invnetoryInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                                    <button type="button" class="btn btn-success pull-right" data-toggle="collapse" [attr.data-target]="'#inventoryInfo' + i" (click)="updateInventory(data.inventory_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Inventory</button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </td>

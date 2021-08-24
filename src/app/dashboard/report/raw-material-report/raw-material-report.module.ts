@@ -2,19 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { SharedModule } from 'app/shared.module';
 import { RawMaterialReportComponent } from './raw-material-report.component';
-import { PaginationComponent } from '../pagination/pagination.component';
-import { PaginationModule } from '../pagination/pagination.module';
-import { MaterialReportComponent } from './material-report/material-report.component';
+import { ImportMaterialReportModule } from './import-material-report/import-material-report.module';
+import { MaterialReportModule } from './material-report/material-report.module';
 
 @NgModule({
   declarations: [
     RawMaterialReportComponent,
-    MaterialReportComponent,
   ],
   imports: [
     CommonModule,
+    MaterialReportModule,
+    ImportMaterialReportModule,
     SharedModule,
-    PaginationModule
   ],
   exports: [
     RawMaterialReportComponent

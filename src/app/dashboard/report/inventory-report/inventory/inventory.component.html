@@ -1,0 +1,75 @@
+<div class="row ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="card-body" id="inventory">
+            <form [formGroup]="inventoryForm">
+                <h4 class="fs-18 fw-500">Inventory</h4>
+                <div class="col-md-12">
+                    <mat-select class="line fs-15 fw-400" formControlName="inventory_id"
+                        (selectionChange)="inventoryChange($event)" placeholder="Inventory Name" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="inventory_FilterCtrl" placeholderLabel="Search here!">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let data of filtered_inventory_name | async" [value]="data.inventory_id">
+                            {{ data.inventory_name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </form>
+            <div class="mt-2">
+                <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse"
+                    data-target="#Inventory" (click)="cancel()">
+                    <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                </button>
+                <button mat-flat-button type="submit" class="save pull-right" data-toggle="collapse"
+                    data-target="#Inventory" (click)="getInventoryList()">
+                    <span class="fas fa-save"></span>&nbsp;&nbsp;Search Inventory
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table collapse" id="Inventory">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold">#</th>
+                        <th class="font-weight-bold">Name</th>
+                        <th class="font-weight-bold">Unit</th>
+                        <th class="font-weight-bold">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="inventoryNameTable">
+                    <tr *ngFor="let item of inventoryName">
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.inventory_name }}
+                        </td>
+                        <td>
+                            {{ item.inventory_unit }}
+                        </td>
+                        <td>
+                            {{ item.inventory_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="allInventoryNameTable">
+                    <tr *ngFor="let item of allInventoryName">
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.inventory_name }}
+                        </td>
+                        <td>
+                            {{ item.inventory_unit }}
+                        </td>
+                        <td>
+                            {{ item.inventory_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

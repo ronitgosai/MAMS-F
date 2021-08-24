@@ -103,10 +103,11 @@ export class SellReportComponent implements OnInit {
       start_date: [''],
       end_date: ['']
     })
+    this.getSell();
   }
 
 /* sell */
-  getsell() {
+  getSell() {
     this.sellService.getSell().subscribe((getSell: any) => {
       this.sell_details = this.global.tableIndex(getSell.data);
       this.filtered_sell_product_name.next(getSell.data.slice());

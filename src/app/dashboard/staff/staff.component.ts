@@ -49,19 +49,6 @@ export class StaffComponent implements OnInit {
     this.isProgressBar = true;
     this.is_data = false;
 
-    this.staffService.getStaff().subscribe((getStaff: any) => {
-      this.obj_staff_data = this.global.tableIndex(getStaff.data)
-      this.obj_staff_data_backup = this.obj_staff_data
-      this.isProgressBar = false;
-      if (this.obj_staff_data.length > 0) {
-        this.is_data = false;
-        this.is_table = true;
-      } else if (this.obj_staff_data.length === 0) {
-        this.is_table = false;
-        this.is_data = true;
-      }
-    })
-
     this.staffForm = this.formBuilder.group({
       full_name: ['', [Validators.required, this.global.noWhitespaceValidator]],
       user_email: ['', [Validators.required, Validators.email]],
@@ -82,6 +69,8 @@ export class StaffComponent implements OnInit {
       new_password: ['', [Validators.required, this.global.noWhitespaceValidator]],
       new_confirm_password: ['', [Validators.required, this.matchValuesNewPassword('new_password'), this.global.noWhitespaceValidator]],
     })
+
+    this.getStaffDetails();
   }
 
   matchValues(matchTo: string): (AbstractControl) => ValidationErrors | null {
@@ -102,6 +91,21 @@ export class StaffComponent implements OnInit {
         ? null
         : { isMatchingNewPassword: false };
     };
+  }
+
+  getStaffDetails() {
+    this.staffService.getStaff().subscribe((getStaff: any) => {
+      this.obj_staff_data = this.global.tableIndex(getStaff.data)
+      this.obj_staff_data_backup = this.obj_staff_data
+      this.isProgressBar = false;
+      if (this.obj_staff_data.length > 0) {
+        this.is_data = false;
+        this.is_table = true;
+      } else if (this.obj_staff_data.length === 0) {
+        this.is_table = false;
+        this.is_data = true;
+      }
+    })
   }
 
   // noWhitespaceValidator(control: FormControl) {

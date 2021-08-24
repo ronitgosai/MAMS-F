@@ -1,11 +1,5 @@
-<div class="row-title">
-    <div class="row">
-        <button mat-flat-button class="save card-button" type="button" (click)="current_table = 'sell'">
-            Sell
-        </button>
-    </div>
-</div><!-- sell table -->
-<div class="row ml-20 mr-20" *ngIf="current_table === 'sell'">
+<!-- sell table -->
+<div class="row ml-20 mr-20">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -109,9 +103,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -135,9 +127,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -161,9 +151,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -187,9 +175,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -202,7 +188,7 @@
                     </tr>
                 </tbody>
                 <tbody>
-                    <tr *ngFor="let item of start_date_arr">
+                    <tr *ngFor="let item of     ">
                         <td class="max-width-200">
                             {{ item.index }}
                         </td>
@@ -213,9 +199,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -239,9 +223,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -265,9 +247,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -291,9 +271,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -317,9 +295,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -343,9 +319,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -369,9 +343,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -395,9 +367,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -421,9 +391,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>
@@ -447,9 +415,7 @@
                             {{ item.product_name }}
                             <div>
                                 <small>
-                                    <ng-container *ngIf="item.category_id == 0">(FUNGICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 1">(HERBICIDES)</ng-container>
-                                    <ng-container *ngIf="item.category_id == 2">(INSECTICIDES)</ng-container>
+                                    ({{ item.category_id }})
                                 </small>
                             </div>
                         </td>

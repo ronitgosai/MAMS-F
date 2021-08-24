@@ -3,7 +3,8 @@
         <span class="fs-20 fw-600">Product Category</span>
     </div>
     <div class="col-md-6">
-        <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#category" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+        <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#category"
+            id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
             <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Product Category
         </button>
     </div>
@@ -13,15 +14,27 @@
         <div class="collapse " id="category">
             <div class="card-body">
                 <form class="categoryForm" [formGroup]="categoryForm">
-                    <div class="col-md-12">
-                        <mat-form-field class="form-field">
-                            <input matInput formControlName="categoryName" placeholder="Category Name">
-                        </mat-form-field>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field class="form-field">
+                                <input matInput formControlName="categoryName" placeholder="Category Name">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="form-field">
+                                <input matInput [ngxMatColorPicker]="picker" formControlName="categoryColor" placeholder="Category Color">
+                                <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+                                <ngx-mat-color-picker #picker></ngx-mat-color-picker>
+                            </mat-form-field>
+                        </div>
                     </div>
                     <div class="form-group"><br>
-                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#category" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                        <button mat-flat-button type="button" class="save pull-right" (click)="insertCategory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Product Category</button>
+                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span
+                                class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#category"
+                            class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                        <button mat-flat-button type="button" class="save pull-right" (click)="insertCategory()"><span
+                                class="fas fa-save"></span>&nbsp;&nbsp;Add Product Category</button>
                     </div>
                 </form>
             </div>
@@ -33,7 +46,8 @@
     <div class="col-md-12">
         <div class="card-body">
             <div class="col-md-12">
-                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="categoryName" [(ngModel)]="categoryName" (ngModelChange)="search()" placeholder="Search Product Category Name">
+                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="categoryName"
+                    [(ngModel)]="categoryName" (ngModelChange)="search()" placeholder="Search Product Category Name">
                 </mat-search-bar>
             </div>
             <div class="table-responsive">
@@ -43,6 +57,7 @@
                             <div class="d-flex">
                                 <div class="align-items-center d-flex min-width-85">#</div>
                                 <div class="flex-even" scope="col">Category Name</div>
+                                <div class="flex-even" scope="col">Category Color</div>
                                 <div class="flex-even justify-content-end" scope="col">Action</div>
                             </div>
                         </th>
@@ -60,15 +75,22 @@
                     </ng-container>
                     <ng-container *ngIf="category.length > 0">
                         <tbody>
-                            <tr *ngFor="let data of category | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                            <tr
+                                *ngFor="let data of category | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
                                 <td>
                                     <div class="top_row">
                                         <div class="d-flex">
                                             <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
-                                            <div class="flex-even">{{ data.category_name }}</div>
+                                            <div class="flex-even" appColor [data]="data.category_color">{{ data.category_name }}</div>
+                                            <div class="flex-even">{{ data.category_color }}</div>
                                             <div class="flex-even justify-content-end">
-                                                <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#categoryInfo' + i" (click)="editCategory(data.category_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                                <button mat-stroked-button class="ml-3" (click)="deleteCategory(data.category_id,data.category_name)"><span class="fa fa-trash c-red"></span></button>
+                                                <button mat-stroked-button data-toggle="collapse"
+                                                    [attr.data-target]="'#categoryInfo' + i"
+                                                    (click)="editCategory(data.category_id,i)"><span
+                                                        class="fa fa-pen c-blue"></span></button>
+                                                <button mat-stroked-button class="ml-3"
+                                                    (click)="deleteCategory(data.category_id,data.category_name)"><span
+                                                        class="fa fa-trash c-red"></span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -77,18 +99,32 @@
                                             <div class="col-md-12">
                                                 <div class="collapse" id="categoryInfo{{ i }}">
                                                     <div class="card-body">
-                                                        <form class="updateCategoryForm" [formGroup]="updateCategoryForm">
+                                                        <form class="updateCategoryForm"
+                                                            [formGroup]="updateCategoryForm">
                                                             <div class="col-md-12">
-                                                                <span class="fs-16 fw-500">Please enter updated Product category name for selected product category.<br></span>
+                                                                <span class="fs-16 fw-500">Please enter updated Product
+                                                                    category name for selected product
+                                                                    category.<br></span>
                                                             </div><br>
-                                                            <div class="col-md-12">
-                                                                <mat-form-field class="form-field">
-                                                                    <input matInput class="p-0"
-                                                                        formControlName="updateCategoryName"
-                                                                        placeholder="Product Category Name">
-                                                                </mat-form-field>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <mat-form-field class="form-field">
+                                                                        <input matInput class="p-0"
+                                                                            formControlName="updateCategoryName"
+                                                                            placeholder="Product Category Name">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <mat-form-field class="form-field">
+                                                                        <input matInput class="p-0"
+                                                                            formControlName="updateCategoryColor"
+                                                                            placeholder="Product Category Color">
+                                                                    </mat-form-field>
+                                                                </div>
                                                             </div>
-                                                            <button type="reset" class="btn btn-success pull-right ml-2 c-b c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                            <button type="reset"
+                                                                class="btn btn-success pull-right ml-2 c-b c-b"><span
+                                                                    class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
                                                             <button type="reset" class="btn btn-danger pull-right ml-2"
                                                                 data-toggle="collapse"
                                                                 [attr.data-target]="'#categoryInfo' + i"><span

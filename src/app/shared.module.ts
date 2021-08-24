@@ -13,6 +13,9 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { OrderModule } from 'ngx-order-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+import { NgMatSearchBarModule } from 'ng-mat-search-bar';
 
 @NgModule({
   declarations: [],
@@ -34,6 +37,12 @@ import { MatTabsModule } from '@angular/material/tabs';
     Ng2SearchPipeModule,
     OrderModule,
     NgxPaginationModule,
+    NgxMatColorPickerModule,
+    MatIconModule,
+    NgMatSearchBarModule,
+  ],
+  providers: [
+    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
   ],
 })
 export class SharedModule { }

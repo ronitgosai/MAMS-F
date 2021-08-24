@@ -17,16 +17,12 @@
                         </div>
                         <div class="table-responsive">
                             <table id="example" class="table ">
-                                <thead class="text">
-                                    <th>
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-120">#</div>
-                                            <div class="flex-even justify-content-start">Product</div>
-                                            <div class="flex-even justify-content-start">Technical Name</div>
-                                            <div class="flex-even justify-content-start">Name</div>
-                                            <div class="flex-even justify-content-start">Quantity</div>
-                                        </div>
-                                    </th>
+                                <thead class="text fs-14 fw-500">
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th>Technical Name</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
                                 </thead>
                                 <div *ngIf="isProgressBar_product" class="m-20 p-20">
                                     <mat-progress-bar mode="indeterminate">
@@ -38,59 +34,42 @@
                                 <tbody *ngIf="is_table_product">
                                     <tr
                                         *ngFor="let data of arr_product_data | paginate: {id:'pagination_product',itemsPerPage:entries_per_page_product,currentPage:p_product}; let i = index">
-                                        <td>
-                                            <div class="top_row">
-                                                <div class="d-flex">
-                                                    <div class="align-items-center d-flex min-width-120">{{
-                                                        data.index }}</div>
-                                                    <div appColor [id]="data.category_id"
-                                                        class="flex-even justify-content-start">
-                                                        <b>{{ data.product_name }}</b>&nbsp;&nbsp;
-                                                        <div>
-                                                            <small>
-                                                                <ng-container *ngIf="data.category_id == 0">
-                                                                    (FUNGICIDES)</ng-container>
-                                                                <ng-container *ngIf="data.category_id == 1">
-                                                                    (HERBICIDES)</ng-container>
-                                                                <ng-container *ngIf="data.category_id == 2">
-                                                                    (INSECTICIDES)</ng-container>
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-even justify-content-start">{{
-                                                        data.product_technical_name }}</div>
-                                                    <div class="flex-even justify-content-start">{{
-                                                        data.inventory_name }}</div>
-
-                                                    <div class="flex-even justify-content-start">{{ data.quantity }}
-                                                    </div>
-                                                </div>
+                                        <td>{{ data.index }}</td>
+                                        <td appColor [data]="data.category_color">
+                                            <b>{{ data.product_name }}</b>&nbsp;&nbsp;<br>
+                                            <div>
+                                                <small>
+                                                    ({{ data.category_name }})
+                                                </small>
                                             </div>
                                         </td>
+                                        <td>{{ data.product_technical_name }}</td>
+                                        <td>{{ data.inventory_name }}</td>
+                                        <td>{{ data.quantity }}</td>
                                     </tr><br>
-                                    <div class="row">
-                                        <div class="col-md-6 mt-3">
-                                            <pagination-controls id="pagination_product"
-                                                (pageChange)="p_product = $event" class="f-l"></pagination-controls>
-                                        </div>
-                                        <div class="col-md-6 z-index-9">
-                                            <mat-form-field appearance="fill" class="width-22 f-r">
-                                                <mat-label>Entries per page</mat-label>
-                                                <mat-select id='entries_per_page_product'
-                                                    [(value)]="entries_per_page_product"
-                                                    [(ngModel)]="entries_per_page_product"
-                                                    (selectionChange)="pagination($event)">
-                                                    <mat-option value="10">10</mat-option>
-                                                    <mat-option value="20">20</mat-option>
-                                                    <mat-option value="35">35</mat-option>
-                                                    <mat-option value="40">40</mat-option>
-                                                    <mat-option value="50">50</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
                                 </tbody>
                             </table>
+                            <div class="row">
+                                <div class="col-md-6 mt-3">
+                                    <pagination-controls id="pagination_product"
+                                        (pageChange)="p_product = $event" class="f-l"></pagination-controls>
+                                </div>
+                                <div class="col-md-6 z-index-9">
+                                    <mat-form-field appearance="fill" class="width-22 f-r">
+                                        <mat-label>Entries per page</mat-label>
+                                        <mat-select id='entries_per_page_product'
+                                            [(value)]="entries_per_page_product"
+                                            [(ngModel)]="entries_per_page_product"
+                                            (selectionChange)="pagination($event)">
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="35">35</mat-option>
+                                            <mat-option value="40">40</mat-option>
+                                            <mat-option value="50">50</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </mat-tab>

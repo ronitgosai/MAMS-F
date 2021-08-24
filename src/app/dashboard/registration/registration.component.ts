@@ -29,6 +29,7 @@ export class RegistrationComponent implements OnInit {
   ) {
     titelService.setTitle("User | Modern Agrichem")
   }
+
   userForm: FormGroup;
   updatedUserForm: FormGroup;
 
