@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  api_url: 'http://localhost:2000',
-  // api_url: 'https://www.backend.modernagrichem.com',
+  // api_url: 'http://localhost:2000',
+  api_url: 'https://www.backend.modernagrichem.com',
   adminRole: '397A244226452948404D635166546A576E5A7234753778214125442A462D4A61',
   accountRole: '733676397924423F4528482B4D6251655468576D5A7134743777217A25432A46',
   productionRole: '58703273357638792F423F4428472B4B6250655368566D597133743677397A24',

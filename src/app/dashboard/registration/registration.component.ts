@@ -15,7 +15,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-  fileDetails: { file: any; name: any; size: string; };
 
   constructor(
     private titelService: Title,
@@ -32,6 +31,8 @@ export class RegistrationComponent implements OnInit {
 
   userForm: FormGroup;
   updatedUserForm: FormGroup;
+
+  fileDetails: { file: any; name: any; size: string; };
 
   staffDetails = [];
   staffDetailsBackup = [];
