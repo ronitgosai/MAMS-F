@@ -103,8 +103,8 @@
                                             <div class="top_row">
                                                 <div class="d-flex">
                                                     <div class="align-items-center d-flex min-width-65">{{ data.index }}</div>
-                                                    <div class="flex-even max-width-200" appColor [id]="data.category_id">{{ data.category_names }}</div>
-                                                    <div class="flex-even max-width-200" appColor [id]="data.category_id" >{{ data.product_name }} </div>
+                                                    <div class="flex-even max-width-200" appColor [data]="data.category_color">{{ data.category_names }}</div>
+                                                    <div class="flex-even max-width-200" appColor [data]="data.category_color" >{{ data.product_name }} </div>
                                                     <div class="flex-even max-width-350">{{ data.product_technical_name }}</div>
                                                     <div class="flex-even">
                                                         <div class="font-weight-bold">

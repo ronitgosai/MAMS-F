@@ -7,15 +7,14 @@
   </div>
   <div class="sidebar-wrapper">
     <div *ngIf="isMobileMenu()">
-      
       <ul class="nav navbar-nav nav-mobile-menu">
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">
-            <i class="material-icons">person</i>
-            <p>
-              <span class="d-lg-none d-md-block cursor-pointer box-shadow" (click)="logOut()">Logout</span>
-            </p>
-          </a>
+        <li class="dropdown">
+          <a class="nav-link mr-3 c-black fs-18 ml-30" href="javascript:void(0)" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-cog"></i>&nbsp;&nbsp;Setting</a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+            <li class="dropdown-item cursor-pointer box-shadow fs-16 fw-400" routerLink="/dashboard/user-profile"><i class="fas fa-user"></i>&nbsp;&nbsp;User Profile</li>
+            <li class="dropdown-item cursor-pointer box-shadow fs-16 fw-400" routerLink="/auth/reset-password"><i class="fas fa-redo"></i>&nbsp;&nbsp;Reset Password</li>
+            <li class="dropdown-item cursor-pointer box-shadow fs-16 fw-400" (click)="logOut()"><i class="fas fa-power-off"></i>&nbsp;&nbsp;Logout</li>
+          </div>
         </li>
       </ul>
     </div>

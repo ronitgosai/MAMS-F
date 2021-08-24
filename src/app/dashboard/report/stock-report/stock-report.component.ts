@@ -82,7 +82,6 @@ export class StockReportComponent implements OnInit {
         this.allStockProduct = this.global.tableIndex(getAllProduct.data);
         this.allStockProductTable = true
       })
-      this.allStockProductTable = false;
       this.cancel();
     } else {
       let product = {
@@ -92,13 +91,16 @@ export class StockReportComponent implements OnInit {
         this.stockProduct = this.global.tableIndex(getProductName.data)
         this.stockProductTable = true;
       })
-      this.stockProductTable = false;
       this.cancel();
     }
   }
 
   cancel() {
     this.stockProductId = '';
+    this.allStockProduct = [''];
+    this.stockProduct = [''];
+    this.stockProductTable = false;
+    this.allStockProductTable = false;
     this.stockForm.reset();
   }
 

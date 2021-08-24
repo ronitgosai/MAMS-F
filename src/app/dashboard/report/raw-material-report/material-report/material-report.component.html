@@ -1,1 +1,77 @@
-<p>material-report works!</p>
+<div class="row ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="card-body" id="raw-Material">
+            <form [formGroup]="rawMaterialForm">
+                <h4 class="fs-18 fw-500">Raw Material</h4>
+                <div class="col-md-12">
+                    <mat-select class="line fs-15 fw-400" formControlName="raw_material_id"
+                        (selectionChange)="rawMaterialChange($event)" placeholder="Raw Material Name" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="rawMaterialFilterCtrl"
+                                placeholderLabel="Search here!"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let data of filteredRawMaterialName | async" [value]="data.raw_material_id">
+                            {{ data.raw_material_name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </form>
+            <div class="mt-2">
+                <button mat-flat-button type="reset" class="cancel pull-right mb-2 ml-2" data-toggle="collapse" data-target="#raw_Material" (click)="cancel()">
+                    <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                </button>
+                <button mat-flat-button type="submit" class="save pull-right mb-2" data-toggle="collapse" data-target="#raw_Material" (click)="getRawMaterialList()">
+                    <span class="fas fa-save"></span>&nbsp;&nbsp;Search Raw Material
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table collapse" id="raw_Material">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold">#</th>
+                        <th class="font-weight-bold">Name</th>
+                        <th class="font-weight-bold">Unit</th>
+                        <th class="font-weight-bold">Quantity</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="rawMaterialNameTable">
+                    <tr *ngFor="let item of rawMaterialName | paginate: {id:'paginationRaw',itemsPerPage:entriesPerPage,currentPage:p}">
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_name }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_unit }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- <button type="button" class="btn" (click)="pdf()">PDF</button> -->
+                <tbody *ngIf="allRawMaterialTable">
+                    <tr *ngFor="let item of allRawMaterialName | paginate: {id:'paginationRaw',itemsPerPage:entriesPerPage,currentPage:p}">
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_name }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_unit }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button mat-flat-button type="button" class="save" (click)="rawMaterialPdf()">
+            <span class="fa fa-file-pdf fs-16"></span>&nbsp;&nbsp;<span>Export PDF</span>
+        </button>
+    </div>
+</div>

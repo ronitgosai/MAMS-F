@@ -7,7 +7,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatFileUploadModule } from 'angular-material-fileupload';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NgMatSearchBarModule } from 'ng-mat-search-bar';
@@ -35,7 +34,6 @@ const routes: Routes = [
     MatSelectModule,
     MatButtonModule,
     MatInputModule,
-    MatFileUploadModule,
     NgMatSearchBarModule,
     NgxMatSelectSearchModule,
     NgxPaginationModule,

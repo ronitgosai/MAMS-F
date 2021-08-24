@@ -2,6 +2,22 @@
     <div class="container-fluid">
         <div class="card">
             <mat-tab-group class="card">
+                <!-- Raw Material -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fab fa-buromobelexperte"></mat-icon>&nbsp;&nbsp;
+                        Raw Material
+                    </ng-template>
+                    <app-raw-material></app-raw-material>
+                </mat-tab>
+                <!-- Inventory -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fab fa-buromobelexperte"></mat-icon>&nbsp;&nbsp;
+                        Inventory
+                    </ng-template>
+                    <app-inventory></app-inventory>
+                </mat-tab>
                 <!-- Category -->
                 <mat-tab>
                     <ng-template mat-tab-label>

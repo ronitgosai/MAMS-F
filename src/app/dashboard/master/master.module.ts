@@ -9,6 +9,8 @@ import { ShiftModule } from './shift/shift.module';
 import { WorkAreaModule } from './work-area/work-area.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { RawMaterialModule } from './raw-material/raw-material.module';
+import { InventoryModule } from './inventory/inventory.module';
 
 const routes: Routes = [
   {
@@ -23,6 +25,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    RawMaterialModule,
+    InventoryModule,
     CategoryModule,
     NetworkServiceProviderModule,
     WorkAreaModule,

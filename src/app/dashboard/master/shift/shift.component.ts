@@ -20,7 +20,7 @@ export class ShiftComponent implements OnInit {
     private toastr: ToastrService,
     private titelService: Title,
   ) {
-    titelService.setTitle("Network Service Provider | Modern Agrichem")
+    titelService.setTitle("Master | Modern Agrichem")
   }
 
   shiftForm: FormGroup;

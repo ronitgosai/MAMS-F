@@ -1,0 +1,200 @@
+<div class="row-title">
+    <div class="row">
+        <div class="col-md-6">
+            <button mat-flat-button class="save card-button" type="button"
+                (click)="currentTable = 'ongoing_production'">
+                Ongoing Production
+            </button>
+        </div>
+        <div class="col-md-6">
+            <button mat-flat-button class="save card-button" type="button" (click)="currentTable = 'past_production'">
+                Past Production
+            </button>
+        </div>
+    </div>
+</div>
+<!-- ongoing production table -->
+<div class="rol ml-20 mr-20" *ngIf="currentTable === 'ongoing_production'">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold max-wu">#</th>
+                        <th clsss="font-weight-bold max-width-200">Product Name</th>
+                        <th clsss="font-weight-bold max-width-200">Raw Material Info</th>
+                        <th class="font-weight-bold">Start Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of allOngoingProduction">
+                        <td clsss="max-width-100">{{ data.index }}</td>
+                        <td clsss="max-width-200 word-break-all" appColor [data]="data.category_color">
+                            {{ data.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="data.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="data.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="data.category_id == 2">(INSECTICIDES)
+                                    </ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200 word-break-all">
+                            <div>
+                                <ng-container *ngFor="let name of data.raw_material_names.split(',');let i = index">
+                                    <div>
+                                        {{ name }}
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        ({{ data.raw_material_quantity[i] }}
+                                        {{ data.raw_material_unit.split(",")[i] }})
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </td>
+                        <td>
+                            {{ data.start_date | date: "dd/MMMM/yyyy" }}<br />{{ data.start_time
+                            }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- past production table -->
+<div class="row ml-20 mr-20" *ngIf="currentTable === 'past_production'">
+    <div class="col-md-12">
+        <div class="card">
+            <div id="past_production">
+                <div class="card-body">
+                    <form [formGroup]="pastProductionForm">
+                        <h4 class="fs-18 fw-500">Past Production</h4>
+                        <div class="col-md-12">
+                            <mat-select class="line fs-15 fw-400" formControlName="category_id"
+                                (selectionChange)="categoryChange($event)" placeholder="Category Name" #singleSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="categoryFilterCtrl"
+                                        placeholderLabel="Search here!"></ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of filteredCategory | async" [value]="data.category_id">
+                                    {{ data.category_name }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </form>
+                    <div class="mt-2">
+                        <button mat-flat-button type="reset" class="cancel pull-right mb-2 ml-2" data-toggle="collapse"
+                        data-target="#past_Production" (click)="cancel()">
+                        <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                    </button>
+                    <button mat-flat-button type="submit" class="save pull-right mb-2" data-toggle="collapse"
+                        data-target="#past_Production" (click)="getPastProductionList()">
+                        <span class="fas fa-save"></span>&nbsp;&nbsp;Search Past
+                        Production
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table collapse" id="past_Production">
+                    <thead>
+                        <tr>
+                            <th class="max-width-100">#</th>
+                            <th class="max-width-200">Product Name</th>
+                            <th class="max-width-200">Raw Material Info</th>
+                            <th class="max-width-300">Inventory Info</th>
+                            <th class="max-width-200 text-align-end">Start Time</th>
+                            <th class="max-width-200 text-align-end">End Time</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="isPastTable">
+                        <tr *ngFor="let data of pastProduction">
+                            <td class="max-width-100"> {{ data.index }} </td>
+                            <td class="max-width-200" appColor [data]="data.category_color">
+                                {{ data.product_name }}
+                                <div>
+                                    <small>
+                                        <ng-container *ngIf="data.category_id == 0">(FUNGICIDES)</ng-container>
+                                        <ng-container *ngIf="data.category_id == 1">(HERBICIDES)</ng-container>
+                                        <ng-container *ngIf="data.category_id == 2">(INSECTICIDES)
+                                        </ng-container>
+                                    </small>
+                                </div>
+                            </td>
+                            <td class="max-width-200">
+                                <ng-container *ngFor="let name of data.raw_material_names.split(','); let i = index">
+                                    <div>
+                                        {{ name }}
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        ({{ data.raw_material_quantity }}
+                                        {{ data.raw_material_unit.split(',')[i]}})
+                                    </div>
+                                </ng-container>
+                            </td>
+                            <td class="max-width-200">
+                                <ng-container *ngFor="let inventory of data.inventory_name.split(','); let i = index">
+                                    <div class="word-break">
+                                        {{ inventory }}
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        ({{ data.inventory_qty }}
+                                        {{ data.inventory_unit.split(',')[i] }})
+                                    </div>
+                                </ng-container>
+                            </td>
+                            <td class="max-width-200 text-align-end"> {{ data.start_date | date: 'dd/MMMM/yyyy'
+                                }}<br>{{ data.start_time }} </td>
+                            <td class="max-width-200 text-align-end"> {{ data.end_date | date: 'dd/MMMM/yyyy'
+                                }}<br>{{ data.end_time }} </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="isCategoryTable">
+                        <tr *ngFor="let data of categoryPastProduction">
+                            <td class="max-width-100">{{ data.index }}</td>
+                            <td class="max-width-200" appColor [data]="data.category_color">
+                                {{ data.product_name }}
+                                <div>
+                                    <small>
+                                        <ng-container *ngIf="data.category_id == 0">(FUNGICIDES)</ng-container>
+                                        <ng-container *ngIf="data.category_id == 1">(HERBICIDES)</ng-container>
+                                        <ng-container *ngIf="data.category_id == 2">(INSECTICIDES)
+                                        </ng-container>
+                                    </small>
+                                </div>
+                            </td>
+                            <td class="max-width-300">
+                                <ng-container *ngFor="let name of data.raw_material_names.split(','); let i = index">
+                                    <div>{{ name }}</div>
+                                    <div class="font-weight-bold">
+                                        ({{ data.raw_material_quantity }}
+                                        {{ data.raw_material_unit.split(",")[i] }})
+                                    </div>
+                                </ng-container>
+                            </td>
+                            <td class="max-width-300">
+                                <ng-container *ngFor="let name of data.inventory_name.split(','); let i = index">
+                                    <div>{{ name }}</div>
+                                    <div class="font-weight-bold">
+                                        ({{ data.inventory_qty }}
+                                        {{ data.inventory_unit.split(",")[i] }})
+                                    </div>
+                                </ng-container>
+                            </td>
+                            <td class="max-width-200">
+                                {{ data.start_date | date: "dd/MMMM/yyyy" }}<br />{{ data.start_time }}
+                            </td>
+                            <td class="max-width-200">
+                                {{ data.end_date | date: "dd/MMMM/yyyy" }}<br />{{ data.end_time }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

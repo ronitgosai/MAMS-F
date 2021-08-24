@@ -74,10 +74,15 @@
                                     </div>
                                 </div>
                             </form>
-                            <input class="form-control width-32" type="file" id="files" (change)="onFilePicked($event)" name="">
-                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                            <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse" data-target="#registration"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                            <button mat-flat-button type="button" class="save pull-right" (click)="insertStaff()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Staff</button>
+                            <input class="form-control width-32" type="file" id="files" (change)="onFilePicked($event)"
+                                name="">
+                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span
+                                    class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                            <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse"
+                                data-target="#registration"><span
+                                    class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button mat-flat-button type="button" class="save pull-right" (click)="insertStaff()"><span
+                                    class="fas fa-save"></span>&nbsp;&nbsp;Add Staff</button>
                         </div>
                     </div>
                 </div>
@@ -105,6 +110,7 @@
                                             <div class="flex-even justify-content-start">Salary</div>
                                             <div class="flex-even justify-content-start">Network</div>
                                             <div class="flex-even justify-content-start">Number</div>
+                                            <div class="flex-even justify-content-start">Proof</div>
                                             <div class="flex-even justify-content-end">Action</div>
                                         </div>
                                     </th>
@@ -127,28 +133,22 @@
                                             <td>
                                                 <div class="top_row">
                                                     <div class="d-flex">
-                                                        <div class="align-items-center d-flex min-width-65">{{
-                                                            data.index }}</div>
-                                                        <div class="flex-even justify-content-start">{{ data.staff_name
-                                                            }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.work_area_name }}</div>
-                                                        <div class="flex-even justify-content-start">{{ data.shift_name
-                                                            }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.staff_salary }} </div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.master_network_service_provider_name }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.mobile_number }}</div>
+                                                        <div class="align-items-center d-flex min-width-65">{{ data.index }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.staff_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.work_area_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.shift_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.staff_salary }} </div>
+                                                        <div class="flex-even justify-content-start">{{ data.master_network_service_provider_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.mobile_number }}</div>
+                                                        <div class="flex-even justify-content-start">
+                                                            <!-- {{ data.staff_id_proof }} -->
+                                                            <i class="fas fa-eye">
+                                                                
+                                                            </i>
+                                                        </div>
                                                         <div class="flex-even justify-content-end">
-                                                            <button mat-stroked-button data-toggle="collapse"
-                                                                [attr.data-target]="'#staffInfo' + i"
-                                                                (click)="editStaffInfo(data.staff_id,i)"><span
-                                                                    class="fa fa-pen c-blue"></span></button><br>
-                                                            <button mat-stroked-button class="ml-3"
-                                                                (click)="deleteStaffDetails(data.staff_id, data.staff_name)"><span
-                                                                    class="fa fa-trash c-red"></span></button>
+                                                            <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#staffInfo' + i" (click)="editStaffInfo(data.staff_id,i)"><span class="fa fa-pen c-blue"></span></button><br>
+                                                            <button mat-stroked-button class="ml-3" (click)="deleteStaffDetails(data.staff_id, data.staff_name)"><span class="fa fa-trash c-red"></span></button>
                                                         </div>
                                                     </div>
                                                 </div>

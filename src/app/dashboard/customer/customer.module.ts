@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+
 import { CustomerComponent } from './customer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -17,6 +18,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import {MatIconModule} from '@angular/material/icon';
 import { NgMatSearchBarModule } from 'ng-mat-search-bar';
+import { SharedModule } from 'app/shared.module';
 
 const routes: Routes = [
   {
@@ -31,23 +33,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatAutocompleteModule,
-    NgxMatSelectSearchModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatProgressBarModule,
-    OrderModule,  
-    MatIconModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-    NgMatSearchBarModule,
+    SharedModule,
     RouterModule.forChild(routes),
-    DataTablesModule
   ]
 })
 export class CustomerModule { }

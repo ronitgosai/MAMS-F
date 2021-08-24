@@ -1,14 +1,5 @@
-<div class="row-title">
-    <div class="row">
-        <div class="col-md-12">
-            <button mat-flat-button class="save card-button" type="button" (click)="currentTable = 'product'">
-                Product
-            </button>
-        </div>
-    </div>
-</div>
 <!-- product table -->
-<div class="row ml-20 mr-20" *ngIf="currentTable === 'product'">
+<div class="row ml-20 mr-20">
     <div class="col-md-12">
         <div>
             <div class="card">
@@ -61,13 +52,13 @@
                         <tbody *ngIf="productTable">
                             <tr *ngFor="let data of product">
                                 <td>{{ data.index }}</td>
-                                <td appColor [id]="data.category_id">
+                                <td appColor [data]="data.category_color">
                                     {{ data.category_names }}
                                 </td>
-                                <td appColor [id]="data.category_id">
+                                <td appColor [data]="data.category_color">
                                     {{ data.product_name }}
                                 </td>
-                                <td appColor [id]="data.category_id">
+                                <td appColor [data]="data.category_color">
                                     {{ data.product_technical_name }}
                                 </td>
                                 <td class="word-break-all">
@@ -78,13 +69,13 @@
                         <tbody *ngIf="categoryProductTable">
                             <tr *ngFor="let data of categoryProduct">
                                 <td>{{ data.index }}</td>
-                                <td appColor [id]="data.category_id">
+                                <td appColor [data]="data.category_color">
                                     {{ data.category_names }}
                                 </td>
-                                <td appColor [id]="data.category_id">
+                                <td appColor [data]="data.category_color">
                                     {{ data.product_name }}
                                 </td>
-                                <td appColor [id]="data.category_id">
+                                <td appColor [data]="data.category_color">
                                     {{ data.product_technical_name }}
                                 </td>
                                 <td class="word-break-all">

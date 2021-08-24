@@ -1,0 +1,124 @@
+<div class="row ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="card-body" id="raw_import_material">
+            <form [formGroup]="importRawMaterialForm" class="p-2">
+                <h4 class="fs-18 fw-500">Import Raw Material</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-select class="line fs-15 fw-400" formControlName="raw_material_id_import" (selectionChange)="importRawMaterialChange($event)" placeholder="Raw Material Name" #singleSelect>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="importRawMaterialFilterCtrl"
+                                    placeholderLabel="Search here!"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of filteredImportRawMaterialName | async"
+                                [value]="data.raw_material_id">
+                                {{ data.raw_material_name }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="form-field" style="margin-top: -8px !important;">
+                            <input matInput class="form-field" formControlName="import_raw_material_date_start" #input
+                                (focusout)="onKey($event, input.value)" placeholder="YYYY-MM-DD"
+                                [matDatepicker]="newPicker" (click)="newPicker.open()" #newDate />
+                            <mat-datepicker #newPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="col-md-4">
+                    <mat-form-field>
+                        <input matInput class="form-field" formControlName="import_raw_material_date_end" #input (focusout)="onKey($event, input.value)" placeholder="YYYY-MM-DD"  [matDatepicker]="newPicker" (click)="newPicker.open()" #newDate>
+                        <mat-datepicker #newPicker></mat-datepicker>
+                    </mat-form-field>
+                </div> -->
+                </div>
+            </form>
+            <div class="mt-2">
+                <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse"
+                    data-target="#raw_import_Material" (click)="cancel()">
+                    <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                </button>
+                <button mat-flat-button type="submit" class="save pull-right" data-toggle="collapse"
+                    data-target="#raw_import_Material" (click)="getImportRawMaterialList()">
+                    <span class="fas fa-save"></span>&nbsp;&nbsp;Search Import Raw
+                    Material
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table collapse" id="raw_import_Material">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold">#</th>
+                        <th class="font-weight-bold">Date</th>
+                        <th class="font-weight-bold">Name</th>
+                        <th class="font-weight-bold">Unit</th>
+                        <th class="font-weight-bold">Quantity</th>
+                    </tr>
+                </thead>
+                <!-- *ngIf="importTable" -->
+                <tbody *ngIf="importTable">
+                    <tr *ngFor="let item of allImportRawMaterial">
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_date | date: "dd/MMMM/yyyy" }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_name }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_unit }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- *ngIf="importRawMaterialTable" -->
+                <tbody *ngIf="importRawMaterialTable">
+                    <tr *ngFor="let item of importRawMaterialName">
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_date | date: "dd/MMMM/yyyy" }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_name }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_unit }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- *ngIf="importRawMaterialTableDate" -->
+                <tbody *ngIf="importRawMaterialTableDate">
+                    <tr *ngFor="let item of importRawMaterialDate">
+                        <td>
+                            {{ item.index }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_date | date: "dd/MMMM/yyyy" }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_name }}
+                        </td>
+                        <td>
+                            {{ item.import_raw_material_unit }}
+                        </td>
+                        <td>
+                            {{ item.raw_material_quantity }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button mat-flat-button type="button" class="save" (click)="importRawMaterialPdf()">
+            <span class="fa fa-file-pdf fs-16"></span>&nbsp;&nbsp;<span>Export PDF</span>
+        </button>
+    </div>
+</div>

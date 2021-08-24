@@ -24,12 +24,12 @@
                                 <tbody *ngFor="let data of production; let i = index; is_ongoing_table">
                                     <tr>
                                         <td clsss="max-width-100"> {{ data.index }} </td>
-                                        <td clsss="max-width-300" appColor [id]="data.category_id">
+                                        <td clsss="max-width-300" appColor [data]="data.category_color">
                                             <ng-container *ngIf="data.category_id == 0">FUNGICIDES</ng-container>
                                             <ng-container *ngIf="data.category_id == 1">HERBICIDES</ng-container>
                                             <ng-container *ngIf="data.category_id == 2">INSECTICIDES</ng-container>
                                         </td>
-                                        <td clsss="max-width-300" appColor [id]="data.category_id"> {{ data.product_name }} </td>
+                                        <td clsss="max-width-300" appColor [data]="data.category_color"> {{ data.product_name }} </td>
                                         <td>
                                             <div>
                                                 <ng-container

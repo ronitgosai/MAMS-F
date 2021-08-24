@@ -1,0 +1,51 @@
+<!-- ongoing production table -->
+<div class="rol ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold max-wu">#</th>
+                        <th clsss="font-weight-bold max-width-200">Product Name</th>
+                        <th clsss="font-weight-bold max-width-200">Raw Material Info</th>
+                        <th class="font-weight-bold">Start Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of allOngoingProduction">
+                        <td clsss="max-width-100">{{ data.index }}</td>
+                        <td clsss="max-width-200 word-break-all" appColor [data]="data.category_color">
+                            {{ data.product_name }}
+                            <div>
+                                <small>
+                                    <ng-container *ngIf="data.category_id == 0">(FUNGICIDES)</ng-container>
+                                    <ng-container *ngIf="data.category_id == 1">(HERBICIDES)</ng-container>
+                                    <ng-container *ngIf="data.category_id == 2">(INSECTICIDES)
+                                    </ng-container>
+                                </small>
+                            </div>
+                        </td>
+                        <td class="max-width-200 word-break-all">
+                            <div>
+                                <ng-container *ngFor="let name of data.raw_material_names.split(',');let i = index">
+                                    <div>
+                                        {{ name }}
+                                    </div>
+                                    <div class="font-weight-bold">
+                                        ({{ data.raw_material_quantity[i] }}
+                                        {{ data.raw_material_unit.split(",")[i] }})
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </td>
+                        <td>
+                            {{ data.start_date | date: "dd/MMMM/yyyy" }}<br />{{ data.start_time
+                            }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button mat-flat-button type="button" (click)="ongoingProductionPdf()">Export PDF</button>
+        </div>
+    </div>
+</div>
