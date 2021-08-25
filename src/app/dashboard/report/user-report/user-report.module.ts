@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserReportComponent } from './user-report.component';
+import { SharedModule } from 'app/shared.module';
 
 
 
@@ -9,7 +10,8 @@ import { UserReportComponent } from './user-report.component';
     UserReportComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   exports: [
     UserReportComponent

@@ -101,7 +101,11 @@ export class ReportService {
     return this.http.post(environment.api_url + "/report/get_sell_product_category_date_range_list", sell_product_category_date_range);
   }
 
-  getStaff(role){
-    return this.http.post(environment.api_url + "/report/get_staff_list", role);
+  getUser(id){
+    return this.http.post(environment.api_url + "/report/get_user_list", id);
+  }
+
+  getStaff(id){
+    return this.http.post(environment.api_url + "/report/get_staff_list", id);
   }
 }

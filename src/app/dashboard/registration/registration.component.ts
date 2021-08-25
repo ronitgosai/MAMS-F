@@ -197,29 +197,32 @@ export class RegistrationComponent implements OnInit {
       }
     }
     let editData = this.staffDetails.find(d => d.staff_id === staffId)
+    const userUpdateFile = new FormData();
     this.updatedUserForm.patchValue({
       updateStaffName: editData.staff_name,
       updateStaffWorkAreaId: editData.work_area_id,
       updateStaffSalary: editData.staff_salary,
       updateStaffShiftId: editData.shift_id,
       updateStaffMobileServiceProviderId: editData.mobile_service_provider_id,
+      updateStaffIdProof: userUpdateFile.get(editData.staff_id_proof),
       updateStaffMobileNumber: editData.mobile_number,
     })
   }
 
   updateStaffInfo(staffId) {
-    let updateStaffInfo = {
-      'staffId': staffId,
-      'staffName': this.updatedUserForm.get('updateStaffName').value,
-      'staffWorkAreaId': this.updatedUserForm.get('updateStaffWorkAreaId').value,
-      'staffSalary': parseInt(this.updatedUserForm.get('updateStaffSalary').value.split(',').join('')),
-      'staffShiftId': this.updatedUserForm.get('updateStaffShiftId').value,
-      'mobileServiceProviderId': this.updatedUserForm.get('updateStaffMobileServiceProviderId').value,
-      'staffMobileNumber': this.updatedUserForm.get('updateStaffMobileNumber').value,
-      'staffIdProof': this.updatedUserForm.get('updateStaffIdProof').value,
-      'updated_date': this.global.getDateZone(),
-      'updated_time': this.global.getTimeZone()
-    }
+    const updateSalary = parseInt(this.updatedUserForm.get('updateStaffSalary').value.split(',').join(''));
+    const userUpdateFile = new FormData();
+    userUpdateFile.append('staffId', staffId),
+    userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
+    userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
+    userUpdateFile.append('staffSalary', updateSalary.toString()),
+    userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
+    userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
+    userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
+    userUpdateFile.append('staffIdProof', this.updatedUserForm.value.updateStaffIdProof),
+    userUpdateFile.append('updated_date', this.global.getDateZone()),
+    userUpdateFile.append('updated_time', this.global.getTimeZone())
+    console.log("userUpdateFile-->",userUpdateFile)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -237,8 +240,8 @@ export class RegistrationComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if (this.updatedUserForm.valid) {
-          this.registrationService.updateStaffInfo(updateStaffInfo).subscribe((updateInfo: any) => {
+        if (userUpdateFile) {
+          this.registrationService.updateStaffInfo(userUpdateFile).subscribe((updateInfo: any) => {
             this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
               this.staffDetails = this.global.tableIndex(staffDetails.data);
               for (let i = 0; i < this.staffDetails.length; i++) {

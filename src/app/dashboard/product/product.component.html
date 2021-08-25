@@ -79,16 +79,16 @@
                         <div class="table-responsive">
                             <table id="example" class="table width-100">
                                 <thead class="text">
-                                    <th>
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-65">#</div>
-                                            <div class="flex-even max-width-200">Category</div>
-                                            <div class="flex-even max-width-200">Product Name</div>
-                                            <div class="flex-even max-width-350">Technical Name</div>
-                                            <div class="flex-even">Raw Material Name</div>
-                                            <div class="flex-even max-width-200 justify-content-end">Action</div>
-                                        </div>
-                                    </th>
+                                    <tr>
+                                        <!-- <div class="d-flex"> -->
+                                            <td class="">#</td>
+                                            <td class="">Category</td>
+                                            <td class="">Product Name</td>
+                                            <td class="">Technical Name</td>
+                                            <td class="">Raw Material Name</td>
+                                            <td class="">Action</td>
+                                        <!-- </div> -->
+                                    </tr>
                                 </thead><br>
                                 <div *ngIf="isProgressBar" class="m-20 p-20">
                                     <mat-progress-bar mode="indeterminate">   

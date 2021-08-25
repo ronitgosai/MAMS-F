@@ -1,17 +1,22 @@
-<div class="row-title">
-    <div class="row">
-        <div class="col-md-6">
-            <button mat-flat-button class="save card-button" type="button"
-                (click)="currentTable = 'ongoing_production'">
+<div>
+    <mat-tab-group>
+        <!-- Raw Material -->
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <!-- <mat-icon class="fab fa-buromobelexperte"></mat-icon>&nbsp;&nbsp; -->
                 Ongoing Production
-            </button>
-        </div>
-        <div class="col-md-6">
-            <button mat-flat-button class="save card-button" type="button" (click)="currentTable = 'past_production'">
+            </ng-template>
+            <app-ongoing-production-report></app-ongoing-production-report>
+        </mat-tab>
+        <!-- Import Raw Material-->
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <!-- <mat-icon class="fab fa-buromobelexperte"></mat-icon>&nbsp;&nbsp; -->
                 Past Production
-            </button>
-        </div>
-    </div>
+            </ng-template>
+            <app-past-production-report></app-past-production-report>
+        </mat-tab>
+    </mat-tab-group>
 </div>
 <!-- ongoing production table -->
 <div class="rol ml-20 mr-20" *ngIf="currentTable === 'ongoing_production'">

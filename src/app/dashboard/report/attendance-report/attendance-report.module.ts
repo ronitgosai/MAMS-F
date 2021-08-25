@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AttendanceReportComponent } from './attendance-report.component';
+import { SharedModule } from 'app/shared.module';
 
 
 
@@ -9,7 +10,8 @@ import { AttendanceReportComponent } from './attendance-report.component';
     AttendanceReportComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SharedModule
   ],
   exports: [
     AttendanceReportComponent

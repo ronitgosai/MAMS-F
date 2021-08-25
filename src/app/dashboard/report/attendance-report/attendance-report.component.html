@@ -1,1 +1,70 @@
-<p>attendance-report works!</p>
+<div class="row ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="card-body">
+            <form [formGroup]="attendanceForm">
+                <h4 class="fs-18 fw-500">Staff</h4>
+                <div class="col-md-12">
+                    <mat-select class="line fs-15 fw-400" formControlName="staff_id"
+                        (selectionChange)="staffChange($event)" placeholder="Staff Name" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="staffFilterCtrl"
+                                placeholderLabel="Search here!"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let data of filteredStaff | async" [value]="data.staff_id">
+                            {{ data.staff_name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </form>
+            <div class="mt-2">
+                <button mat-flat-button type="reset" class="cancel pull-right mb-2 ml-2" data-toggle="collapse" data-target="#staff" (click)="cancel()">
+                    <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                </button>
+                <button mat-flat-button type="submit" class="save pull-right mb-2" data-toggle="collapse" data-target="#staff" (click)="getStaffList()">
+                    <span class="fas fa-save"></span>&nbsp;&nbsp;Search Staff
+                </button>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table collapse" id="staff">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold">#</th>
+                        <th class="font-weight-bold">Staff Name</th>
+                        <th class="font-weight-bold">Work Area Name</th>
+                        <th class="font-weight-bold">Shift</th>
+                        <th class="font-weight-bold">Salary</th>
+                        <th class="font-weight-bold">Mobile Network</th>
+                        <th class="font-weight-bold">Mobile Number</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="staffNameTable">
+                    <tr *ngFor="let data of staffName">
+                        <td>{{ data.index }}</td>
+                        <td>{{ data.staff_name }}</td>
+                        <td>{{ data.work_area_name }}</td>
+                        <td>{{ data.shift_name }}</td>
+                        <td>{{ data.staff_salary }} </td>
+                        <td>{{ data.master_network_service_provider_name }}</td>
+                        <td>{{ data.mobile_number }}</td>
+                    </tr>
+                </tbody>
+                <!-- <button type="button" class="btn" (click)="pdf()">PDF</button> -->
+                <tbody *ngIf="selectedStaffNameTable">
+                    <tr *ngFor="let data of selectedStaffName">
+                        <td>{{ data.index }}</td>
+                        <td>{{ data.staff_name }}</td>
+                        <td>{{ data.work_area_name }}</td>
+                        <td>{{ data.shift_name }}</td>
+                        <td>{{ data.staff_salary }} </td>
+                        <td>{{ data.master_network_service_provider_name }}</td>
+                        <td>{{ data.mobile_number }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- <button mat-flat-button type="button" class="save" (click)="rawMaterialPdf()">
+            <span class="fa fa-file-pdf fs-16"></span>&nbsp;&nbsp;<span>Export PDF</span>
+        </button> -->
+    </div>
+</div>
