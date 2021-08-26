@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="row col-md-12">
-                <mat-tab-group class="card">
+                <mat-tab-group class="card" (selectedTabChange)="tabChange($event)">
                     <!-- Salary -->
                     <mat-tab>
                         <ng-template mat-tab-label>

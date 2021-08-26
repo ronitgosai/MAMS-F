@@ -20,12 +20,18 @@
                                 <input matInput formControlName="categoryName" placeholder="Category Name">
                             </mat-form-field>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-2">
+                            <ngx-mat-color-toggle class="c-black fs-14 float-left" matSuffix [for]="picker"></ngx-mat-color-toggle>
+                        </div>
+                        <div class="col-md-2">
                             <mat-form-field class="form-field">
-                                <input matInput [ngxMatColorPicker]="picker" formControlName="categoryColor" placeholder="Category Color">
-                                <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+                                <input matInput [ngxMatColorPicker]="picker" [readonly]="true" formControlName="categoryColor" placeholder="Category Color">
                                 <ngx-mat-color-picker #picker></ngx-mat-color-picker>
                             </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <div style="height: 30px; width: 30px; border-radius: 20px" [ngStyle]="{'background-color': categoryForm.controls.categoryColor.value }">
+                            </div>
                         </div>
                     </div>
                     <div class="form-group"><br>
@@ -82,7 +88,11 @@
                                         <div class="d-flex">
                                             <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
                                             <div class="flex-even" appColor [data]="data.category_color">{{ data.category_name }}</div>
-                                            <div class="flex-even">{{ data.category_color }}</div>
+                                            <div class="flex-even" appColor [data]="data.category_color">                             
+                                                <div style="height: 30px; width: 30px; border-radius: 20px" [ngStyle]="{'background-color': data.category_color }">
+                                                </div>
+                                            </div>
+                                            
                                             <div class="flex-even justify-content-end">
                                                 <button mat-stroked-button data-toggle="collapse"
                                                     [attr.data-target]="'#categoryInfo' + i"

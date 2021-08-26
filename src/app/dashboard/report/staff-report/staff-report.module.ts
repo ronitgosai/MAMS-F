@@ -11,7 +11,7 @@ import { SharedModule } from 'app/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     StaffReportComponent

@@ -6,8 +6,7 @@
                     <span class="fs-20 fw-600">Staff</span>
                 </div>
                 <div class="col-md-6">
-                    <button mat-flat-button class="float-right save" type="button" data-toggle="collapse"
-                        id="collapseButton" data-target="#registration">
+                    <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" id="collapseButton" data-target="#registration">
                         <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Staff
                     </button>
                 </div>
@@ -21,8 +20,7 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <mat-form-field class="form-field">
-                                            <input matInput type="text" formControlName="staffName"
-                                                placeholder="Staff Name">
+                                            <input matInput type="text" formControlName="staffName" placeholder="Staff Name">
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-4">
@@ -30,16 +28,14 @@
                                             <mat-label>Work Area</mat-label>
                                             <mat-select formControlName="staffWorkAreaId">
                                                 <ng-container *ngFor="let data of workArea">
-                                                    <mat-option value="{{ data.work_area_id }}">{{ data.work_area_name
-                                                        }}</mat-option>
+                                                    <mat-option value="{{ data.work_area_id }}">{{ data.work_area_name }}</mat-option>
                                                 </ng-container>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-4">
                                         <mat-form-field class="form-field" [formGroup]="userForm">
-                                            <input matInput formControlName="staffSalary" (keyup)="printNumber()"
-                                                placeholder="Salary">
+                                            <input matInput formControlName="staffSalary" (keyup)="printNumber()" placeholder="Salary">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -49,7 +45,8 @@
                                             <mat-label>Shift</mat-label>
                                             <mat-select formControlName="staffShiftId">
                                                 <ng-container *ngFor="let data of shiftDetails">
-                                                    <mat-option value="{{ data.shift_id }}">{{ data.shift_name }}
+                                                    <mat-option value="{{ data.shift_id }}">
+                                                        {{ data.shift_name }}
                                                     </mat-option>
                                                 </ng-container>
                                             </mat-select>
@@ -61,28 +58,23 @@
                                             <mat-select formControlName="staffMobileServiceProviderId">
                                                 <ng-container *ngFor="let data of netWorkServiceProvider">
                                                     <mat-option value="{{ data.	master_network_service_provider_id }}">
-                                                        {{ data.master_network_service_provider_name }}</mat-option>
+                                                        {{ data.master_network_service_provider_name }}
+                                                    </mat-option>
                                                 </ng-container>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-4">
                                         <mat-form-field class="form-field" [formGroup]="userForm">
-                                            <input matInput formControlName="staffMobileNumber"
-                                                placeholder="Mobile Number">
+                                            <input matInput formControlName="staffMobileNumber" placeholder="Mobile Number">
                                         </mat-form-field>
                                     </div>
                                 </div>
                             </form>
-                            <input class="form-control width-32" type="file" id="files" (change)="onFilePicked($event)"
-                                name="">
-                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span
-                                    class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                            <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse"
-                                data-target="#registration"><span
-                                    class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                            <button mat-flat-button type="button" class="save pull-right" (click)="insertStaff()"><span
-                                    class="fas fa-save"></span>&nbsp;&nbsp;Add Staff</button>
+                            <input class="form-control width-32" type="file" id="files" (change)="onFilePicked($event)" name="">
+                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                            <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse" data-target="#registration"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button mat-flat-button type="button" class="save pull-right" (click)="insertStaff()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Staff</button>
                         </div>
                     </div>
                 </div>
@@ -93,9 +85,7 @@
                 <div class="col-md-12">
                     <div class="card-body">
                         <div class="col-md-12">
-                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text'
-                                name="staffName" [(ngModel)]="staffName" (ngModelChange)="search()"
-                                placeholder="Search Staff Name">
+                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="staffName" [(ngModel)]="staffName" (ngModelChange)="search()" placeholder="Search Staff Name">
                             </mat-search-bar>
                         </div><br><br>
                         <div class="table-responsive">
@@ -121,7 +111,7 @@
                                         </mat-progress-bar>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="staffDetails.length === 0">
+                                <ng-container *ngIf="isData">
                                     <div class="align-items-center m-20 text-center">
                                         <p class="fs-16 fw-400">No Data Available.</p>
                                     </div>
@@ -133,33 +123,21 @@
                                             <td>
                                                 <div class="top_row">
                                                     <div class="d-flex">
-                                                        <div class="align-items-center d-flex min-width-65">{{
-                                                            data.index }}</div>
-                                                        <div class="flex-even justify-content-start">{{ data.staff_name
-                                                            }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.work_area_name }}</div>
-                                                        <div class="flex-even justify-content-start">{{ data.shift_name
-                                                            }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.staff_salary }} </div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.master_network_service_provider_name }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.mobile_number }}</div>
+                                                        <div class="align-items-center d-flex min-width-65">{{ data.index }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.staff_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.work_area_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.shift_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.staff_salary }} </div>
+                                                        <div class="flex-even justify-content-start">{{ data.master_network_service_provider_name }}</div>
+                                                        <div class="flex-even justify-content-start">{{ data.mobile_number }}</div>
                                                         <div class="flex-even justify-content-start">
                                                             <button mat-flat-button type="button" data-toggle="modal" [attr.data-target]="'#viewIdProof'+i">
                                                                 <i class="fas fa-eye"></i>
                                                             </button>
                                                         </div>
                                                         <div class="flex-even justify-content-end">
-                                                            <button mat-stroked-button data-toggle="collapse"
-                                                                [attr.data-target]="'#staffInfo' + i"
-                                                                (click)="editStaffInfo(data.staff_id,i)"><span
-                                                                    class="fa fa-pen c-blue"></span></button><br>
-                                                            <button mat-stroked-button class="ml-3"
-                                                                (click)="deleteStaffDetails(data.staff_id, data.staff_name)"><span
-                                                                    class="fa fa-trash c-red"></span></button>
+                                                            <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#staffInfo' + i" (click)="editStaffInfo(data.staff_id,i)"><span class="fa fa-pen c-blue"></span></button><br>
+                                                            <button mat-stroked-button class="ml-3" (click)="deleteStaffDetails(data.staff_id, data.staff_name)"><span class="fa fa-trash c-red"></span></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -170,16 +148,12 @@
                                                                 <form class="updatedUserForm"
                                                                     [formGroup]="updatedUserForm">
                                                                     <div class="col-md-12">
-                                                                        <span class="fs-16 fw-500">Please enter update
-                                                                            staff information for above
-                                                                            details.<br><br></span>
+                                                                        <span class="fs-16 fw-500">Please enter update staff information for above details.<br><br></span>
                                                                     </div>
                                                                     <div class="row pt-10">
                                                                         <div class="col-md-3">
                                                                             <mat-form-field class="form-field">
-                                                                                <input matInput type="text"
-                                                                                    formControlName="updateStaffName"
-                                                                                    placeholder="Staff Name">
+                                                                                <input matInput type="text" formControlName="updateStaffName" placeholder="Staff Name">
                                                                             </mat-form-field>
                                                                         </div>
                                                                         <div class="col-md-3 mt-12">
@@ -189,8 +163,7 @@
                                                                                     formControlName="updateStaffWorkAreaId">
                                                                                     <ng-container
                                                                                         *ngFor="let data of workArea">
-                                                                                        <mat-option
-                                                                                            value="{{ data.work_area_id }}">
+                                                                                        <mat-option value="{{ data.work_area_id }}">
                                                                                             {{ data.work_area_name }}
                                                                                         </mat-option>
                                                                                     </ng-container>
@@ -199,20 +172,15 @@
                                                                         </div>
                                                                         <div class="col-md-3">
                                                                             <mat-form-field class="form-field">
-                                                                                <input matInput
-                                                                                    formControlName="updateStaffSalary"
-                                                                                    placeholder="Salary">
+                                                                                <input matInput formControlName="updateStaffSalary" placeholder="Salary">
                                                                             </mat-form-field>
                                                                         </div>
                                                                         <div class="col-md-3 mt-12">
                                                                             <mat-form-field appearance="fill">
                                                                                 <mat-label>Shift</mat-label>
-                                                                                <mat-select
-                                                                                    formControlName="updateStaffShiftId">
-                                                                                    <ng-container
-                                                                                        *ngFor="let data of shiftDetails">
-                                                                                        <mat-option
-                                                                                            value="{{ data.shift_id }}">
+                                                                                <mat-select formControlName="updateStaffShiftId">
+                                                                                    <ng-container *ngFor="let data of shiftDetails">
+                                                                                        <mat-option value="{{ data.shift_id }}">
                                                                                             {{ data.shift_name }}
                                                                                         </mat-option>
                                                                                     </ng-container>
@@ -224,44 +192,27 @@
                                                                         <div class="col-md-4 mt-12">
                                                                             <mat-form-field appearance="fill">
                                                                                 <mat-label>Mobile Network</mat-label>
-                                                                                <mat-select
-                                                                                    formControlName="updateStaffMobileServiceProviderId">
-                                                                                    <ng-container
-                                                                                        *ngFor="let data of netWorkServiceProvider">
-                                                                                        <mat-option
-                                                                                            value="{{ data.	master_network_service_provider_id }}">
-                                                                                            {{
-                                                                                            data.master_network_service_provider_name
-                                                                                            }}</mat-option>
+                                                                                <mat-select formControlName="updateStaffMobileServiceProviderId">
+                                                                                    <ng-container *ngFor="let data of netWorkServiceProvider">
+                                                                                        <mat-option value="{{ data.	master_network_service_provider_id }}">
+                                                                                            {{ data.master_network_service_provider_name }}
+                                                                                        </mat-option>
                                                                                     </ng-container>
                                                                                 </mat-select>
                                                                             </mat-form-field>
                                                                         </div>
                                                                         <div class="col-4">
                                                                             <mat-form-field class="form-field">
-                                                                                <input matInput
-                                                                                    formControlName="updateStaffMobileNumber"
-                                                                                    placeholder="Mobile Number">
+                                                                                <input matInput formControlName="updateStaffMobileNumber" placeholder="Mobile Number">
                                                                             </mat-form-field>
                                                                         </div>
                                                                         <div class="col-md-4 mt-4">
-                                                                            <input id="singleFile" type="file"
-                                                                                formControlName="updateStaffIdProof" />
+                                                                            <input id="singleFile" type="file" formControlName="updateStaffIdProof" />
                                                                         </div>
                                                                     </div>
-                                                                    <button type="reset" mat-flat-button
-                                                                        class="reset pull-right ml-2 c-b"><span
-                                                                            class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                                                    <button type="reset" mat-flat-button
-                                                                        class="cancel pull-right ml-2"
-                                                                        data-toggle="collapse"
-                                                                        [attr.data-target]="'#staffInfo' + i"><span
-                                                                            class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                                    <button type="button" mat-flat-button
-                                                                        class="save pull-right"
-                                                                        (click)="updateStaffInfo(data.staff_id)"><span
-                                                                            class="fas fa-save"></span>&nbsp;&nbsp;Update
-                                                                        Staff</button>
+                                                                    <button type="reset" mat-flat-button class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                                    <button type="reset" mat-flat-button class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#staffInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                                    <button type="button" mat-flat-button class="save pull-right" (click)="updateStaffInfo(data.staff_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Staff</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -277,10 +228,10 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <img src="https://backend.modernagrichem.com/staff/"{{ data.staff_id_proof}} width="400px">
+                                                                <img src="https://backend.modernagrichem.com/staff/{{ data.staff_id_proof}}" width="400px">
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-dark ctrlBtn" data-dismiss="modal"><i class="fas fa-close"></i>Close</button>
+                                                                <button type="button" class="btn btn-dark ctrlBtn" data-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -296,8 +247,7 @@
                                         <div class="col-md-6 z-index-9">
                                             <mat-form-field appearance="fill" class="width-22 f-r">
                                                 <mat-label>Entries per page</mat-label>
-                                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
-                                                    [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
                                                     <mat-option value="10">10</mat-option>
                                                     <mat-option value="20">20</mat-option>
                                                     <mat-option value="35">35</mat-option>

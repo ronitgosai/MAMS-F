@@ -10,7 +10,7 @@
   width: 100% !important;
 }
 .table-responsive {
-  overflow: hidden !important;
+  overflow: auto !important;
 }
 .flex-even {
   flex: 1 !important;
@@ -32,8 +32,12 @@
   border-bottom: 1px solid;
 }
 
+.whitespace{
+  white-space: nowrap !important;
+}
+
 .overflow-hidden {
-  overflow: hidden !important;
+  overflow: auto !important;
 }
 
 .cursor-pointer {
@@ -106,7 +110,7 @@
 }
 
 .access {
-  // overflow: hidden !important;
+  // overflow: auto !important;
   margin-top: 25px !important;
   min-height: calc(100vh - 480px);
   h3 {

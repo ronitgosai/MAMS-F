@@ -1,0 +1,123 @@
+<!-- product table -->
+<div class="ml-20 mr-20">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="userForm">
+                    <h4 class="fs-18 fw-500">User</h4>
+                    <div class="col-md-12">
+                        <mat-select class="line fs-15 fw-400" formControlName="user_id" (selectionChange)="userChange($event)" placeholder="User Name" #singleSelect>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Search here!">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of filteredUser | async" [value]="data.user_id">
+                                {{ data.full_name }}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </form>
+                <div class="mt-2">
+                    <button mat-flat-button type="reset" class="cancel pull-right mb-2 ml-2" data-toggle="collapse" data-target="#user" (click)="cancel()">
+                        <span class="fas fa-times"></span>&nbsp;&nbsp;Cancel
+                    </button>
+                    <button mat-flat-button type="submit" class="save pull-right mb-2" data-toggle="collapse" data-target="#user" (click)="getUserList()">
+                        <span class="fas fa-save"></span>&nbsp;&nbsp;Search User
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="collapse" id="user">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="font-weight-bold">#</th>
+                            <th class="font-weight-bold">User Role</th>
+                            <th class="font-weight-bold">Full Name</th>
+                            <th class="font-weight-bold">Username</th>
+                            <th class="font-weight-bold">Email</th>
+                            <th class="font-weight-bold">Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="userTable">
+                        <tr *ngFor="let data of user">
+                            <td>
+                                {{ data.index }}
+                            </td>
+                            <td>
+                                <ng-container>
+                                    <div
+                                        *ngIf="data.user_role == '397A244226452948404D635166546A576E5A7234753778214125442A462D4A61'">
+                                        Admin</div>
+                                    <div
+                                        *ngIf="data.user_role == '733676397924423F4528482B4D6251655468576D5A7134743777217A25432A46'">
+                                        Account</div>
+                                    <div
+                                        *ngIf="data.user_role == '58703273357638792F423F4428472B4B6250655368566D597133743677397A24'">
+                                        Production</div>
+                                    <div
+                                        *ngIf="data.user_role == '66556A586E3272357538782F413F442A472D4B6150645367566B597033733676'">
+                                        Sell</div>
+                                    <div
+                                        *ngIf="data.user_role == '4D635166546A576E5A7234753778214125432A462D4A614E645267556B587032'">
+                                        Staff</div>
+                                </ng-container>
+                            </td>
+                            <td>
+                                {{ data.full_name }}
+                            </td>
+                            <td>
+                                {{ data.username }}
+                            </td>
+                            <td>
+                                {{ data.user_email }}
+                            </td>
+                            <td>
+                                {{ data.user_contact }}
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="selectUserTable">
+                        <tr *ngFor="let data of selectUser">
+                            <td>
+                                {{ data.index }}
+                            </td>
+                            <td>
+                                <ng-container>
+                                    <div
+                                        *ngIf="data.user_role == '397A244226452948404D635166546A576E5A7234753778214125442A462D4A61'">
+                                        Admin</div>
+                                    <div
+                                        *ngIf="data.user_role == '733676397924423F4528482B4D6251655468576D5A7134743777217A25432A46'">
+                                        Account</div>
+                                    <div
+                                        *ngIf="data.user_role == '58703273357638792F423F4428472B4B6250655368566D597133743677397A24'">
+                                        Production</div>
+                                    <div
+                                        *ngIf="data.user_role == '66556A586E3272357538782F413F442A472D4B6150645367566B597033733676'">
+                                        Sell</div>
+                                    <div
+                                        *ngIf="data.user_role == '4D635166546A576E5A7234753778214125432A462D4A614E645267556B587032'">
+                                        Staff</div>
+                                </ng-container>
+                            </td>
+                            <td>
+                                {{ data.full_name }}
+                            </td>
+                            <td>
+                                {{ data.username }}
+                            </td>
+                            <td>
+                                {{ data.user_email }}
+                            </td>
+                            <td>
+                                {{ data.user_contact }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

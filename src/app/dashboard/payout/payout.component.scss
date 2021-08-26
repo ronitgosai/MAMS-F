@@ -6,7 +6,7 @@
     }
     .table-custome {
         width: 100% !important;
-        overflow: hidden !important;
+        overflow: auto !important;
     }
     .date-picker {
         width: 200% !important;
@@ -27,7 +27,7 @@
         border-bottom: 1px solid !important;
     }
     .hidden{
-        overflow: hidden !important;
+        overflow: auto !important;
     }
 }
 ::ng-deep {

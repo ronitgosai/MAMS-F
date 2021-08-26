@@ -58,6 +58,7 @@ export class AdvanceSalaryComponent implements OnInit {
   public filteredStaff: ReplaySubject<any[]> = new ReplaySubject<any[]>();
 
   ngOnInit(): void {
+    console.log("LOAD COMPONET")
     this.isTable = false;
     this.isProgressBar = true;
     this.isData = false;

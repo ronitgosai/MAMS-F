@@ -9,7 +9,7 @@ import { SalaryReportComponent } from './salary-report.component';
     SalaryReportComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ],
   exports: [
     SalaryReportComponent

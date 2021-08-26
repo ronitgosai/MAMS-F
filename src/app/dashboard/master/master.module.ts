@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RawMaterialModule } from './raw-material/raw-material.module';
 import { InventoryModule } from './inventory/inventory.module';
+import { RoleComponent } from './role/role.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     MasterComponent,
+    RoleComponent,
   ],
   imports: [
     CommonModule,

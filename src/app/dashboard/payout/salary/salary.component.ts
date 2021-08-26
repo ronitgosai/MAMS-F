@@ -191,7 +191,9 @@ export class SalaryComponent implements OnInit {
       'salary': Number(this.salaryForm.get('salary').value.split(',').join('')),
       'session_id': localStorage.getItem('session_id'),
       'created_date': this.global.getDateZone(),
-      'created_time': this.global.getTimeZone()
+      'created_time': this.global.getTimeZone(),
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
     }
     if (this.salaryForm.valid) {
       this.salaryService.createSalary(salaryInfo).subscribe((insertSalary: any) => {
@@ -209,13 +211,8 @@ export class SalaryComponent implements OnInit {
             this.isData = true;
           }
         })
-        let updateAdvanceSalaryInfo = {
-          'staff_id': this.salaryForm.get('staffId').value,
-          'session_id': localStorage.getItem('session_id'),
-          'updated_date': this.global.getDateZone(),
-          'updated_time': this.global.getTimeZone()
-        }
-        this.advanceSalaryService.updateAdvanceSalary(updateAdvanceSalaryInfo).subscribe(updateAdvanceSalary => {
+        this.advanceSalaryService.updateAdvanceSalary(salaryInfo).subscribe(updateAdvanceSalary => {
+          console.log(updateAdvanceSalary)
         })
         this.salaryDetail.map((d, index) => {
           let salaryAdvanceSalaryInfo = {

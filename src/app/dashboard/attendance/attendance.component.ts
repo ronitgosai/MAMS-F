@@ -67,6 +67,7 @@ export class AttendanceComponent implements OnInit {
   i: any;
 
   ngOnInit(): void {
+    this.isStaffTable = false;
     const now = new Date();
     let date = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     this.currentMonthDays = date
@@ -115,13 +116,13 @@ export class AttendanceComponent implements OnInit {
     this.attendanceService.getAttendance(staffDetailsInfo).subscribe((attendance: any) => {
       this.attendanceDetails = this.global.tableIndex(attendance.data);
       this.isProgressBar = false;
-      // if (this.attendanceDetails.length > 0) {
-      //   this.isData = false;
-      //   this.isTable = true;
-      // } else if (this.attendanceDetails.length === 0) {
-      //   this.isTable = false;
-      //   this.isData = true;
-      // }
+      if (this.attendanceDetails.length > 0) {
+        this.isData = false;
+        this.isTable = true;
+      } else if (this.attendanceDetails.length === 0) {
+        this.isTable = false;
+        this.isData = true;
+      }
       this.getDay();
     })
   }
@@ -194,6 +195,8 @@ export class AttendanceComponent implements OnInit {
     }
   }
 
+  pagination(event){}
+
   insertStaff() {
     this.isProgressBar = true;
     if (this.attendanceForm.valid) {
@@ -215,6 +218,8 @@ export class AttendanceComponent implements OnInit {
           this.isProgressBar = false;
         })
       })
+      this.attendanceForm.reset();
+      this.isStaffTable = false;
       document.getElementById('collapseButton').click();
       this.toastr.success("Attendance fill successfully!")
     }

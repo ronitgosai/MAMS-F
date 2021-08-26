@@ -6,8 +6,7 @@
                     <span class="fs-20 fw-600 p-20">Attendance</span>
                 </div>
                 <div class="col-md-6"><br>
-                    <button mat-flat-button class="float-right save" type="button" data-toggle="collapse"
-                        id="collapseButton" data-target="#registration">
+                    <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" id="collapseButton" data-target="#registration">
                         <span class="fas fa-plus"></span>&nbsp;&nbsp;Attendance
                     </button>
                 </div>
@@ -22,15 +21,11 @@
                                     <div class="col-md-3">
                                         <mat-form-field class="form-field">
                                             <mat-label>Staff</mat-label>
-                                            <mat-select class="fs-15 fw-400" formControlName="staffId"
-                                                (selectionChange)="staffNameChange($event)" placeholder="Staff Name"
-                                                #singleSelect>
+                                            <mat-select class="fs-15 fw-400" formControlName="staffId" (selectionChange)="staffNameChange($event)" placeholder="Staff Name" #singleSelect>
                                                 <mat-option>
-                                                    <ngx-mat-select-search [formControl]="staffFilterCtrl"
-                                                        placeholderLabel="Search here!"></ngx-mat-select-search>
+                                                    <ngx-mat-select-search [formControl]="staffFilterCtrl" placeholderLabel="Search here!"></ngx-mat-select-search>
                                                 </mat-option>
-                                                <mat-option *ngFor="let data of filteredStaff | async"
-                                                    [value]="data.staff_id">
+                                                <mat-option *ngFor="let data of filteredStaff | async" [value]="data.staff_id">
                                                     {{ data.staff_name }}
                                                 </mat-option>
                                             </mat-select>
@@ -41,7 +36,8 @@
                                             <mat-label>Working Shift</mat-label>
                                             <mat-select formControlName="staffWorkingShift">
                                                 <ng-container *ngFor="let data of shiftDetails">
-                                                    <mat-option value="{{ data.	shift_id }}">{{ data.shift_name }}
+                                                    <mat-option value="{{ data.	shift_id }}">
+                                                        {{ data.shift_name }}
                                                     </mat-option>
                                                 </ng-container>
                                             </mat-select>
@@ -63,15 +59,13 @@
                                                 <div class="col-md-6">
                                                     <mat-form-field class="form-field">
                                                         <mat-label>Shift</mat-label>
-                                                        <input matInput [readonly]="true" formControlName="shiftName"
-                                                            [value]="data.shift_name">
+                                                        <input matInput [readonly]="true" formControlName="shiftName" [value]="data.shift_name">
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <mat-form-field class="form-field">
                                                         <mat-label>Salary</mat-label>
-                                                        <input matInput [readonly]="true" formControlName="staffSalary"
-                                                            [value]="data.staff_salary">
+                                                        <input matInput [readonly]="true" formControlName="staffSalary" [value]="data.staff_salary">
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -79,22 +73,19 @@
                                                 <div class="col-md-4">
                                                     <mat-form-field class="form-field">
                                                         <mat-label>Department</mat-label>
-                                                        <input matInput [readonly]="true" formControlName="workAreaName"
-                                                            [value]="data.work_area_name">
+                                                        <input matInput [readonly]="true" formControlName="workAreaName" [value]="data.work_area_name">
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <mat-form-field class="form-field">
                                                         <mat-label>Mobile Network Name</mat-label>
-                                                        <input matInput [readonly]="true" formControlName="masterNetworkServiceProviderName"
-                                                            [value]="data.master_network_service_provider_name">
+                                                        <input matInput [readonly]="true" formControlName="masterNetworkServiceProviderName" [value]="data.master_network_service_provider_name">
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <mat-form-field class="form-field">
                                                         <mat-label>Mobile Number</mat-label>
-                                                        <input matInput [readonly]="true" formControlName="number"
-                                                            [value]="data.mobile_number">
+                                                        <input matInput [readonly]="true" formControlName="number" [value]="data.mobile_number">
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -102,14 +93,9 @@
                                     </form>
                                 </ng-container>
                                 <br>
-                                <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span
-                                        class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                <button mat-flat-button type="reset" class="cancel pull-right ml-2"
-                                    data-toggle="collapse" data-target="#registration"><span
-                                        class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                <button mat-flat-button type="button" class="save pull-right"
-                                    (click)="insertStaff()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add
-                                    Attendance</button>
+                                <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse" data-target="#registration"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                <button mat-flat-button type="button" class="save pull-right" (click)="insertStaff()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Attendance</button>
                             </form>
                         </div>
                     </div>
@@ -121,88 +107,72 @@
                 <div class="col-md-12">
                     <div class="card-body">
                         <div class="col-md-12">
-                            <mat-search-bar class="form-group m-0 m-5 f-r" name="staffName" [(ngModel)]="staffName"
-                                (ngModelChange)="search()" placeholder="Search Staff Name">
+                            <mat-search-bar class="form-group m-0 m-5 f-r" name="staffName" [(ngModel)]="staffName" (ngModelChange)="search()" placeholder="Search Staff Name">
                             </mat-search-bar>
                         </div><br><br>
-                        <div class="table-responsive">
-                            <table id="example" class="table width-100">
+                        <div class="table-responsive whitespace">
+                            <table class="table width-100">
                                 <thead class="text">
-                                    <th>
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-65">#</div>
-                                            <div class="flex-even justify-content-start">Staff Name</div>
-                                            <div class="flex-even justify-content-start">Date</div>
-                                            <div class="flex-even justify-content-start">Time</div>
-                                            <div class="flex-even justify-content-start">Shift</div>
-                                            <div class="flex-even justify-content-start">Day</div>
-                                            <div class="flex-even justify-content-end">Action</div>
-                                        </div>
-                                    </th>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Staff Name</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Shift</th>
+                                        <th>Day</th>
+                                        <th>Action</th>
+                                    </tr>
                                 </thead><br>
                                 <ng-container *ngIf="isProgressBar">
-                                    <div class="m-20 p-20">
-                                        <mat-progress-bar mode="indeterminate">
-                                        </mat-progress-bar>
-                                    </div>
+                                    <tr class="border-none">
+                                        <td colspan="7"> 
+                                            <mat-progress-bar mode="indeterminate">   
+                                            </mat-progress-bar>
+                                        </td>
+                                    </tr>
                                 </ng-container>
                                 <ng-container *ngIf="attendanceDetails.length === 0">
-                                    <div class="align-items-center m-20 text-center">
-                                        <p class="fs-16 fw-400">No Data Available.</p>
-                                    </div>
+                                    <tr class="align-items-center m-20 text-center">
+                                        <td colspan="7"> 
+                                            <p class="fs-16 fw-400">No Data Available.</p>
+                                        </td>
+                                    </tr>
                                 </ng-container>
                                 <ng-container *ngIf="isTable">
                                     <tbody>
-                                        <tr
-                                            *ngFor="let data of attendanceDetails | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                        <tr *ngFor="let data of attendanceDetails | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                            <td>{{ data.index }}</td>
+                                            <td>{{ data.staff_name }}</td>
+                                            <td>{{ data.date | date:'dd/MMMM/yyyy' }}</td>
+                                            <td>{{ data.time }}</td>
+                                            <td>{{ data.shift_name }}</td>
+                                            <td>{{ count[i].count }} / {{ currentMonthDays }}</td>
                                             <td>
-                                                <!-- {{ data | json }} -->
-                                                <div class="top_row">
-                                                    <div class="d-flex">
-                                                        <div class="align-items-center d-flex min-width-65">{{
-                                                            data.index }}</div>
-                                                        <div class="flex-even justify-content-start">{{ data.staff_name
-                                                            }}</div>
-                                                        <div class="flex-even justify-content-start">{{ data.date |
-                                                            date:'dd/MMMM/yyyy' }}</div>
-                                                        <div class="flex-even justify-content-start">{{ data.time }}
-                                                        </div>
-                                                        <div class="flex-even justify-content-start">{{ data.shift_name
-                                                            }}</div>
-                                                        <div class="flex-even justify-content-start">
-                                                            {{ count[i].count }} / {{ currentMonthDays }}
-                                                        </div>
-                                                        <div class="flex-even justify-content-end">
-                                                            <button mat-stroked-button class="ml-3"
-                                                                (click)="deleteStaffDetails(data.staff_id, data.staff_name)"><span
-                                                                    class="fa fa-trash c-red"></span></button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <button mat-stroked-button class="ml-3" (click)="deleteStaffDetails(data.staff_id, data.staff_name)"><span class="fa fa-trash c-red"></span></button>
                                             </td>
                                         </tr><br>
                                     </tbody><br>
-                                    <div class="row">
-                                        <div class="col-md-6 mt-3">
-                                            <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
-                                            </pagination-controls>
-                                        </div>
-                                        <div class="col-md-6 z-index-9">
-                                            <mat-form-field appearance="fill" class="width-22 f-r">
-                                                <mat-label>Entries per page</mat-label>
-                                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
-                                                    [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                                    <mat-option value="10">10</mat-option>
-                                                    <mat-option value="20">20</mat-option>
-                                                    <mat-option value="35">35</mat-option>
-                                                    <mat-option value="40">40</mat-option>
-                                                    <mat-option value="50">50</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
                                 </ng-container>
                             </table>
+                            <div class="row width-100 responsive">
+                                <div class="col-md-6 mt-3">
+                                    <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
+                                    </pagination-controls>
+                                </div>
+                                <div class="col-md-6 z-index-9">
+                                    <mat-form-field appearance="fill" class="width-22 f-r">
+                                        <mat-label>Entries per page</mat-label>
+                                        <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
+                                            [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="35">35</mat-option>
+                                            <mat-option value="40">40</mat-option>
+                                            <mat-option value="50">50</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InventoryReportComponent } from './inventory-report.component';
 import { SharedModule } from 'app/shared.module';
 import { ImportInventoryReportModule } from './import-inventory-report/import-inventory-report.module';
+import { InventoryModule } from './inventory/inventory.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,7 @@ import { ImportInventoryReportModule } from './import-inventory-report/import-in
   ],
   imports: [
     CommonModule,
-    // InventoryModule,
+    InventoryModule,
     ImportInventoryReportModule,
     SharedModule,
   ],
