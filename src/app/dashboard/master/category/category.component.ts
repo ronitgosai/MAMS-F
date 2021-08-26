@@ -28,6 +28,7 @@ export class CategoryComponent implements OnInit {
   category = [];
   categoryBackup = [];
 
+
   isProgressBar: boolean;
 
   oldCardIndex: any;
@@ -35,6 +36,7 @@ export class CategoryComponent implements OnInit {
   p: any = '1';
   entriesPerPage: any = '10';
   value = 'Clear me';
+  pickerColor;
 
   ngOnInit(): void {
     this.isProgressBar = true;
@@ -69,13 +71,16 @@ export class CategoryComponent implements OnInit {
     }
   }
 
+  // colorChange()
+
   pagination(event) {
   }
 
   insertCategory() {
+    this.pickerColor = this.categoryForm.get('categoryColor').value.hex;
     let category = {
       'category_name': this.categoryForm.get('categoryName').value,
-      'category_color': this.categoryForm.get('categoryColor').value.hex,
+      'category_color': '#' + this.categoryForm.get('categoryColor').value.hex,
       'session_id': localStorage.getItem('session_id'),
       'created_date': this.global.getDateZone(),
       'created_time': this.global.getTimeZone()

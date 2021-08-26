@@ -29,24 +29,22 @@
             <table class="table collapse" id="staff">
                 <thead>
                     <tr>
-                        <th class="font-weight-bold">#</th>
-                        <th class="font-weight-bold">Staff Name</th>
-                        <th class="font-weight-bold">Work Area Name</th>
-                        <th class="font-weight-bold">Shift</th>
-                        <th class="font-weight-bold">Salary</th>
-                        <th class="font-weight-bold">Mobile Network</th>
-                        <th class="font-weight-bold">Mobile Number</th>
+                        <th>#</th>
+                        <th>Staff Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Shift</th>
+                        <th>Day</th>
                     </tr>
                 </thead>
                 <tbody *ngIf="staffNameTable">
                     <tr *ngFor="let data of staffName">
                         <td>{{ data.index }}</td>
                         <td>{{ data.staff_name }}</td>
-                        <td>{{ data.work_area_name }}</td>
+                        <td>{{ data.date | date:'dd/MMMM/yyyy' }}</td>
+                        <td>{{ data.time }}</td>
                         <td>{{ data.shift_name }}</td>
-                        <td>{{ data.staff_salary }} </td>
-                        <td>{{ data.master_network_service_provider_name }}</td>
-                        <td>{{ data.mobile_number }}</td>
+                        <td>{{ count[i].count }} / {{ currentMonthDays }}</td>
                     </tr>
                 </tbody>
                 <!-- <button type="button" class="btn" (click)="pdf()">PDF</button> -->

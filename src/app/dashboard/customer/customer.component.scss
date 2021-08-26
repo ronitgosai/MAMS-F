@@ -2,7 +2,7 @@
   margin-top: -20px;
   .table-custom {
     width: 100% !important;
-    overflow: hidden !important;
+    overflow: auto !important;
   }
   .top_row {
     display: table;
@@ -15,7 +15,7 @@
   }
 }
 .access {
-  // overflow: hidden !important;
+  // overflow: auto !important;
   margin-top: 25px !important;
   min-height: calc(100vh - 480px);
   h3{

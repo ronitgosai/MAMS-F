@@ -49,10 +49,11 @@ export class RegistrationComponent implements OnInit {
   salary: any;
 
   isProgressBar: boolean;
+  isData: boolean;
 
   ngOnInit(): void {
     this.isProgressBar = true;
-
+    this.isData = false;
     this.userForm = this.formBuilder.group({
       staffName: ['', [Validators.required]],
       staffWorkAreaId: ['', [Validators.required]],
@@ -89,6 +90,11 @@ export class RegistrationComponent implements OnInit {
         this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
       }
       this.isProgressBar = false;
+      if(this.staffDetails.length > 0){
+        this.isData = false;
+      }else{
+        this.isData = true;
+      }
     })
   }
 
@@ -177,6 +183,11 @@ export class RegistrationComponent implements OnInit {
             this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
           }
           this.isProgressBar = false;
+          if(this.staffDetails.length > 0){
+            this.isData = false;
+          }else{
+            this.isData = true;
+          }
         })
       })
       this.userForm.reset();
@@ -248,6 +259,11 @@ export class RegistrationComponent implements OnInit {
                 this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
               }
               this.isProgressBar = false;
+              if(this.staffDetails.length > 0){
+                this.isData = false;
+              }else{
+                this.isData = true;
+              }
             })
           })
         }
@@ -299,6 +315,11 @@ export class RegistrationComponent implements OnInit {
               this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
             }
             this.isProgressBar = false;
+            if(this.staffDetails.length > 0){
+              this.isData = false;
+            }else{
+              this.isData = true;
+            }
           })
         })
         Swal.fire({

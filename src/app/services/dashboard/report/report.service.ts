@@ -108,4 +108,8 @@ export class ReportService {
   getStaff(id){
     return this.http.post(environment.api_url + "/report/get_staff_list", id);
   }
+
+  get_attendance_list(id){
+    return this.http.post(environment.api_url + "/report/get_attendance_list", id);
+  }
 }

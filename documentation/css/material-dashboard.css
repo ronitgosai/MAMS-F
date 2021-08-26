@@ -152,7 +152,7 @@ samp {
 pre {
   margin-top: 0;
   margin-bottom: 1rem;
-  overflow: auto;
+  overflow: hidden;
   -ms-overflow-style: scrollbar; }
 
 figure {
@@ -233,7 +233,7 @@ input[type="month"] {
   -webkit-appearance: listbox; }
 
 textarea {
-  overflow: auto;
+  overflow: hidden;
   resize: vertical; }
 
 fieldset {
@@ -467,7 +467,7 @@ samp {
 pre {
   margin-top: 0;
   margin-bottom: 1rem;
-  overflow: auto;
+  overflow: hidden;
   -ms-overflow-style: scrollbar; }
 
 figure {
@@ -548,7 +548,7 @@ input[type="month"] {
   -webkit-appearance: listbox; }
 
 textarea {
-  overflow: auto;
+  overflow: hidden;
   resize: vertical; }
 
 fieldset {
@@ -12849,7 +12849,7 @@ h2.title {
   .sidebar .sidebar-wrapper {
     position: relative;
     height: calc(100vh - 75px);
-    overflow: auto;
+    overflow: hidden;
     width: 260px;
     z-index: 4;
     padding-bottom: 30px; }
@@ -15324,7 +15324,7 @@ Copyright (c) 2015 Daniel Eden
 .ps-container {
   -ms-touch-action: auto;
   touch-action: auto;
-  overflow: hidden !important;
+  overflow: auto !important;
   -ms-overflow-style: none; }
 
 @supports (-ms-overflow-style: none) {

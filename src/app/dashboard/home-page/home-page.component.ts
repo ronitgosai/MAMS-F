@@ -92,6 +92,7 @@ export class HomePageComponent implements OnInit {
   getProduction() {
     this.productionService.getProduction().subscribe((productionInfo: any) => {
       this.production = this.global.tableIndex(productionInfo.data);
+      console.log(this.production)
     })
   }
 

@@ -4,6 +4,7 @@ import { CategoryComponent } from './category.component';
 import { SharedModule } from 'app/shared.module';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { ColorPickerModule } from 'ngx-color-picker';
+// import {ColorPickerModule} from 'angular2-color-picker';
 @NgModule({
   declarations: [
     CategoryComponent
@@ -11,6 +12,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
   imports: [
     CommonModule,
     SharedModule,
+    // ColorPickerModule,
     NgxMatColorPickerModule,
     ColorPickerModule
   ],

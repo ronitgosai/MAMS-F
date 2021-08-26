@@ -24,13 +24,15 @@
                                     <th>Name</th>
                                     <th>Quantity</th>
                                 </thead>
-                                <div *ngIf="isProgressBar_product" class="m-20 p-20">
-                                    <mat-progress-bar mode="indeterminate">
-                                    </mat-progress-bar>
-                                </div>
-                                <div class="align-items-center m-20 text-center" *ngIf="is_data_product">
+                                <ng-container *ngIf="isProgressBar_product" class="m-20 p-20">
+                                    <td colspan="5">
+                                        <mat-progress-bar mode="indeterminate">
+                                        </mat-progress-bar>
+                                    </td>
+                                </ng-container>
+                                <ng-container class="align-items-center m-20 text-center" *ngIf="is_data_product">
                                     <p class="fs-16 fw-400">No Data Available.</p>
-                                </div>
+                                </ng-container>
                                 <tbody *ngIf="is_table_product">
                                     <tr
                                         *ngFor="let data of arr_product_data | paginate: {id:'pagination_product',itemsPerPage:entries_per_page_product,currentPage:p_product}; let i = index">

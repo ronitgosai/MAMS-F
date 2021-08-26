@@ -15,7 +15,7 @@ export class AdvanceSalaryService {
   }
 
   createAdvanceSalary(data) {
-    return this.http.post(environment.api_url + "/advance_salary/x", data, { headers: this.header.getToken() });
+    return this.http.post(environment.api_url + "/advance_salary/create_advance_salary", data, { headers: this.header.getToken() });
   }
 
   updateAdvanceSalary(data) {
