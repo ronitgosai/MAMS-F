@@ -48,7 +48,6 @@ export class OngoingProductionReportComponent implements OnInit {
   }
 
   ongoingProductionPdf() {
-    console.log("ONGOING",this.allOngoingProduction)
     if (this.allOngoingProduction.length > 0) {
       const data = {
         ongoingProductionTitle: 'Ongoing Production',

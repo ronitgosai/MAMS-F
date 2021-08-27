@@ -10,18 +10,18 @@ export class NetWorkServiceProviderService {
   constructor(private http: HttpClient, private header: Header) { }
 
   getMasterNetworkServiceProvider() {
-    return this.http.get(environment.api_url + "/master/get_master_network_service_provider_list", { headers: this.header.getToken() });
+    return this.http.get(environment.apiUrl + "/master/get_master_network_service_provider_list", { headers: this.header.getToken() });
   }
 
   createMasterNetworkServiceProvider(data) {
-    return this.http.post(environment.api_url + "/master/create_master_network_service_provider", data, { headers: this.header.getToken() });
+    return this.http.post(environment.apiUrl + "/master/create_master_network_service_provider", data, { headers: this.header.getToken() });
   }
 
   updateMasterNetworkServiceProvider(data) {
-    return this.http.put(environment.api_url + "/master/update_master_network_service_provider", data, { headers: this.header.getToken() });
+    return this.http.put(environment.apiUrl + "/master/update_master_network_service_provider", data, { headers: this.header.getToken() });
   }
 
   deleteMasterNetworkServiceProvider(product) {
-    return this.http.put(environment.api_url + "/master/delete_master_network_service_provider", product, { headers: this.header.getToken() });
+    return this.http.put(environment.apiUrl + "/master/delete_master_network_service_provider", product, { headers: this.header.getToken() });
   }
 }

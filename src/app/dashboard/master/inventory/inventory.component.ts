@@ -141,7 +141,7 @@ export class InventoryComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Pleaseinput valid data.");
+      this.toastr.error("Please enter valid data.");
     }
   }
 

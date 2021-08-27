@@ -212,7 +212,6 @@ export class SalaryComponent implements OnInit {
           }
         })
         this.advanceSalaryService.updateAdvanceSalary(salaryInfo).subscribe(updateAdvanceSalary => {
-          console.log(updateAdvanceSalary)
         })
         this.salaryDetail.map((d, index) => {
           let salaryAdvanceSalaryInfo = {

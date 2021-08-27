@@ -82,7 +82,7 @@ export class SellComponent implements OnInit {
 
     // this.isProgressBar = true;
     this.sellService.getSell().subscribe((getSellDetail: any) => {
-      this.sell_data = this.global.tableIndex(getSellDetail.data)
+      this.sell_data = this.global.tableIndex(getSellDetail.data);
       for (let i = 0; i < this.sell_data.length; i++) {
         this.sell_data[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sell_data[i].product_quantity)
       }

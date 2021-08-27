@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ProductService } from 'app/services/dashboard/product/product.service';
@@ -7,7 +7,6 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from "sweetalert2";
 import { RawMaterialService } from 'app/services/dashboard/raw-material/raw-material.service';
-import { CookieService } from 'ngx-cookie-service';
 import { GlobalService } from 'app/services/global.service';
 import { ProductCategoryService } from 'app/services/dashboard/master/product-category.service';
 @Component({
@@ -24,7 +23,6 @@ export class ProductComponent implements OnInit {
     private rawMaterialService: RawMaterialService,
     private productCategoryService: ProductCategoryService,
     private toastr: ToastrService,
-    private cookieService: CookieService,
     private global: GlobalService
   ) {
     titelService.setTitle("Product | Modern Agrichem")

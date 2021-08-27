@@ -21,7 +21,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="col-md-6">
-                                <mat-form-field appearance="fill">
+                                <mat-form-field appearance="fill"  class="mt-13">
                                     <mat-label>Units</mat-label>
                                     <mat-select formControlName="raw_material_unit">
                                         <mat-option value="Liter">Litre</mat-option>
@@ -61,20 +61,13 @@
                                 </div>
                             </th>
                         </thead>
-                        <tr *ngIf="isProgressBar" class="border-none">
-                            <td colspan="7"> 
-                                <mat-progress-bar mode="indeterminate">   
-                                </mat-progress-bar>
-                            </td>
-                        </tr>
-                        <tr *ngIf="is_data">
-                            <td colspan="7"> 
-                                <p class="fs-16 fw-400">No Data Available.</p>
-                            </td>
-                        </tr>
-                        <!-- <div class="m-20 text-center" >
+                        <div  *ngIf="isProgressBar" class="border-none">
+                            <mat-progress-bar mode="indeterminate">   
+                            </mat-progress-bar>
+                        </div>
+                        <div *ngIf="is_data">
                             <p class="fs-16 fw-400">No Data Available.</p>
-                        </div> -->
+                        </div>
                         <tbody *ngIf="is_table">
                             <tr *ngFor="let data of arr_raw_data | paginate: {id:'pagination_raw',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
                                 <td>
@@ -94,7 +87,7 @@
                                         <div class="col-md-12">
                                             <div class="collapse" id="rawmaterialInfo{{ i }}">
                                                 <div class="card-body">
-                                                    <form class="rawMaterialForm" [formGroup]="updatedRawMaterialForm">
+                                                    <form class="updatedRawMaterialForm" [formGroup]="updatedRawMaterialForm">
                                                         <div class="col-md-12">
                                                             <span class="fs-16 fw-500">Please enter updated raw material name OR raw material unit for above raw material.<br><br></span>
                                                         </div>

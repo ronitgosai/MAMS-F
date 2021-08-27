@@ -19,6 +19,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxPrintModule } from 'ngx-print';
 import { CoreModule } from 'app/core/core.module';
+import { SharedModule } from 'app/shared.module';
 
 const routes: Routes = [
   {
@@ -33,23 +34,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    CoreModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatAutocompleteModule,
-    NgxMatSelectSearchModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatProgressBarModule,
-    Ng2SearchPipeModule,
-    OrderModule,
-    NgxPrintModule,
-    MatIconModule,
-    NgxPaginationModule,
-    NgMatSearchBarModule,
+    SharedModule,
+    
     RouterModule.forChild(routes),
     DataTablesModule
   ]

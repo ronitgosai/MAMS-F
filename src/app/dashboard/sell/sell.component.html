@@ -82,62 +82,58 @@
                             </div>
                             <table id="example" class="table table-custome width-100">
                                 <thead class="text">
-                                    <th>
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-50">#</div>
-                                            <div class="flex-even justify-content-start" scope="col">Customer Name</div>
-                                            <div class="flex-even justify-content-start" scope="col">Category Name</div>
-                                            <div class="flex-even justify-content-start" scope="col">Product Name</div>
-                                            <div class="flex-even justify-content-start" scope="col">Inventory Name</div>
-                                            <div class="flex-even justify-content-start" scope="col">Product Quantity</div>
-                                            <div class="flex-even justify-content-end" scope="col">Action</div>
-                                        </div>
-                                    </th>
+                                    <tr>
+                                        <th class="font-weight-bold">#</th>
+                                        <th class="font-weight-bold">Customer Name</th>
+                                        <th class="font-weight-bold">Category Name</th>
+                                        <th class="font-weight-bold">Product Name</th>
+                                        <th class="font-weight-bold">Inventory Name</th>
+                                        <th class="font-weight-bold">Product Quantity</th>
+                                        <th class="font-weight-bold">Action</th>
+                                    </tr>
                                 </thead>
-                                <div *ngIf="isProgressBar" class="m-20 p-20">
-                                    <mat-progress-bar mode="indeterminate">
-                                    </mat-progress-bar>
-                                </div>
-                                <div class="align-items-center m-20 text-center" *ngIf="is_data">
-                                    <p class="fs-16 fw-400">No Data Available.</p>
-                                </div>
+                                <tr *ngIf="isProgressBar" class="m-20 p-20">
+                                    <td colspan="7">
+                                        <mat-progress-bar mode="indeterminate">
+                                        </mat-progress-bar>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="is_data" class="align-items-center m-20 text-center">
+                                    <td colspan="7">
+                                        <p class="fs-16 fw-400">No Data Available.</p>>
+                                    </td>
+                                </tr>
                                 <tbody *ngIf="is_table">
                                     <tr *ngFor="let data of sell_data | paginate: {id:'pagination_sell',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
+                                        <td>{{ data.index }}</td>
+                                        <td>{{ data.customer_name }}</td>
+                                        <td appColor [data]="data.category_color">{{ data.category_name }}</td>
+                                        <td appColor [data]="data.category_color">{{ data.product_name }}</td>
+                                        <td>{{ data.inventory_name }}</td>
+                                        <td>{{ data.product_quantity }}</td>
                                         <td>
-                                            <div class="top_row">
-                                                <div class="d-flex">
-                                                    <div class="align-items-center d-flex min-width-50">{{ data.index }}</div>
-                                                    <div class="flex-even justify-content-start">{{ data.customer_name }}</div>
-                                                    <div class="flex-even justify-content-start">{{ data.category_name }}</div>
-                                                    <div class="flex-even justify-content-start">{{ data.product_name }}</div>
-                                                    <div class="flex-even justify-content-start">{{ data.inventory_name }}</div>
-                                                    <div class="flex-even justify-content-start">{{ data.product_quantity }}</div>
-                                                    <div class="flex-even justify-content-end">
-                                                        <button mat-stroked-button (click)="deleteSellItem(data.sell_id)"><span class="fa fa-trash c-red"></span></button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <button mat-stroked-button (click)="deleteSellItem(data.sell_id)"><span class="fa fa-trash c-red"></span></button>
                                         </td>
                                     </tr>
-                                    <div class="row">
-                                        <div class="col-md-6 mt-3">
-                                            <pagination-controls id="pagination_sell" (pageChange)="p = $event"  class="f-l"></pagination-controls>
-                                        </div>
-                                        <div class="col-md-6 z-index-9">
-                                            <mat-form-field appearance="fill" class="width-22 f-r">
-                                                <mat-label>Entries per page</mat-label>
-                                                <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
-                                                    <mat-option value="10">10</mat-option>
-                                                    <mat-option value="20">20</mat-option>
-                                                    <mat-option value="35">35</mat-option>
-                                                    <mat-option value="40">40</mat-option>
-                                                    <mat-option value="50">50</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
                                 </tbody>
                             </table>
+                            <div class="row" *ngIf="is_table">
+                                <div class="col-md-6 mt-3">
+                                    <pagination-controls id="pagination_sell" (pageChange)="p = $event"  class="f-l"></pagination-controls>
+                                </div>
+                                <div class="col-md-6 z-index-9">
+                                    <mat-form-field appearance="fill" class="width-22 f-r">
+                                        <mat-label>Entries per page</mat-label>
+                                        <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="35">35</mat-option>
+                                            <mat-option value="40">40</mat-option>
+                                            <mat-option value="50">50</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
