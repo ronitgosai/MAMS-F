@@ -30,7 +30,7 @@ export class SellReportComponent implements OnInit {
   sellForm: FormGroup;
 
   current_table: any;
-  
+
   sell_product = [];
   sell_customer = [];
   sell_category = [];
@@ -63,7 +63,7 @@ export class SellReportComponent implements OnInit {
   sell_category_table: boolean;
   sell_customer_table: boolean;
   sell_table: boolean;
-  
+
   sell_product_id: any;
   sell_category_id: any;
   sell_customer_id: any;
@@ -106,7 +106,7 @@ export class SellReportComponent implements OnInit {
     this.getSell();
   }
 
-/* sell */
+  /* sell */
   getSell() {
     this.sellService.getSell().subscribe((getSell: any) => {
       this.sell_details = this.global.tableIndex(getSell.data);
@@ -151,7 +151,7 @@ export class SellReportComponent implements OnInit {
   getSellList() {
     if ((this.sell_customer_id === undefined && this.sell_product_id === undefined && this.sell_category_id === undefined && this.start_date === undefined && this.end_date === undefined) || (this.sell_customer_id === '' && this.sell_product_id === '' && this.sell_category_id === '' && this.start_date === '' && this.end_date === '')) {
       this.sellService.getSell().subscribe((getSell: any) => {
-        this.sell = this.global.tableIndex(getSell.data)
+        this.sell = this.global.tableIndex(getSell.data);
         this.sell_table = true;
       })
       this.sell_table = false;
@@ -272,7 +272,7 @@ export class SellReportComponent implements OnInit {
     else if (this.sell_category_id != '' && this.start_date != '' && this.end_date != '' && (this.sell_product_id === undefined && this.sell_customer_id === undefined)) {
       let start_date = this.datepipe.transform(this.start_date, "YYYY-dd-MM")
       let end_date = this.datepipe.transform(this.end_date, "YYYY-dd-MM")
-      
+
       let category_date = {
         'category_id': this.sell_category_id,
         'start_date': start_date,
@@ -301,7 +301,7 @@ export class SellReportComponent implements OnInit {
     else if (this.sell_customer_id != '' && this.sell_product_id != '' && this.sell_category_id != '' && this.start_date != '' && this.end_date != '') {
       let start_date = this.datepipe.transform(this.start_date, "YYYY-dd-MM")
       let end_date = this.datepipe.transform(this.end_date, "YYYY-dd-MM")
-      
+
       let customer_product_category_date = {
         'customer_id': this.sell_customer_id,
         'product_id': this.sell_product_id,
@@ -319,7 +319,7 @@ export class SellReportComponent implements OnInit {
     else if (this.sell_product_id != '' && this.sell_category_id != '' && this.start_date != '' && this.end_date != '' && this.sell_customer_id === undefined) {
       let start_date = this.datepipe.transform(this.start_date, "YYYY-dd-MM")
       let end_date = this.datepipe.transform(this.end_date, "YYYY-dd-MM")
-      
+
       let product_category_date = {
         'customer_id': this.sell_customer_id,
         'product_id': this.sell_product_id,
@@ -333,6 +333,176 @@ export class SellReportComponent implements OnInit {
       this.sell_product_category_date_range_table = false;
     }
     this.cancel();
+  }
+
+  sellPdf() {
+    if (this.sell.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* product_details*/
+    else if (this.sell_product.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_product
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* customer detais */
+    else if (this.sell_customer.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_customer
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* product_details */
+    else if (this.sell_category.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_category
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /*start and end date*/
+    else if (this.date_arr.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.date_arr
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* customer and product */
+    else if (this.sell_customer_product.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_customer_product
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* customer and category */
+    else if (this.sell_customer_category.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_customer_category
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* customer and date range */
+    else if (this.sell_customer_date_range.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_customer_date_range
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* product and category*/
+    else if (this.sell_product_category.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_product_category
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* product and date range */
+    else if (this.sell_product_date_range.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_product_date_range
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* category and date range */
+    else if (this.sell_category_date_range.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_category_date_range
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* customer and product and category */
+    else if (this.sell_customer_product_category.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_customer_product_category
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* customer and product and category and date range*/
+    else if (this.sell_customer_product_category_date_range.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_customer_product_category_date_range
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+    /* product and category and date range*/
+    else if (this.sell_product_category_date_range.length > 0) {
+      const data = {
+        sellTitle: 'Sell',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        sellHeader: ['#', 'Customer Name', 'Product Name', 'Inventory Name', 'Quantity'],
+        sellContents: this.sell_product_category_date_range
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
   }
 
   cancel() {

@@ -5,7 +5,7 @@ import { StaffService } from 'app/services/dashboard/staff/staff.service';
 import { GlobalService } from 'app/services/global.service';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-user-report',
   templateUrl: './user-report.component.html',
@@ -73,11 +73,38 @@ export class UserReportComponent implements OnInit {
       })
       this.selectUserTable = false;
     }
+    this.cancel();
+  }
 
+  userPdf() {
+    if (this.user.length > 0) {
+      const data = {
+        userTitle: 'User',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        userHeader: ['#', 'Role', 'Full Name', 'Username', 'Email', 'Contact'],
+        userContent: this.user
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    } else {
+      const data = {
+        userTitle: 'User',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        userHeader: ['#', 'Role', 'Full Name', 'Username', 'Email', 'Contact'],
+        userContent: this.selectUser
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
   }
 
   cancel() {
-
+    this.userId = '';
+    this.userForm.reset();
+    this.user = [];
+    this.selectUser = [];
   }
 
   ngOnDestroy() {

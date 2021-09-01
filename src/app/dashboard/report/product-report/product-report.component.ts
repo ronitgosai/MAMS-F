@@ -61,6 +61,23 @@ export class ProductReportComponent implements OnInit {
     this.getProduct();
   }
 
+  getProduct() {
+    this.productService.getProduct().subscribe((getProduct: any) => {
+      this.product = this.global.tableIndex(getProduct.data);
+      this.filteredCategoryProduct.next(getProduct.data.slice());
+      this.categoryProductFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
+        this.filterCategoryProductBanks();
+      });
+    })
+  }
+
+  categoryProductChange(event) {
+    this.categoryProductId = event.value
+    this.productForm.patchValue({
+      category_id: this.product.find(d => d.category_id === event.value).category_id,
+    })
+  }
+
   getProductList() {
     if (this.categoryProductId === undefined || this.categoryProductId.length === 0) {
       this.productService.getProduct().subscribe((getProduct: any) => {
@@ -68,7 +85,6 @@ export class ProductReportComponent implements OnInit {
         this.productTable = true;
         this.categoryProductTable = false;
       })
-
     } else {
       let category = {
         'category_id': this.categoryProductId
@@ -82,21 +98,28 @@ export class ProductReportComponent implements OnInit {
     this.cancel();
   }
 
-  categoryProductChange(event) {
-    this.categoryProductId = event.value
-    this.productForm.patchValue({
-      category_id: this.product.find(d => d.category_id === event.value).category_id,
-    })
-  }
-
-  getProduct() {
-    this.productService.getProduct().subscribe((getProduct: any) => {
-      this.product = this.global.tableIndex(getProduct.data);
-      this.filteredCategoryProduct.next(getProduct.data.slice());
-      this.categoryProductFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
-        this.filterCategoryProductBanks();
-      });
-    })
+  productPdf() {
+    if (this.product.length > 0) {
+      const data = {
+        productTitle: 'Product',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        productHeader: ['#', 'Category Name', 'Product Name', 'Product Technical Name', 'Raw Material'],
+        productContents: this.product
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }else{
+      const data = {
+        productTitle: 'Product',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        productHeader: ['#', 'Category Name', 'Product Name', 'Product Technical Name', 'Raw Material'],
+        productContents: this.categoryProduct
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
   }
 
   cancel() {
