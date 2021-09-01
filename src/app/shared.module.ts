@@ -16,7 +16,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 import { NgMatSearchBarModule } from 'ng-mat-search-bar';
-
+import { CoreModule } from "app/core/core.module";
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgxPrintModule } from 'ngx-print';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [],
   imports: [
@@ -25,6 +29,7 @@ import { NgMatSearchBarModule } from 'ng-mat-search-bar';
   exports: [
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -39,7 +44,11 @@ import { NgMatSearchBarModule } from 'ng-mat-search-bar';
     NgxPaginationModule,
     NgxMatColorPickerModule,
     MatIconModule,
+    CoreModule,
     NgMatSearchBarModule,
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    NgxPrintModule,
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }

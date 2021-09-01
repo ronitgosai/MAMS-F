@@ -56,6 +56,7 @@ export class AttendanceReportComponent implements OnInit {
   }
 
   getStaffList() {
+    console.log('staffList');
     if (this.staffId === undefined || this.staffId === '') {
       this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
         this.staffName = this.global.tableIndex(staffDetails.data);
@@ -69,6 +70,7 @@ export class AttendanceReportComponent implements OnInit {
       }
       this.reportService.get_attendance_list(id).subscribe((selectStaffDetails: any) => {
         this.selectedStaffName = this.global.tableIndex(selectStaffDetails.data);
+        console.log("select",this.selectedStaffName)
         this.selectedStaffNameTable = true;
       })
       this.attendanceForm.reset();

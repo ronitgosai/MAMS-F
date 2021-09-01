@@ -3,8 +3,7 @@
         <span class="fs-20 fw-600">Currency</span>
     </div>
     <div class="col-md-6">
-        <button mat-flat-button class="float-right save" type="button" data-toggle="collapse"
-            data-target="#currencyType" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+        <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#currencyType" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
             <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Currency Type
         </button>
     </div>
@@ -20,12 +19,9 @@
                         </mat-form-field>
                     </div>
                     <div class="form-group"><br>
-                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span
-                                class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#currencyType"
-                            class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                        <button mat-flat-button type="button" class="save pull-right" (click)="insertCurrency()"><span
-                                class="fas fa-save"></span>&nbsp;&nbsp;Add Currency Type</button>
+                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#currencyType" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                        <button mat-flat-button type="button" class="save pull-right" (click)="insertCurrency()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Currency Type</button>
                     </div>
                 </form>
             </div>
@@ -37,8 +33,7 @@
     <div class="col-md-12">
         <div class="card-body">
             <div class="col-md-12">
-                <mat-search-bar class="form-group m-0 m-5 f-r" type='text' name="currencyName"
-                    [(ngModel)]="currencyName" (ngModelChange)="search()" placeholder="Search Currency Name">
+                <mat-search-bar class="form-group m-0 m-5 f-r" type='text' name="currencyName" [(ngModel)]="currencyName" (ngModelChange)="search()" placeholder="Search Currency Name">
                 </mat-search-bar>
             </div>
             <div class="table-responsive">
@@ -73,13 +68,8 @@
                                             <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
                                             <div class="flex-even">{{ data.currency_name }}</div>
                                             <div class="flex-even justify-content-end">
-                                                <button mat-stroked-button data-toggle="collapse"
-                                                    [attr.data-target]="'#currencyInfo' + i"
-                                                    (click)="editCurrency(data.currency_id,i)"><span
-                                                        class="fa fa-pen c-blue"></span></button>
-                                                <button mat-stroked-button class="ml-3"
-                                                    (click)="deleteCurrency(data.currency_id,data.currency_name)"><span
-                                                        class="fa fa-trash c-red"></span></button>
+                                                <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#currencyInfo' + i" (click)="editCurrency(data.currency_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                                <button mat-stroked-button class="ml-3" (click)="deleteCurrency(data.currency_id,data.currency_name)"><span class="fa fa-trash c-red"></span></button>
                                             </div>
                                         </div>
                                     </div>
@@ -91,8 +81,7 @@
                                                         <form class="updateCurrencyForm"
                                                             [formGroup]="updateCurrencyForm">
                                                             <div class="col-md-12">
-                                                                <span class="fs-16 fw-500">Please enter updated currency
-                                                                    name for selected currency.<br></span>
+                                                                <span class="fs-16 fw-500">Please enter updated currency name for selected currency.<br></span>
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <mat-form-field class="form-field">
@@ -101,18 +90,9 @@
                                                                 </mat-form-field>
                                                             </div>
                                                             <button type="reset"
-                                                                class="btn btn-success pull-right ml-2 c-b c-b"><span
-                                                                    class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                                            <button type="reset" class="btn btn-danger pull-right ml-2"
-                                                                data-toggle="collapse"
-                                                                [attr.data-target]="'#currencyInfo' + i"><span
-                                                                    class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                            <button type="button" class="btn btn-success pull-right"
-                                                                data-toggle="collapse"
-                                                                [attr.data-target]="'#currencyInfo' + i"
-                                                                (click)="updateCurrency(data.currency_id)"><span
-                                                                    class="fas fa-save"></span>&nbsp;&nbsp;Update
-                                                                Currency</button>
+                                                                class="btn btn-success pull-right ml-2 c-b c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                            <button type="reset" class="btn btn-danger pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#currencyInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                            <button type="button" class="btn btn-success pull-right" (click)="updateCurrency(data.currency_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Currency</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -123,8 +103,7 @@
                             </tr><br>
                             <div class="row">
                                 <div class="col-md-6 mt-3">
-                                    <pagination-controls id="paginationCurrency" (pageChange)="p = $event"
-                                        class="f-l"></pagination-controls>
+                                    <pagination-controls id="paginationCurrency" (pageChange)="p = $event" class="f-l"></pagination-controls>
                                 </div>
                                 <div class="col-md-6 z-index-9">
                                     <mat-form-field appearance="fill" class="width-22 f-r">

@@ -116,6 +116,30 @@ export class PastProductionReportComponent implements OnInit {
     this.cancel();
   }
 
+  pastProductionPdf() {
+    if (this.pastProduction.length > 0) {
+      const data = {
+        pastProductionTitle: 'Past Production',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        pastProductionHeader: ['#', 'Product Name', 'Raw Material Info', 'Start Time', 'End Time'],
+        pastProductionContents: this.pastProduction
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }else{
+      const data = {
+        pastProductionTitle: 'Past Production',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        pastProductionHeader: ['#', 'Product Name', 'Raw Material Info', 'Start Time', 'End Time'],
+        pastProductionContents: this.categoryPastProduction
+      }
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+  }
+
   cancel() {
     this.category_id = '';
     this.pastProductionForm.reset();

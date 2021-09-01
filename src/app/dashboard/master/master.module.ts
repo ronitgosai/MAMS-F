@@ -7,11 +7,10 @@ import { CategoryModule } from './category/category.module';
 import { NetworkServiceProviderModule } from './network-service-provider/network-service-provider.module';
 import { ShiftModule } from './shift/shift.module';
 import { WorkAreaModule } from './work-area/work-area.module';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
 import { RawMaterialModule } from './raw-material/raw-material.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { RoleComponent } from './role/role.component';
+import { SharedModule } from 'app/shared.module';
 
 const routes: Routes = [
   {
@@ -27,6 +26,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    SharedModule,
     RawMaterialModule,
     InventoryModule,
     CategoryModule,
@@ -34,8 +34,6 @@ const routes: Routes = [
     WorkAreaModule,
     ShiftModule,
     CurrencyModule,
-    MatTabsModule,
-    MatIconModule,
     RouterModule.forChild(routes)
   ]
 })

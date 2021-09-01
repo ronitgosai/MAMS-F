@@ -16,12 +16,12 @@
                     <form class="inventoryForm" [formGroup]="inventoryForm">
                         <div class="row">
                             <div class="col-md-4">
-                                <mat-form-field class="form-field">
+                                <mat-form-field class="form-field" [formGroup]="inventoryForm">
                                     <input matInput class="p-0" formControlName="inventoryName" placeholder="Inventory Name">
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4">
-                                <mat-form-field appearance="fill">
+                            <div class="col-md-4 mt-13">
+                                <mat-form-field appearance="fill" [formGroup]="inventoryForm">
                                     <mat-label>Unit</mat-label>
                                     <mat-select formControlName="inventoryUnit">
                                         <mat-option value="Piece">Piece</mat-option>
@@ -29,8 +29,8 @@
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4">
-                                <mat-form-field appearance="fill">
+                            <div class="col-md-4 mt-13">
+                                <mat-form-field appearance="fill" [formGroup]="inventoryForm">
                                     <mat-label>For Liquid / Solid / Other Inventory</mat-label>
                                     <mat-select formControlName="productForm">
                                         <mat-option value="1">For Liquid Product</mat-option>
@@ -120,7 +120,7 @@
                                                             </div>
                                                             <button type="reset" class="btn btn-success pull-right ml-2 c-b c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
                                                             <button type="reset" class="btn btn-danger pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#invnetoryInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                            <button type="button" class="btn btn-success pull-right" data-toggle="collapse" [attr.data-target]="'#inventoryInfo' + i" (click)="updateInventory(data.inventory_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Inventory</button>
+                                                            <button type="button" class="btn btn-success pull-right" (click)="updateInventory(data.inventory_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Inventory</button>
                                                         </form>
                                                     </div>
                                                 </div>

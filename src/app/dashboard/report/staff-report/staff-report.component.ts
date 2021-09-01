@@ -5,7 +5,7 @@ import { ReportService } from 'app/services/dashboard/report/report.service';
 import { GlobalService } from 'app/services/global.service';
 import { Subject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-staff-report',
   templateUrl: './staff-report.component.html',
@@ -58,7 +58,8 @@ export class StaffReportComponent implements OnInit {
   getStaffList() {
     if (this.staffId === undefined || this.staffId === '') {
       this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
-        this.staffName = this.global.tableIndex(staffDetails.data)
+        this.staffName = this.global.tableIndex(staffDetails.data);
+        console.log(this.staffName);
         this.staffNameTable = true;
       })
       this.cancel();
@@ -75,7 +76,31 @@ export class StaffReportComponent implements OnInit {
     }
   }
 
-  cancel() { 
+  staffPdf() {
+    if (this.staffName.length > 0) {
+      const data = {
+        staffTitle: 'Staff',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        staffHeader: ['#', 'Staff Name', 'Work Area Name', 'Shift', 'Salary', 'Mobile Network', 'Mobile Number'],
+        staffContent: this.staffName
+      };
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    } else {
+      const data = {
+        staffTitle: 'Staff',
+        image: 'https://mams.modernagrichem.com/assets/img/logo.png',
+        staffHeader: ['#', 'Staff Name', 'Work Area Name', 'Shift', 'Salary', 'Mobile Network', 'Mobile Number'],
+        staffContent: this.selectedStaffName
+      };
+      this.reportService.pdf(data).subscribe((pdfmake) => {
+        saveAs(pdfmake, "modernagrichem")
+      })
+    }
+  }
+
+  cancel() {
     this.staffId = '';
     this.staffNameTable = false;
     this.selectedStaffNameTable = false;

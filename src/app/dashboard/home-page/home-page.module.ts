@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomePageComponent } from './home-page.component';
-import { Routes, RouterModule } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTabsModule } from '@angular/material/tabs';
-import { CoreModule } from 'app/core/core.module';
+import { SharedModule } from 'app/shared.module';
+import { RouterModule, Routes } from '@angular/router';
+
 const routes: Routes = [
   {
     path: "",
@@ -18,9 +17,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    MatFormFieldModule,
-    MatTabsModule,
-    CoreModule,
+    SharedModule,
     RouterModule.forChild(routes)
   ]
 })

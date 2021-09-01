@@ -30,7 +30,8 @@ export class OngoingProductionReportComponent implements OnInit {
 
   getProductionList() {
     this.productionService.getProduction().subscribe((getProduction: any) => {
-      this.allOngoingProduction = this.global.tableIndex(getProduction.data)
+      this.allOngoingProduction = this.global.tableIndex(getProduction.data);
+      // console.log(this.allOngoingProduction)
       if (this.allOngoingProduction.length > 0) {
         this.isData = false;
         this.isTable = false;
@@ -44,11 +45,11 @@ export class OngoingProductionReportComponent implements OnInit {
           this.allOngoingProduction[i].raw_material_quantity[j] = parseInt(this.allOngoingProduction[i].raw_material_quantity[j]).toLocaleString('en-IN')
         }
       }
+      console.log(this.allOngoingProduction)
     })
   }
 
   ongoingProductionPdf() {
-    console.log("ONGOING",this.allOngoingProduction)
     if (this.allOngoingProduction.length > 0) {
       const data = {
         ongoingProductionTitle: 'Ongoing Production',

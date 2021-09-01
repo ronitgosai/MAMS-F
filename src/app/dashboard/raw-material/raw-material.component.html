@@ -17,22 +17,27 @@
                                 <thead class="text sticky-top">
                                     <tr>
                                         <!-- <div class="d-flex"> -->
-                                            <th class="">#</th>
-                                            <th class="">Raw Material Name</th>
-                                            <th class="">Quantity</th>
-                                            <th class="">Unit</th>
+                                            <th class="font-weight-bold">#</th>
+                                            <th class="font-weight-bold">Raw Material Name</th>
+                                            <th class="font-weight-bold">Quantity</th>
+                                            <th class="font-weight-bold">Unit</th>
                                         <!-- </div> -->
                                     </tr>
                                 </thead>
                                 <tr *ngIf="isProgressBar" class="border-none">
-                                    <td colspan="7"> 
+                                    <td colspan="4"> 
                                         <mat-progress-bar mode="indeterminate">   
                                         </mat-progress-bar>
                                     </td>
                                 </tr>
-                                <div class="m-20 text-center" *ngIf="is_data">
+                                <tr *ngIf="is_data" class="m-20 text-center">
+                                    <td colspan="4"> 
+                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    </td>
+                                </tr>
+                                <!-- <div class="m-20 text-center" *ngIf="is_data">
                                     <p class="fs-16 fw-400">No Data Available.</p>
-                                </div>
+                                </div> -->
                                 <tbody *ngIf="is_table">
                                     <tr *ngFor="let data of arr_raw_data | paginate: {id:'pagination_raw',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
                                         <!-- <td> -->
@@ -48,7 +53,7 @@
                                     </tr><br>
                                 </tbody><br>
                             </table>
-                            <div class="row">
+                            <div class="row" *ngIf="is_table">
                                 <div class="col-md-6 mt-3">
                                     <pagination-controls id="pagination_raw" (pageChange)="p = $event" class="f-l">
                                     </pagination-controls>
@@ -138,22 +143,26 @@
                                 <thead class="text">
                                     <tr>
                                         <!-- <div class="d-flex"> -->
-                                            <th class="">#</th>
-                                            <th class="">Date</th>
-                                            <th class="">Raw Material Name</th>
-                                            <th class="">Quantity</th>
-                                            <th class="">Unit</th>
-                                            <th class="">Action</th>
+                                            <th class="font-weight-bold">#</th>
+                                            <th class="font-weight-bold">Date</th>
+                                            <th class="font-weight-bold">Raw Material Name</th>
+                                            <th class="font-weight-bold">Quantity</th>
+                                            <th class="font-weight-bold">Unit</th>
+                                            <th class="font-weight-bold">Action</th>
                                         <!-- </div> -->
                                     </tr>
                                 </thead>
-                                <div *ngIf="isProgressBar_import" class="m-20 p-20">
-                                    <mat-progress-bar mode="indeterminate">
-                                    </mat-progress-bar>
-                                </div>
-                                <div class="align-items-center m-20 text-center" *ngIf="is_data_import">
-                                    <p class="fs-16 fw-400">No Data Available.</p>
-                                </div>
+                                <tr *ngIf="isProgressBar_import" class="border-none">
+                                    <td colspan="6"> 
+                                        <mat-progress-bar mode="indeterminate">   
+                                        </mat-progress-bar>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="is_data_import" class="align-items-center m-20 text-center">
+                                    <td colspan="6"> 
+                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    </td>
+                                </tr>
                                 <tbody *ngIf="is_table_import">
                                     <tr *ngFor="let data of arr_import_data | paginate: {id:'pagination_import',itemsPerPage:entries_per_page_import,currentPage:p_import}; let i = index">
                                         <!-- <td> -->
@@ -173,7 +182,7 @@
                                     </tr><br>
                                 </tbody>
                             </table>
-                            <div class="row">
+                            <div class="row" *ngIf="is_table_import">
                                 <div class="col-md-6 mt-3">
                                     <pagination-controls id="pagination_import" (pageChange)="p_import = $event" class="f-l">
                                     </pagination-controls>

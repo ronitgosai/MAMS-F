@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PayoutComponent } from './payout.component';
 import { SalaryModule } from './salary/salary.module';
 import { AdvanceSalaryModule } from './advance-salary/advance-salary.module';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from 'app/shared.module';
+
 
 const routes: Routes = [
   {
@@ -22,8 +22,7 @@ const routes: Routes = [
     AdvanceSalaryModule,
     SalaryModule,
     CommonModule,
-    MatTabsModule,
-    MatIconModule,
+    SharedModule,
     RouterModule.forChild(routes),
   ]
 })

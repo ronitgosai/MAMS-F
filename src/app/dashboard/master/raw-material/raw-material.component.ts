@@ -150,7 +150,7 @@ export class RawMaterialComponent implements OnInit {
       this.isCollapsed = false;
       this.isProgressBar = false;
       this.is_table = true;
-      this.toastr.error("Please input valid data.");
+      this.toastr.error("Please enter valid data.");
     }
   }
 

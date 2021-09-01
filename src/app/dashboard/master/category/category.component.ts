@@ -91,8 +91,11 @@ export class CategoryComponent implements OnInit {
           this.category = this.global.tableIndex(categoryName.data)
         })
       })
+      this.toastr.success("Product Category " + this.categoryForm.get('categoryName').value + " added successfully.");
       this.categoryForm.reset();
       document.getElementById('collapseButton').click();
+    }else{
+      this.toastr.error("Please enter valid data")
     }
   }
 
@@ -116,7 +119,7 @@ export class CategoryComponent implements OnInit {
     let updateCategoryInfo = {
       'category_id': id,
       'category_name': this.updateCategoryForm.get('updateCategoryName').value,
-      'category_color': this.updateCategoryForm.get('updateCategoryColor').value,
+      'category_color': '#' + this.updateCategoryForm.get('updateCategoryColor').value.hex,
       'session_id': localStorage.getItem('session_id'),
       'updated_date': this.global.getDateZone(),
       'updated_time': this.global.getTimeZone()

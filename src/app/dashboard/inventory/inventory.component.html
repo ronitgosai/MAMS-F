@@ -15,54 +15,50 @@
                         <div class="table-responsive">
                             <table class="table table-custome">
                                 <thead class="text">
-                                    <th>
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-85">#</div>
-                                            <div class="flex-even" scope="col">Inventory Name</div>
-                                            <div class="flex-even" scope="col">Unit</div>
-                                            <div class="flex-even" scope="col">Quantity</div>
-                                        </div>
-                                    </th>
+                                    <tr>
+                                        <th class="font-weight-bold">#</th>
+                                        <th class="font-weight-bold">Inventory Name</th>
+                                        <th class="font-weight-bold">Unit</th>
+                                        <th class="font-weight-bold">Quantity</th>
+                                    </tr>
                                 </thead>
-                                <div *ngIf="isProgressBar" class="m-20 p-20">
-                                    <mat-progress-bar mode="indeterminate">
-                                    </mat-progress-bar>
-                                </div>
-                                <div class="align-items-center m-20 text-center" *ngIf="isData">
-                                    <p class="fs-16 fw-400">No Data Available.</p>
-                                </div>
+                                <tr *ngIf="isProgressBar" class="m-20 p-20">
+                                    <td colspan="4">
+                                        <mat-progress-bar mode="indeterminate">
+                                        </mat-progress-bar>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="isData" class="align-items-center m-20 text-center">
+                                    <td colspan="4">
+                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    </td>
+                                </tr>
                                 <tbody *ngIf="isTable">
                                     <tr *ngFor="let data of inventoryInfo | paginate: {id:'paginationInventory',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
-                                        <td>
-                                            <div class="top_row">
-                                                <div class="d-flex">
-                                                    <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
-                                                    <div class="flex-even">{{ data.inventory_name }}</div>
-                                                    <div class="flex-even">{{ data.inventory_unit }}</div>
-                                                    <div class="flex-even">{{ data.inventory_quantity }}</div>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <td>{{ data.index }}</td>
+                                        <td>{{ data.inventory_name }}</td>
+                                        <td>{{ data.inventory_unit }}</td>
+                                        <td>{{ data.inventory_quantity }}</td>
                                     </tr><br>
-                                    <div class="row">
-                                        <div class="col-md-6 mt-3">
-                                            <pagination-controls id="paginationInventory" (pageChange)="p = $event" class="f-l"></pagination-controls>
-                                        </div>
-                                        <div class="col-md-6 z-index-9">
-                                            <mat-form-field appearance="fill"  class="width-22 f-r">
-                                                <mat-label>Entries per page</mat-label>
-                                                <mat-select id='entriesPerPage'  [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                                    <mat-option value="10">10</mat-option>
-                                                    <mat-option value="20">20</mat-option>
-                                                    <mat-option value="35">35</mat-option>
-                                                    <mat-option value="40">40</mat-option>
-                                                    <mat-option value="50">50</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
                                 </tbody><br>
                             </table>
+                            <div class="row">
+                                <div class="col-md-6 mt-3">
+                                    <pagination-controls id="paginationInventory" (pageChange)="p = $event" class="f-l"></pagination-controls>
+                                </div>
+                                <div class="col-md-6 z-index-9">
+                                    <mat-form-field appearance="fill"  class="width-22 f-r">
+                                        <mat-label>Entries per page</mat-label>
+                                        <mat-select id='entriesPerPage'  [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                            <mat-option value="10">10</mat-option>
+                                            <mat-option value="20">20</mat-option>
+                                            <mat-option value="35">35</mat-option>
+                                            <mat-option value="40">40</mat-option>
+                                            <mat-option value="50">50</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

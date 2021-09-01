@@ -90,9 +90,9 @@ export class RegistrationComponent implements OnInit {
         this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
       }
       this.isProgressBar = false;
-      if(this.staffDetails.length > 0){
+      if (this.staffDetails.length > 0) {
         this.isData = false;
-      }else{
+      } else {
         this.isData = true;
       }
     })
@@ -155,7 +155,9 @@ export class RegistrationComponent implements OnInit {
       size: (file.size / 1048576).toFixed(2)
     };
     this.userForm.get('staffIdProof').updateValueAndValidity();
+    this.updatedUserForm.get('updateStaffIdProof').updateValueAndValidity();
     this.userForm.get('staffIdProof').setValue(file);
+    this.updatedUserForm.get('updateStaffIdProof').setValue(file);
   }
 
   toggleWebCam() {
@@ -183,9 +185,9 @@ export class RegistrationComponent implements OnInit {
             this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
           }
           this.isProgressBar = false;
-          if(this.staffDetails.length > 0){
+          if (this.staffDetails.length > 0) {
             this.isData = false;
-          }else{
+          } else {
             this.isData = true;
           }
         })
@@ -207,7 +209,8 @@ export class RegistrationComponent implements OnInit {
         this.oldCardIndex = cardIndex
       }
     }
-    let editData = this.staffDetails.find(d => d.staff_id === staffId)
+    let editData = this.staffDetails.find(d => d.staff_id === staffId);
+
     const userUpdateFile = new FormData();
     this.updatedUserForm.patchValue({
       updateStaffName: editData.staff_name,
@@ -215,7 +218,7 @@ export class RegistrationComponent implements OnInit {
       updateStaffSalary: editData.staff_salary,
       updateStaffShiftId: editData.shift_id,
       updateStaffMobileServiceProviderId: editData.mobile_service_provider_id,
-      updateStaffIdProof: userUpdateFile.get(editData.staff_id_proof),
+      updateStaffIdProof: userUpdateFile.get('staffIdProof'),
       updateStaffMobileNumber: editData.mobile_number,
     })
   }
@@ -223,17 +226,6 @@ export class RegistrationComponent implements OnInit {
   updateStaffInfo(staffId) {
     const updateSalary = parseInt(this.updatedUserForm.get('updateStaffSalary').value.split(',').join(''));
     const userUpdateFile = new FormData();
-    userUpdateFile.append('staffId', staffId),
-    userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
-    userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
-    userUpdateFile.append('staffSalary', updateSalary.toString()),
-    userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
-    userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
-    userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
-    userUpdateFile.append('staffIdProof', this.updatedUserForm.value.updateStaffIdProof),
-    userUpdateFile.append('updated_date', this.global.getDateZone()),
-    userUpdateFile.append('updated_time', this.global.getTimeZone())
-    console.log("userUpdateFile-->",userUpdateFile)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -251,7 +243,16 @@ export class RegistrationComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if (userUpdateFile) {
+        if (userUpdateFile.get('staffIdProof') === null) {
+          userUpdateFile.append('staffId', staffId),
+          userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
+          userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
+          userUpdateFile.append('staffSalary', updateSalary.toString()),
+          userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
+          userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
+          userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
+          userUpdateFile.append('updated_date', this.global.getDateZone()),
+          userUpdateFile.append('updated_time', this.global.getTimeZone())
           this.registrationService.updateStaffInfo(userUpdateFile).subscribe((updateInfo: any) => {
             this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
               this.staffDetails = this.global.tableIndex(staffDetails.data);
@@ -259,15 +260,39 @@ export class RegistrationComponent implements OnInit {
                 this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
               }
               this.isProgressBar = false;
-              if(this.staffDetails.length > 0){
+              if (this.staffDetails.length > 0) {
                 this.isData = false;
-              }else{
+              } else {
                 this.isData = true;
               }
             })
           })
-        }
-        else {
+        } else if (userUpdateFile) {
+          userUpdateFile.append('staffId', staffId),
+          userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
+          userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
+          userUpdateFile.append('staffSalary', updateSalary.toString()),
+          userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
+          userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
+          userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
+          userUpdateFile.append('staffIdProof', this.updatedUserForm.value.updateStaffIdProof),
+          userUpdateFile.append('updated_date', this.global.getDateZone()),
+          userUpdateFile.append('updated_time', this.global.getTimeZone())
+          this.registrationService.updateStaffIdProof(userUpdateFile).subscribe((updateInfo: any) => {
+            this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
+              this.staffDetails = this.global.tableIndex(staffDetails.data);
+              for (let i = 0; i < this.staffDetails.length; i++) {
+                this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
+              }
+              this.isProgressBar = false;
+              if (this.staffDetails.length > 0) {
+                this.isData = false;
+              } else {
+                this.isData = true;
+              }
+            })
+          })
+        } else {
           this.toastr.error("Please enter Updated Name and Unit.")
         }
       } else if (
@@ -315,9 +340,9 @@ export class RegistrationComponent implements OnInit {
               this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
             }
             this.isProgressBar = false;
-            if(this.staffDetails.length > 0){
+            if (this.staffDetails.length > 0) {
               this.isData = false;
-            }else{
+            } else {
               this.isData = true;
             }
           })

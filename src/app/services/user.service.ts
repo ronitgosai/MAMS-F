@@ -12,19 +12,19 @@ export class UserService {
   isLoggedIn = (localStorage.getItem('token')) ? true : false;
 
   get_user_list() {
-    return this.http.get(environment.api_url + '/login/get_user_list')
+    return this.http.get(environment.apiUrl + '/login/get_user_list')
   }
 
   getUser(userId) {
-    return this.http.post(environment.api_url + '/login/get_list_user', userId)
+    return this.http.post(environment.apiUrl + '/login/get_list_user', userId)
   }
 
   getSession(userId) {
-    return this.http.post(environment.api_url + '/login/get_session', userId)
+    return this.http.post(environment.apiUrl + '/login/get_session', userId)
   }
 
   loginUser(loginData) {
-    return this.http.post(environment.api_url + '/login/get_user', loginData)
+    return this.http.post(environment.apiUrl + '/login/get_user', loginData)
   }
 
   loggedIn() {
@@ -32,10 +32,10 @@ export class UserService {
   }
 
   createUserLogLoggedIn(loggedIn) {
-    return this.http.post(environment.api_url + '/login/create_user_log_logged_in', loggedIn)
+    return this.http.post(environment.apiUrl + '/login/create_user_log_logged_in', loggedIn)
   }
 
   createUserLogLoggedOut(loggedOut) {
-    return this.http.post(environment.api_url + '/login/create_user_log_logged_out', loggedOut)
+    return this.http.post(environment.apiUrl + '/login/create_user_log_logged_out', loggedOut)
   }
 }
