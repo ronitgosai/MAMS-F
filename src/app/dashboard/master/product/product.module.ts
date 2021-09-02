@@ -1,19 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NetworkServiceProviderComponent } from './network-service-provider.component';
+import { ProductComponent } from './product.component';
 import { SharedModule } from 'app/shared.module';
 
 @NgModule({
   declarations: [
-    NetworkServiceProviderComponent
+    ProductComponent
   ],
   imports: [
     CommonModule,
-    SharedModule,
+    SharedModule
   ],
   exports: [
-    NetworkServiceProviderComponent
+    ProductComponent
   ]
 })
-
-export class NetworkServiceProviderModule { }
+export class ProductModule { }
