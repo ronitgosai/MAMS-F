@@ -38,6 +38,12 @@ export const ROUTES: RouteInfo[] = [
     role: [environment.adminRole,environment.accountRole],
   },
   {
+    path: "/dashboard/pre-plan-production",
+    title: "Pre Plan Production",
+    icon: "fas fa-vials",
+    role: [environment.adminRole,environment.productionRole],
+  },
+  {
     path: "/dashboard/production",
     title: "Production",
     icon: "fas fa-vials",

@@ -11,6 +11,7 @@ import { RawMaterialModule } from './raw-material/raw-material.module';
 import { InventoryModule } from './inventory/inventory.module';
 import { RoleComponent } from './role/role.component';
 import { SharedModule } from 'app/shared.module';
+import { ProductModule } from './product/product.module';
 
 const routes: Routes = [
   {
@@ -30,6 +31,7 @@ const routes: Routes = [
     RawMaterialModule,
     InventoryModule,
     CategoryModule,
+    ProductModule,
     NetworkServiceProviderModule,
     WorkAreaModule,
     ShiftModule,

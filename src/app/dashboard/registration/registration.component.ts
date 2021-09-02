@@ -218,7 +218,7 @@ export class RegistrationComponent implements OnInit {
       updateStaffSalary: editData.staff_salary,
       updateStaffShiftId: editData.shift_id,
       updateStaffMobileServiceProviderId: editData.mobile_service_provider_id,
-      updateStaffIdProof: userUpdateFile.get('staffIdProof'),
+      updateStaffIdProof: editData.staff_id_proof,
       updateStaffMobileNumber: editData.mobile_number,
     })
   }

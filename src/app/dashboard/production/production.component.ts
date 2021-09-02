@@ -294,6 +294,7 @@ export class ProductionComponent implements OnInit {
       }
       getProductWiseRawMaterial.data.map((d) => {
         this.arr_raw_material_backup.push(null);
+        console.log(this.arr_raw_material_backup)
         this.isProgressBar_table = false;
       });
       if (this.arr_raw_material.length > 0) {
