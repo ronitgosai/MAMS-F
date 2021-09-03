@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -151,6 +150,7 @@ export class ProductionComponent implements OnInit {
     this.isProgressBar = true;
     this.productionService.getProduction().subscribe((getProduction: any) => {
       this.productionData = this.global.tableIndex(getProduction.data);
+      console.log(this.productionData)
       for (let i = 0; i < this.productionData.length; i++) {
         this.productionData[i].raw_material_quantity = this.productionData[i].raw_material_quantity.split(',')
         for (let j = 0; j < this.productionData[i].raw_material_quantity.length; j++) {
@@ -217,7 +217,7 @@ export class ProductionComponent implements OnInit {
     }
   }
 
-  getProductCategory(){
+  getProductCategory() {
     this.productCategoryService.getMasterProductCategory().subscribe((categoryName: any) => {
       this.categoryName = this.global.tableIndex(categoryName.data);
     })
@@ -294,7 +294,7 @@ export class ProductionComponent implements OnInit {
       }
       getProductWiseRawMaterial.data.map((d) => {
         this.arr_raw_material_backup.push(null);
-        console.log(this.arr_raw_material_backup)
+        console.log(this.arr_raw_material_backup);
         this.isProgressBar_table = false;
       });
       if (this.arr_raw_material.length > 0) {
@@ -314,7 +314,7 @@ export class ProductionComponent implements OnInit {
     this.isSubmitted = true;
     this.production_done = true;
 
-    // check user insert quantity not null OR 0 OR not greater than database quantity 
+    // check user insert quantity not null OR 0 OR not greater than database quantity
     this.arr_raw_material.map((d, index) => {
 
       if (this.arr_raw_material_backup[index] === null || this.arr_raw_material_backup[index] > this.arr_raw_material[index].raw_material_quantity) {
@@ -398,6 +398,7 @@ export class ProductionComponent implements OnInit {
             'created_date': this.global.getDateZone(),
             'created_time': this.global.getTimeZone()
           }
+          console.log("rawMaterail-->", raw_material)
           this.productionService.insertRawMaterialProduction(raw_material).subscribe((insertRawMaterial: any) => {
             this.productionService.getProduction().subscribe((getProduction: any) => {
               this.productionData = this.global.tableIndex(getProduction.data);

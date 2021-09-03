@@ -45,6 +45,7 @@ export class ProductionService {
   }
 
   insertRawMaterialProduction(raw_material_info) {
+    console.log("services-->",raw_material_info)
     return this.http.post(environment.apiUrl + "/production/insert_raw_material_production", raw_material_info, { headers: this.header.getToken() });
   }
 
