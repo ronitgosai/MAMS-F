@@ -27,7 +27,6 @@ export class CustomerReportComponent implements OnInit {
   getCustomer() {
     this.customerService.getCustomer().subscribe((getCustomer: any) => {
       this.customerDetails = this.global.tableIndex(getCustomer.data);
-      console.log(this.customerDetails);
       this.customerTable = true;
     })
     this.customerTable = false;

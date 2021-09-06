@@ -80,7 +80,6 @@ export class StockReportComponent implements OnInit {
     if (this.stockProductId === undefined || this.stockProductId === '') {
       this.stockService.getStock().subscribe((getAllProduct: any) => {
         this.allStockProduct = this.global.tableIndex(getAllProduct.data);
-        console.log(this.allStockProduct)
         this.allStockProductTable = true
       })
       this.cancel();
@@ -88,7 +87,6 @@ export class StockReportComponent implements OnInit {
       let product = {
         'product_id': this.stockProductId
       }
-      console.log(product)
       this.reportService.getStockProduct(product).subscribe((getProductName: any) => {
         this.stockProduct = this.global.tableIndex(getProductName.data);
         this.stockProductTable = true;

@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import Swal from "sweetalert2";
+import { v4 as uuidv4 } from 'uuid';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-pre-plan-production',
   templateUrl: './pre-plan-production.component.html',
@@ -21,6 +23,7 @@ export class PrePlanProductionComponent implements OnInit {
   constructor(
     private titleService: Title,
     private formBuilder: FormBuilder,
+    private router: Router,
     private toastr: ToastrService,
     private global: GlobalService,
     private productionService: ProductionService,
@@ -44,8 +47,10 @@ export class PrePlanProductionComponent implements OnInit {
   prePlanProductionForm: FormGroup;
 
   prePlanProductionData = [];
+  selectedPrePlanProductionData: any;
   rawMaterialName = [];
   rawMaterialNameBackup = [];
+  rawMaterialId = [];
   updatePrePlanProduction = [];
   categoryName = [];
   productName = [];
@@ -83,11 +88,10 @@ export class PrePlanProductionComponent implements OnInit {
   getPrePlanProductionList() {
     this.prePalnProductionService.getPrPlanProductionList().subscribe((prePlanProduction: any) => {
       this.prePlanProductionData = this.global.tableIndex(prePlanProduction.data);
-      console.log(this.prePlanProductionData);
       for (let i = 0; i < this.prePlanProductionData.length; i++) {
         // this.prePlanProductionData[i].quantity = this.prePlanProductionData[i].quantity.split(',')
         for (let j = 0; j < this.prePlanProductionData[i].quantity.length; j++) {
-          this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
+          // this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
         }
       }
     })
@@ -149,13 +153,16 @@ export class PrePlanProductionComponent implements OnInit {
   }
 
   insertPrePlanProduction() {
+    console.log("rawmaterial name-->",this.rawMaterialName)
     if (this.rawMaterialNameBackup === null) {
       this.isProduct = true;
       this.isRawMaterial = true;
       this.toastr.error("Please Enter Raw Material Quantity");
     } else {
+      let prePlanProductionId = uuidv4();
       this.rawMaterialName.map((d, i) => {
         let prePlanData = {
+          'pre_plan_production_id': prePlanProductionId,
           'category_id': this.categoryId,
           'product_id': this.productId,
           'raw_material_id': d.raw_material_id,
@@ -164,12 +171,11 @@ export class PrePlanProductionComponent implements OnInit {
           'created_date': this.global.getDateZone(),
           'created_time': this.global.getTimeZone()
         }
-        console.log("prePlanData--->", prePlanData)
+        console.log(prePlanData)
         this.prePalnProductionService.createPrePlanProduction(prePlanData).subscribe((createPrePlanProduction) => {
           this.prePalnProductionService.getPrPlanProductionList().subscribe((prePlanProduction: any) => {
             this.prePlanProductionData = this.global.tableIndex(prePlanProduction.data);
             for (let i = 0; i < this.prePlanProductionData.length; i++) {
-              // this.prePlanProductionData[i].quantity = this.prePlanProductionData[i].quantity.split(',')
               for (let j = 0; j < this.prePlanProductionData[i].quantity.length; j++) {
                 this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
               }
@@ -197,7 +203,12 @@ export class PrePlanProductionComponent implements OnInit {
     }
   }
 
-  updatdePrePlanProduction(prePlanProductionId) {
+  updatdePrePlanProduction(prePlanProductionId, rawMaterialId) {
+    this.rawMaterialId = rawMaterialId
+    console.log(this.rawMaterialId)
+    this.prePlanProductionData.map((d, i) => {
+      console.log(this.rawMaterialId[i]);
+    })
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -223,17 +234,16 @@ export class PrePlanProductionComponent implements OnInit {
           } else {
             let updatePrePlanProductionInfo = {
               'pre_plan_production_id': prePlanProductionId,
-              'raw_material_id': d.raw_material_id,
+              'raw_material_id': this.rawMaterialId[i],
               'quantity': this.updatePrePlanProduction[i],
               'session_id': localStorage.getItem('session_id'),
               'updated_date': this.global.getDateZone(),
               'updated_time': this.global.getTimeZone()
             }
-            console.log("updtae-->", updatePrePlanProductionInfo)
+            console.log("update -->", updatePrePlanProductionInfo)
             this.prePalnProductionService.updatePrePlanProduction(updatePrePlanProductionInfo).subscribe((updateProduction) => {
               this.prePalnProductionService.getPrPlanProductionList().subscribe((prPlanProductionList: any) => {
                 this.prePlanProductionData = this.global.tableIndex(prPlanProductionList.data);
-                console.log("get-->", this.prePlanProductionData)
               })
             })
           }
@@ -249,6 +259,16 @@ export class PrePlanProductionComponent implements OnInit {
         )
       }
     })
+  }
+
+  startProduction(prePlanProductionId){
+    this.prePlanProductionData.map((d,index) => {
+      if(d.pre_plan_production_id === prePlanProductionId){
+        this.selectedPrePlanProductionData = d;
+      }
+    })
+    this.productionService.prePlanProductionData.next(this.selectedPrePlanProductionData);
+    this.router.navigateByUrl('/dashboard/production');
   }
 
   deletePrePlanProduction() {

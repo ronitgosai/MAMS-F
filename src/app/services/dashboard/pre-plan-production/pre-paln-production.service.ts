@@ -18,7 +18,6 @@ export class PrePalnProductionService {
   }
 
   updatePrePlanProduction(data){
-    console.log("updatePrePlanProduction",data)
     return this.http.put(environment.apiUrl + "/pre_plan_production/update_pre_plan_production", data, { headers: this.header.getToken() });
   }
 }

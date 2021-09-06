@@ -41,6 +41,7 @@ export class ProductionComponent implements OnInit {
 
   isSubmitted: boolean = false;
   is_disabled: boolean;
+  isCategory: boolean;
   isProgressBar_table: boolean;
   isProgressBar: boolean;
   is_data: boolean;
@@ -58,6 +59,7 @@ export class ProductionComponent implements OnInit {
   update_raw_material_done: boolean;
   is_valid: boolean;
   is_collapsed: boolean;
+  isCollapsed: boolean;
 
   stop_production_data = [];
   stop_production_inventory_data = [];
@@ -66,7 +68,7 @@ export class ProductionComponent implements OnInit {
   productionRawMaterial_backup = [];
   productionData_backup = [];
   productData = [];
-  arr_product_from_category = [];
+  productName = [];
   arr_raw_material = [];
   arr_raw_material_backup = [];
   arr_production = [];
@@ -111,6 +113,7 @@ export class ProductionComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.isCollapsed = false;
     this.is_disabled = false;
     this.full_table = false;
     this.isProgressBar = true;
@@ -144,13 +147,42 @@ export class ProductionComponent implements OnInit {
     this.getPastProduction();
     this.getProductionInventoryT();
     this.getProductCategory();
+
+    this.productionService.prePlanProductionData.subscribe(prePlanProductionData => {
+      if (prePlanProductionData) {
+        this.isCollapsed = true;
+        let event = {
+          value: prePlanProductionData.category_id
+        }
+        let raw_material_ids = {
+          value: prePlanProductionData.product_id
+        }
+        this.productCategoryChange(event);
+        this.productChange(raw_material_ids, true);
+        this.productionForm.patchValue({
+          category_name: prePlanProductionData.category_id,
+          product_name: prePlanProductionData.product_id,
+          raw_material_ids: prePlanProductionData.raw_material_id
+        })
+        this.arr_raw_material_backup  = prePlanProductionData.quantity.split(',');
+        this.arr_raw_material_backup.map((d,index) => {
+          this.arr_raw_material_backup[index] = Number(this.arr_raw_material_backup[index])
+        })
+        this.is_disabled = true;
+        this.full_table = true;
+        this.is_table = true;
+      }
+    })
+  }
+
+  ongoingProduction() {
+    this.isCollapsed = true;
   }
 
   getProduction() {
     this.isProgressBar = true;
     this.productionService.getProduction().subscribe((getProduction: any) => {
       this.productionData = this.global.tableIndex(getProduction.data);
-      console.log(this.productionData)
       for (let i = 0; i < this.productionData.length; i++) {
         this.productionData[i].raw_material_quantity = this.productionData[i].raw_material_quantity.split(',')
         for (let j = 0; j < this.productionData[i].raw_material_quantity.length; j++) {
@@ -273,13 +305,13 @@ export class ProductionComponent implements OnInit {
     };
     this.category = event.value;
     this.productionService.getCategoryWiceProduct(category_id).subscribe((getCategoryWiceProduct: any) => {
-      this.arr_product_from_category = getCategoryWiceProduct.data;
+      this.productName = getCategoryWiceProduct.data;
       this.isProgressBar_table = false;
       this.is_disabled = true;
     });
   }
 
-  productChange(event) {
+  productChange(event, isPreProduction = false) {
     this.full_table = true;
     this.isProgressBar_table = true;
     this.is_table = false;
@@ -292,11 +324,12 @@ export class ProductionComponent implements OnInit {
       for (let i = 0; i < this.arr_raw_material.length; i++) {
         this.arr_raw_material[i].raw_material_quantity = new Intl.NumberFormat('en-IN').format(this.arr_raw_material[i].raw_material_quantity)
       }
-      getProductWiseRawMaterial.data.map((d) => {
-        this.arr_raw_material_backup.push(null);
-        console.log(this.arr_raw_material_backup);
-        this.isProgressBar_table = false;
-      });
+      if (!isPreProduction) {
+        getProductWiseRawMaterial.data.map((d) => {
+          this.arr_raw_material_backup.push(null);
+          this.isProgressBar_table = false;
+        });
+      }
       if (this.arr_raw_material.length > 0) {
         this.is_data = false;
         this.is_table = true;
@@ -313,7 +346,7 @@ export class ProductionComponent implements OnInit {
     this.isProgressBar = true;
     this.isSubmitted = true;
     this.production_done = true;
-
+    
     // check user insert quantity not null OR 0 OR not greater than database quantity
     this.arr_raw_material.map((d, index) => {
 
@@ -398,7 +431,6 @@ export class ProductionComponent implements OnInit {
             'created_date': this.global.getDateZone(),
             'created_time': this.global.getTimeZone()
           }
-          console.log("rawMaterail-->", raw_material)
           this.productionService.insertRawMaterialProduction(raw_material).subscribe((insertRawMaterial: any) => {
             this.productionService.getProduction().subscribe((getProduction: any) => {
               this.productionData = this.global.tableIndex(getProduction.data);
