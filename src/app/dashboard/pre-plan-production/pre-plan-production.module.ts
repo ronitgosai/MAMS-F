@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PrePlanProductionComponent } from './pre-plan-production.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'app/shared.module';
+import { CoreModule } from 'app/core/core.module';
 
 const routes: Routes = [
   {
@@ -11,7 +12,6 @@ const routes: Routes = [
   }
 ]
 
-
 @NgModule({
   declarations: [
     PrePlanProductionComponent,
@@ -19,6 +19,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    CoreModule,
     RouterModule.forChild(routes)
   ]
 })

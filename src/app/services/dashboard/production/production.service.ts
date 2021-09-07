@@ -2,11 +2,14 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
 import { Header } from "app/header";
+import { BehaviorSubject } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
 export class ProductionService {
   constructor(private http: HttpClient, private header: Header) { }
+
+  prePlanProductionData = new BehaviorSubject(null);
 
   getProduction() {
     return this.http.get(environment.apiUrl + "/production/get_production_list", { headers: this.header.getToken() });

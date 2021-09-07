@@ -59,7 +59,6 @@ export class StaffReportComponent implements OnInit {
     if (this.staffId === undefined || this.staffId === '') {
       this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
         this.staffName = this.global.tableIndex(staffDetails.data);
-        console.log(this.staffName);
         this.staffNameTable = true;
       })
       this.cancel();

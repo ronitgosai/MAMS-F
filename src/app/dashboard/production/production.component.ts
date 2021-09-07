@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from "@angular/forms";
@@ -11,6 +10,7 @@ import { ProductCategoryService } from "app/services/dashboard/master/product-ca
 import { ProductService } from "app/services/dashboard/product/product.service";
 import { ProductionService } from "app/services/dashboard/production/production.service";
 import { RawMaterialService } from "app/services/dashboard/raw-material/raw-material.service";
+import { PrePalnProductionService } from "app/services/dashboard/pre-plan-production/pre-paln-production.service";
 import { GlobalService } from "app/services/global.service";
 import { ToastrService } from "ngx-toastr";
 import { skip } from "rxjs/operators";
@@ -30,6 +30,7 @@ export class ProductionComponent implements OnInit {
     private rawMaterialService: RawMaterialService,
     private inventoryService: InventoryService,
     private productCategoryService: ProductCategoryService,
+    private prePalnProductionService: PrePalnProductionService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private global: GlobalService
@@ -42,6 +43,7 @@ export class ProductionComponent implements OnInit {
 
   isSubmitted: boolean = false;
   is_disabled: boolean;
+  isCategory: boolean;
   isProgressBar_table: boolean;
   isProgressBar: boolean;
   is_data: boolean;
@@ -59,6 +61,7 @@ export class ProductionComponent implements OnInit {
   update_raw_material_done: boolean;
   is_valid: boolean;
   is_collapsed: boolean;
+  isCollapsed: boolean;
 
   stop_production_data = [];
   stop_production_inventory_data = [];
@@ -67,7 +70,7 @@ export class ProductionComponent implements OnInit {
   productionRawMaterial_backup = [];
   productionData_backup = [];
   productData = [];
-  arr_product_from_category = [];
+  productName = [];
   arr_raw_material = [];
   arr_raw_material_backup = [];
   arr_production = [];
@@ -80,9 +83,10 @@ export class ProductionComponent implements OnInit {
   other_inventory_id = [];
   other_inventory_quantity = [];
   categoryName = [];
+  prePlanProductionId = [];
 
   product_inventory_id: any;
-  product_id: any
+  product_id: any;
   product_inventory_quantity: any;
   past_production_info: any;
   category: any;
@@ -112,6 +116,7 @@ export class ProductionComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.isCollapsed = false;
     this.is_disabled = false;
     this.full_table = false;
     this.isProgressBar = true;
@@ -145,6 +150,38 @@ export class ProductionComponent implements OnInit {
     this.getPastProduction();
     this.getProductionInventoryT();
     this.getProductCategory();
+
+    this.productionService.prePlanProductionData.subscribe(prePlanProductionData => {
+      if (prePlanProductionData) {
+        this.isCollapsed = true;
+        let event = {
+          value: prePlanProductionData.category_id
+        }
+        let raw_material_ids = {
+          value: prePlanProductionData.product_id
+        }
+        this.productCategoryChange(event);
+        this.productChange(raw_material_ids, true);
+        this.productionForm.patchValue({
+          category_name: prePlanProductionData.category_id,
+          product_name: prePlanProductionData.product_id,
+          raw_material_ids: prePlanProductionData.raw_material_id
+        })
+        this.arr_raw_material_backup = prePlanProductionData.quantity.split(',');
+        this.arr_raw_material_backup.map((d, index) => {
+          this.arr_raw_material_backup[index] = Number(this.arr_raw_material_backup[index])
+        })
+        this.prePlanProductionId = prePlanProductionData.pre_plan_production_id;
+        console.log(this.prePlanProductionId)
+        this.is_disabled = true;
+        this.full_table = true;
+        this.is_table = true;
+      }
+    })
+  }
+
+  ongoingProduction() {
+    this.isCollapsed = true;
   }
 
   getProduction() {
@@ -217,7 +254,7 @@ export class ProductionComponent implements OnInit {
     }
   }
 
-  getProductCategory(){
+  getProductCategory() {
     this.productCategoryService.getMasterProductCategory().subscribe((categoryName: any) => {
       this.categoryName = this.global.tableIndex(categoryName.data);
     })
@@ -273,13 +310,13 @@ export class ProductionComponent implements OnInit {
     };
     this.category = event.value;
     this.productionService.getCategoryWiceProduct(category_id).subscribe((getCategoryWiceProduct: any) => {
-      this.arr_product_from_category = getCategoryWiceProduct.data;
+      this.productName = getCategoryWiceProduct.data;
       this.isProgressBar_table = false;
       this.is_disabled = true;
     });
   }
 
-  productChange(event) {
+  productChange(event, isPreProduction = false) {
     this.full_table = true;
     this.isProgressBar_table = true;
     this.is_table = false;
@@ -292,11 +329,12 @@ export class ProductionComponent implements OnInit {
       for (let i = 0; i < this.arr_raw_material.length; i++) {
         this.arr_raw_material[i].raw_material_quantity = new Intl.NumberFormat('en-IN').format(this.arr_raw_material[i].raw_material_quantity)
       }
-      getProductWiseRawMaterial.data.map((d) => {
-        this.arr_raw_material_backup.push(null);
-        console.log(this.arr_raw_material_backup)
-        this.isProgressBar_table = false;
-      });
+      if (!isPreProduction) {
+        getProductWiseRawMaterial.data.map((d) => {
+          this.arr_raw_material_backup.push(null);
+          this.isProgressBar_table = false;
+        });
+      }
       if (this.arr_raw_material.length > 0) {
         this.is_data = false;
         this.is_table = true;
@@ -314,7 +352,14 @@ export class ProductionComponent implements OnInit {
     this.isSubmitted = true;
     this.production_done = true;
 
-    // check user insert quantity not null OR 0 OR not greater than database quantity 
+    let deletePrePlanProduction = {
+      'pre_plan_production_id': this.prePlanProductionId,
+      'session_id': localStorage.getItem('session_id'),
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
+    };
+
+    // check user insert quantity not null OR 0 OR not greater than database quantity
     this.arr_raw_material.map((d, index) => {
 
       if (this.arr_raw_material_backup[index] === null || this.arr_raw_material_backup[index] > this.arr_raw_material[index].raw_material_quantity) {
@@ -427,7 +472,8 @@ export class ProductionComponent implements OnInit {
             'updated_date': this.global.getDateZone(),
             'updated_time': this.global.getTimeZone(),
           }
-          this.rawMaterialService.updateRawMaterialQuantitySubstract(raw_material_quantity).subscribe((raw_material_quantity) => { })
+          this.rawMaterialService.updateRawMaterialQuantitySubstract(raw_material_quantity).subscribe((raw_material_quantity) => { });
+          this.prePalnProductionService.deletePrePlanProduction(deletePrePlanProduction).subscribe((deleteProduciton) => {});
         })
       })
       this.toastr.success("Successfully Start Production");

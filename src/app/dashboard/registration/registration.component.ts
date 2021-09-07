@@ -202,11 +202,11 @@ export class RegistrationComponent implements OnInit {
 
   editStaffInfo(staffId, cardIndex) {
     if (this.oldCardIndex === undefined) {
-      this.oldCardIndex = cardIndex
+      this.oldCardIndex = cardIndex;
     } else {
       if (this.oldCardIndex !== cardIndex) {
         let id = document.getElementById('staffInfo' + this.oldCardIndex).classList.remove('show')
-        this.oldCardIndex = cardIndex
+        this.oldCardIndex = cardIndex;
       }
     }
     let editData = this.staffDetails.find(d => d.staff_id === staffId);

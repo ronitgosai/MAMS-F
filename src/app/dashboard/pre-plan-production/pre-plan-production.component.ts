@@ -10,7 +10,9 @@ import { GlobalService } from 'app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
+import Swal from "sweetalert2";
+import { v4 as uuidv4 } from 'uuid';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-pre-plan-production',
   templateUrl: './pre-plan-production.component.html',
@@ -21,11 +23,12 @@ export class PrePlanProductionComponent implements OnInit {
   constructor(
     private titleService: Title,
     private formBuilder: FormBuilder,
+    private router: Router,
     private toastr: ToastrService,
     private global: GlobalService,
     private productionService: ProductionService,
     private rawMaterialService: RawMaterialService,
-    private PrePalnProductionService: PrePalnProductionService,
+    private prePalnProductionService: PrePalnProductionService,
     private productCategoryService: ProductCategoryService,
     private productService: ProductService
   ) {
@@ -44,8 +47,10 @@ export class PrePlanProductionComponent implements OnInit {
   prePlanProductionForm: FormGroup;
 
   prePlanProductionData = [];
+  selectedPrePlanProductionData: any;
   rawMaterialName = [];
   rawMaterialNameBackup = [];
+  updatePrePlanProduction = [];
   categoryName = [];
   productName = [];
 
@@ -56,30 +61,47 @@ export class PrePlanProductionComponent implements OnInit {
   p: any = '1';
   entriesPerPage: any = '10';
   value = 'Clear me';
-  old_card_index: any;
+  oldCardIndex: any;
 
-  protected _onDestroy = new Subject<void>();
+  protected onDestroy = new Subject<void>();
   public rawMaterialMultiFilterCtrl: FormControl = new FormControl();
   public filteredRawMaterialMulti: ReplaySubject<any[]> = new ReplaySubject<any[]>();
 
   ngOnInit(): void {
+    this.isProduct = false;
+    this.isRawMaterial = false;
+    this.rawMaterialNameBackup = [];
+
     this.prePlanProductionForm = this.formBuilder.group({
       categoryId: ['', [Validators.required]],
       productId: ['', [Validators.required]],
       rawMaterialId: ['', [Validators.required]],
-      quantity: ['', [Validators.required]]
     })
 
+    this.getPrePlanProductionList();
     this.getRawMaterialName();
     this.getCategoryName();
-    // this.getProductName();
+    // this.getProductName(); 
+  }
+
+
+  getPrePlanProductionList() {
+    this.prePalnProductionService.getPrPlanProductionList().subscribe((prePlanProduction: any) => {
+      this.prePlanProductionData = this.global.tableIndex(prePlanProduction.data);
+      for (let i = 0; i < this.prePlanProductionData.length; i++) {
+        // this.prePlanProductionData[i].quantity = this.prePlanProductionData[i].quantity.split(',')
+        for (let j = 0; j < this.prePlanProductionData[i].quantity.length; j++) {
+          // this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
+        }
+      }
+    })
   }
 
   getRawMaterialName() {
     this.rawMaterialService.getRawMaterial().subscribe((getRawMaterialName: any) => {
       this.rawMaterialName = this.global.tableIndex(getRawMaterialName.data);
       this.filteredRawMaterialMulti.next(getRawMaterialName.data.slice());
-      this.rawMaterialMultiFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
+      this.rawMaterialMultiFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
         this.filterBanks();
       });
     })
@@ -91,7 +113,7 @@ export class PrePlanProductionComponent implements OnInit {
     })
   }
 
-  categoryChange(event){
+  categoryChange(event) {
     this.categoryId = event.value
     this.isRawMaterial = false;
     this.isRawMaterialTable = false;
@@ -106,61 +128,212 @@ export class PrePlanProductionComponent implements OnInit {
     });
   }
 
-  productChange(event){
+  productChange(event) {
     this.productId = event.value
-    this.isRawMaterial = true;
     this.isProgressBarTable = true;
     this.isRawMaterialTable = false;
-    // this.product_id = event.value
     let rawMaterialID = {
       'product_id': event.value
     }
     this.productionService.getProductWiseRawMaterial(rawMaterialID).subscribe((getProductWiseRawMaterial: any) => {
       this.rawMaterialName = getProductWiseRawMaterial.data;
-      console.log(this.rawMaterialName)
       for (let i = 0; i < this.rawMaterialName.length; i++) {
         this.rawMaterialName[i].raw_material_quantity = new Intl.NumberFormat('en-IN').format(this.rawMaterialName[i].raw_material_quantity)
       }
-      getProductWiseRawMaterial.data.map((d) => {
+      this.rawMaterialName.map((d) => {
         this.rawMaterialNameBackup.push(null);
         this.isProgressBarTable = false;
       });
-      if (this.rawMaterialName.length > 0) {
-        this.isRawMaterialTable = true;
-      } else if (this.rawMaterialName.length === 0) {
-        this.isRawMaterialTable = false;
-      }
+      this.isRawMaterial = true;
     });
-    this.rawMaterialNameBackup.length = 0;
   }
 
   search() {
 
   }
 
-
   insertPrePlanProduction() {
-    console.log(this.rawMaterialNameBackup)
-    this.rawMaterialName.map((d,i) => {
-      let prePlanData = {
-        'category_id': this.categoryId,
-        'product_id': this.productId,
-        'raw_material_id': d.raw_material_id,
-        'quantity': this.rawMaterialNameBackup[i],
-        'session_id': localStorage.getItem('session_id'),
-        'created_date': this.global.getDateZone(),
-        'created_time': this.global.getTimeZone()
+    let isRawMaterialBackup: boolean = true;
+    this.rawMaterialNameBackup.map((d,i) => {
+      if(d === null){
+        isRawMaterialBackup = false;
       }
-      console.log("prePlanData",prePlanData)
-      this.PrePalnProductionService.createPrePlanProduction(prePlanData).subscribe((createPrePlanProduction) => {
-        console.log(createPrePlanProduction)
+    })
+    if(isRawMaterialBackup){
+      let prePlanProductionId = uuidv4();
+      this.rawMaterialName.map((d, i) => {
+        let prePlanData = {
+          'pre_plan_production_id': prePlanProductionId,
+          'category_id': this.categoryId,
+          'product_id': this.productId,
+          'raw_material_id': d.raw_material_id,
+          'quantity': this.rawMaterialNameBackup[i],
+          'session_id': localStorage.getItem('session_id'),
+          'created_date': this.global.getDateZone(),
+          'created_time': this.global.getTimeZone()
+        }
+        this.prePalnProductionService.createPrePlanProduction(prePlanData).subscribe((createPrePlanProduction) => {
+          this.prePalnProductionService.getPrPlanProductionList().subscribe((prePlanProduction: any) => {
+            this.prePlanProductionData = this.global.tableIndex(prePlanProduction.data);
+            for (let i = 0; i < this.prePlanProductionData.length; i++) {
+              for (let j = 0; j < this.prePlanProductionData[i].quantity.length; j++) {
+                // this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
+              }
+            }
+          })
+        })
       })
+      this.toastr.success("Successfully Start Production");
+      document.getElementById("collapseButton").click();
+      this.prePlanProductionForm.reset();
+      this.rawMaterialNameBackup = null;
+      this.isProduct = false;
+      this.isRawMaterial = false;
+    } else {
+      console.log("if")
+      this.isProduct = true;
+      this.isRawMaterial = true;
+      this.toastr.error("Please Enter Raw Material Quantity");
+    }
+  }
+
+  startProduction(prePlanProductionId) {
+    this.prePlanProductionData.map((d, index) => {
+      if (d.pre_plan_production_id === prePlanProductionId) {
+        this.selectedPrePlanProductionData = d;
+      }
+    })
+    this.productionService.prePlanProductionData.next(this.selectedPrePlanProductionData);
+    this.router.navigateByUrl('/dashboard/production');
+  }
+
+  editPrePlanProduction(prePlanProductionId, cardIndex) {
+    if (this.oldCardIndex === undefined) {
+      this.oldCardIndex = cardIndex;
+    } else {
+      if (this.oldCardIndex !== cardIndex) {
+        let id = document.getElementById("editPrePlanProduction" + this.oldCardIndex).classList.remove('show')
+        this.oldCardIndex = cardIndex;
+      }
+    }
+  }
+
+  updatdePrePlanProduction(cardIndex) {
+    let rawMaterialId = [];
+    rawMaterialId = this.prePlanProductionData[cardIndex].raw_material_id.split(',');
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure want to update Pre Plan Production Information?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, update it!',
+      cancelButtonText: 'No, cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        rawMaterialId.map((d, i) => {
+          if (this.updatePrePlanProduction[i] === null) {
+            this.isProduct = true;
+            this.isRawMaterial = true;
+            this.toastr.error("Please Enter Raw Material Quantity");
+          } else {
+            let updatePrePlanProductionInfo = {
+              'pre_plan_production_id': this.prePlanProductionData[cardIndex].pre_plan_production_id,
+              'raw_material_id': rawMaterialId[i],
+              'quantity': this.updatePrePlanProduction[i],
+              'session_id': localStorage.getItem('session_id'),
+              'updated_date': this.global.getDateZone(),
+              'updated_time': this.global.getTimeZone()
+            }
+            this.prePalnProductionService.updatePrePlanProduction(updatePrePlanProductionInfo).subscribe((updateProduction) => {
+              this.prePalnProductionService.getPrPlanProductionList().subscribe((prPlanProductionList: any) => {
+                this.prePlanProductionData = this.global.tableIndex(prPlanProductionList.data);
+              })
+            })
+          }
+        })
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'Pre Plan Production Information is unchanged.',
+          'error'
+        )
+      }
     })
   }
 
+  deletePrePlanProduction(prePlanProductionId) {
+    let deletePrePlanProduction = {
+      'pre_plan_production_id': prePlanProductionId,
+      'session_id': localStorage.getItem('session_id'),
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
+    };
+    console.log(deletePrePlanProduction)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons.fire({
+      title: "Are you sure want to Delete Pre Plan Production?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.prePalnProductionService.deletePrePlanProduction(deletePrePlanProduction).subscribe((deleteProduciton) => {
+          this.prePalnProductionService.getPrPlanProductionList().subscribe((getPrePlanProduction: any) => {
+            this.prePlanProductionData = this.global.tableIndex(getPrePlanProduction.data);
+          });
+          this.toastr.success("Pre Plan Production deleted successfully");
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Your Pre Plan Production has beeen deleted.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Your Pre Plan Production is safe :)",
+            "error"
+          );
+        }
+      }
+    );
+  }
+
+  cancel() {
+    this.rawMaterialNameBackup = null;
+    this.prePlanProductionForm.reset();
+    this.isProduct = false;
+    this.isRawMaterial = false;
+  }
+
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.onDestroy.next();
+    this.onDestroy.complete();
   }
 
   protected filterBanks() {
