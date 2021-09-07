@@ -70,7 +70,7 @@
                                 </table>
                                 <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b" (click)="cancel()"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
                                 <button mat-flat-button type="reset" data-toggle="collapse" data-target="#preplan" class="cancel pull-right ml-2" (click)="cancel()"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                <button mat-flat-button type="button" class="save pull-right" (click)="insertPrePlanProduction()"><span class="fas fa-save"></span>&nbsp;&nbsp;Create New Production Pre Plan</button>
+                                <button mat-flat-button type="button" class="save pull-right" (click)="insertPrePlanProduction()"><span class="fas fa-save"></span>&nbsp;&nbsp;Create New Pre Plan Production</button>
                             </form>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
                                                 </ng-container>
                                                 <ng-container>
                                                     <div>
-                                                        <button mat-stroked-button (click)="deletePrePlanProduction(data.production_id,i)"><span class="fa fa-trash c-red"></span>&nbsp;&nbsp;Delete</button>
+                                                        <button mat-stroked-button (click)="deletePrePlanProduction(data.pre_plan_production_id)"><span class="fa fa-trash c-red"></span>&nbsp;&nbsp;Delete</button>
                                                     </div>
                                                 </ng-container>
                                             </div>
@@ -197,7 +197,7 @@
                                                     </table>
                                                     <button mat-flat-button type="reset" id="reset_data" (click)="onClickreset()" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
                                                     <button mat-flat-button type="reset" (click)="onClickreset()" data-toggle="collapse" [attr.data-target]="'#ongoing_production' + i" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                    <button mat-flat-button type="button" class="save pull-right" (click)="updatdePrePlanProduction(data.pre_plan_production_id,data.raw_material_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Raw Material</button>
+                                                    <button mat-flat-button type="button" class="save pull-right" (click)="updatdePrePlanProduction(i)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Raw Material</button>
                                                 </div>
                                             </div>
                                         </td>

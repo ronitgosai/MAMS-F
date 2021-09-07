@@ -20,4 +20,8 @@ export class PrePalnProductionService {
   updatePrePlanProduction(data){
     return this.http.put(environment.apiUrl + "/pre_plan_production/update_pre_plan_production", data, { headers: this.header.getToken() });
   }
+
+  deletePrePlanProduction(data){
+    return this.http.put(environment.apiUrl + "/pre_plan_production/delete_pre_plan_production", data, { headers: this.header.getToken() });
+  }
 }

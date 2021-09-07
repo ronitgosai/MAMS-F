@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { ProductService } from 'app/services/dashboard/product/product.service';
 import { ToastrService } from 'ngx-toastr';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import Swal from "sweetalert2";
 import { RawMaterialService } from 'app/services/dashboard/raw-material/raw-material.service';
 import { GlobalService } from 'app/services/global.service';

@@ -50,7 +50,6 @@ export class PrePlanProductionComponent implements OnInit {
   selectedPrePlanProductionData: any;
   rawMaterialName = [];
   rawMaterialNameBackup = [];
-  rawMaterialId = [];
   updatePrePlanProduction = [];
   categoryName = [];
   productName = [];
@@ -71,6 +70,7 @@ export class PrePlanProductionComponent implements OnInit {
   ngOnInit(): void {
     this.isProduct = false;
     this.isRawMaterial = false;
+    this.rawMaterialNameBackup = [];
 
     this.prePlanProductionForm = this.formBuilder.group({
       categoryId: ['', [Validators.required]],
@@ -153,12 +153,13 @@ export class PrePlanProductionComponent implements OnInit {
   }
 
   insertPrePlanProduction() {
-    console.log("rawmaterial name-->",this.rawMaterialName)
-    if (this.rawMaterialNameBackup === null) {
-      this.isProduct = true;
-      this.isRawMaterial = true;
-      this.toastr.error("Please Enter Raw Material Quantity");
-    } else {
+    let isRawMaterialBackup: boolean = true;
+    this.rawMaterialNameBackup.map((d,i) => {
+      if(d === null){
+        isRawMaterialBackup = false;
+      }
+    })
+    if(isRawMaterialBackup){
       let prePlanProductionId = uuidv4();
       this.rawMaterialName.map((d, i) => {
         let prePlanData = {
@@ -171,13 +172,12 @@ export class PrePlanProductionComponent implements OnInit {
           'created_date': this.global.getDateZone(),
           'created_time': this.global.getTimeZone()
         }
-        console.log(prePlanData)
         this.prePalnProductionService.createPrePlanProduction(prePlanData).subscribe((createPrePlanProduction) => {
           this.prePalnProductionService.getPrPlanProductionList().subscribe((prePlanProduction: any) => {
             this.prePlanProductionData = this.global.tableIndex(prePlanProduction.data);
             for (let i = 0; i < this.prePlanProductionData.length; i++) {
               for (let j = 0; j < this.prePlanProductionData[i].quantity.length; j++) {
-                this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
+                // this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
               }
             }
           })
@@ -189,7 +189,22 @@ export class PrePlanProductionComponent implements OnInit {
       this.rawMaterialNameBackup = null;
       this.isProduct = false;
       this.isRawMaterial = false;
+    } else {
+      console.log("if")
+      this.isProduct = true;
+      this.isRawMaterial = true;
+      this.toastr.error("Please Enter Raw Material Quantity");
     }
+  }
+
+  startProduction(prePlanProductionId) {
+    this.prePlanProductionData.map((d, index) => {
+      if (d.pre_plan_production_id === prePlanProductionId) {
+        this.selectedPrePlanProductionData = d;
+      }
+    })
+    this.productionService.prePlanProductionData.next(this.selectedPrePlanProductionData);
+    this.router.navigateByUrl('/dashboard/production');
   }
 
   editPrePlanProduction(prePlanProductionId, cardIndex) {
@@ -203,12 +218,9 @@ export class PrePlanProductionComponent implements OnInit {
     }
   }
 
-  updatdePrePlanProduction(prePlanProductionId, rawMaterialId) {
-    this.rawMaterialId = rawMaterialId
-    console.log(this.rawMaterialId)
-    this.prePlanProductionData.map((d, i) => {
-      console.log(this.rawMaterialId[i]);
-    })
+  updatdePrePlanProduction(cardIndex) {
+    let rawMaterialId = [];
+    rawMaterialId = this.prePlanProductionData[cardIndex].raw_material_id.split(',');
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -226,21 +238,20 @@ export class PrePlanProductionComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.prePlanProductionData.map((d, i) => {
+        rawMaterialId.map((d, i) => {
           if (this.updatePrePlanProduction[i] === null) {
             this.isProduct = true;
             this.isRawMaterial = true;
             this.toastr.error("Please Enter Raw Material Quantity");
           } else {
             let updatePrePlanProductionInfo = {
-              'pre_plan_production_id': prePlanProductionId,
-              'raw_material_id': this.rawMaterialId[i],
+              'pre_plan_production_id': this.prePlanProductionData[cardIndex].pre_plan_production_id,
+              'raw_material_id': rawMaterialId[i],
               'quantity': this.updatePrePlanProduction[i],
               'session_id': localStorage.getItem('session_id'),
               'updated_date': this.global.getDateZone(),
               'updated_time': this.global.getTimeZone()
             }
-            console.log("update -->", updatePrePlanProductionInfo)
             this.prePalnProductionService.updatePrePlanProduction(updatePrePlanProductionInfo).subscribe((updateProduction) => {
               this.prePalnProductionService.getPrPlanProductionList().subscribe((prPlanProductionList: any) => {
                 this.prePlanProductionData = this.global.tableIndex(prPlanProductionList.data);
@@ -261,18 +272,56 @@ export class PrePlanProductionComponent implements OnInit {
     })
   }
 
-  startProduction(prePlanProductionId){
-    this.prePlanProductionData.map((d,index) => {
-      if(d.pre_plan_production_id === prePlanProductionId){
-        this.selectedPrePlanProductionData = d;
-      }
+  deletePrePlanProduction(prePlanProductionId) {
+    let deletePrePlanProduction = {
+      'pre_plan_production_id': prePlanProductionId,
+      'session_id': localStorage.getItem('session_id'),
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
+    };
+    console.log(deletePrePlanProduction)
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons.fire({
+      title: "Are you sure want to Delete Pre Plan Production?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
     })
-    this.productionService.prePlanProductionData.next(this.selectedPrePlanProductionData);
-    this.router.navigateByUrl('/dashboard/production');
-  }
-
-  deletePrePlanProduction() {
-
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.prePalnProductionService.deletePrePlanProduction(deletePrePlanProduction).subscribe((deleteProduciton) => {
+          this.prePalnProductionService.getPrPlanProductionList().subscribe((getPrePlanProduction: any) => {
+            this.prePlanProductionData = this.global.tableIndex(getPrePlanProduction.data);
+          });
+          this.toastr.success("Pre Plan Production deleted successfully");
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Your Pre Plan Production has beeen deleted.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Your Pre Plan Production is safe :)",
+            "error"
+          );
+        }
+      }
+    );
   }
 
   cancel() {

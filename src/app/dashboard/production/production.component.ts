@@ -10,6 +10,7 @@ import { ProductCategoryService } from "app/services/dashboard/master/product-ca
 import { ProductService } from "app/services/dashboard/product/product.service";
 import { ProductionService } from "app/services/dashboard/production/production.service";
 import { RawMaterialService } from "app/services/dashboard/raw-material/raw-material.service";
+import { PrePalnProductionService } from "app/services/dashboard/pre-plan-production/pre-paln-production.service";
 import { GlobalService } from "app/services/global.service";
 import { ToastrService } from "ngx-toastr";
 import { skip } from "rxjs/operators";
@@ -29,6 +30,7 @@ export class ProductionComponent implements OnInit {
     private rawMaterialService: RawMaterialService,
     private inventoryService: InventoryService,
     private productCategoryService: ProductCategoryService,
+    private prePalnProductionService: PrePalnProductionService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private global: GlobalService
@@ -81,9 +83,10 @@ export class ProductionComponent implements OnInit {
   other_inventory_id = [];
   other_inventory_quantity = [];
   categoryName = [];
+  prePlanProductionId = [];
 
   product_inventory_id: any;
-  product_id: any
+  product_id: any;
   product_inventory_quantity: any;
   past_production_info: any;
   category: any;
@@ -164,10 +167,12 @@ export class ProductionComponent implements OnInit {
           product_name: prePlanProductionData.product_id,
           raw_material_ids: prePlanProductionData.raw_material_id
         })
-        this.arr_raw_material_backup  = prePlanProductionData.quantity.split(',');
-        this.arr_raw_material_backup.map((d,index) => {
+        this.arr_raw_material_backup = prePlanProductionData.quantity.split(',');
+        this.arr_raw_material_backup.map((d, index) => {
           this.arr_raw_material_backup[index] = Number(this.arr_raw_material_backup[index])
         })
+        this.prePlanProductionId = prePlanProductionData.pre_plan_production_id;
+        console.log(this.prePlanProductionId)
         this.is_disabled = true;
         this.full_table = true;
         this.is_table = true;
@@ -346,7 +351,14 @@ export class ProductionComponent implements OnInit {
     this.isProgressBar = true;
     this.isSubmitted = true;
     this.production_done = true;
-    
+
+    let deletePrePlanProduction = {
+      'pre_plan_production_id': this.prePlanProductionId,
+      'session_id': localStorage.getItem('session_id'),
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
+    };
+
     // check user insert quantity not null OR 0 OR not greater than database quantity
     this.arr_raw_material.map((d, index) => {
 
@@ -460,7 +472,8 @@ export class ProductionComponent implements OnInit {
             'updated_date': this.global.getDateZone(),
             'updated_time': this.global.getTimeZone(),
           }
-          this.rawMaterialService.updateRawMaterialQuantitySubstract(raw_material_quantity).subscribe((raw_material_quantity) => { })
+          this.rawMaterialService.updateRawMaterialQuantitySubstract(raw_material_quantity).subscribe((raw_material_quantity) => { });
+          this.prePalnProductionService.deletePrePlanProduction(deletePrePlanProduction).subscribe((deleteProduciton) => {});
         })
       })
       this.toastr.success("Successfully Start Production");
