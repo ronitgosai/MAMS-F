@@ -1,142 +1,144 @@
-<div class="main-content">
-    <div class="container-fluid">
-        <div class="card">
-            <div class="row row-title">
-                <div class="col-md-6">
-                    <span class="fs-20 fw-600">Products</span>
-                </div>
-                <div class="col-md-6">
-                    <button mat-flat-button class="float-right save" data-toggle="collapse" data-target="#product" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
-                        <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Product
-                    </button>
-                </div>
-            </div>
-            <div class="row ml-20 mr-20">
-                <div class="col-md-12">
-                    <div class="collapse" id="product">
-                        <div class="card-body">
-                            <form class="productForm" [formGroup]="productForm">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <mat-form-field appearance="fill">
-                                            <mat-label>Category</mat-label>
-                                            <mat-select formControlName="category_id">
-                                                <ng-container *ngFor="let data of category">
-                                                    <mat-option value="{{ data.category_id }}">{{ data.category_name }}</mat-option>
-                                                </ng-container>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <mat-form-field class="form-field">
-                                            <input matInput class="p-0" formControlName="product_name" placeholder="Product Name" required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <mat-form-field class="form-field">
-                                            <input matInput class="p-0" formControlName="product_technical_name" placeholder="Product Technical Name" required>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 align-items-center d-flex">
-                                        <mat-select class="line fs-15 fw-400" formControlName="raw_material_id" [multiple]="true" placeholder="Raw Material Name" required #multiselect>
-                                            <mat-option>
-                                                <ngx-mat-select-search [formControl]="raw_material_multi_FilterCtrl" placeholderLabel="Search here!"
-                                                    [noEntriesFoundLabel]="'Not result found'"></ngx-mat-select-search>
-                                            </mat-option>
-                                            <mat-option *ngFor="let data of filtered_raw_material_name_multi | async" [value]="data.raw_material_id">
-                                                {{ data.raw_material_name }}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                    <div class="col-md-6 dropdown">
-                                        <mat-form-field appearance="fill">
-                                            <mat-label>Product Form</mat-label>
-                                            <mat-select formControlName="product_form" required>
-                                                <mat-option value="1">Liquid Product</mat-option>
-                                                <mat-option value="2">Solid Product</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                <button mat-flat-button type="reset" data-toggle="collapse" data-target="#product" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                <button mat-flat-button type="button" class="save pull-right" (click)="insertProduct()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Product</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr class="m-0 mt-10">
-            <div class="row ml-20 mr-20">
-                <div class="col-md-12">
-                    <div class="card-body">
-                        <div class="col-md-12">
-                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="search()" placeholder="Search Product Name">
-                            </mat-search-bar>
-                        </div><br><br>
-                        <div class="table-responsive">
-                            <table id="example" class="table width-100">
-                                <thead class="text">
-                                    <tr>
-                                        <!-- <div class="d-flex"> -->
-                                            <td class="font-weight-bold">#</td>
-                                            <td class="font-weight-bold">Category</td>
-                                            <td class="font-weight-bold">Product Name</td>
-                                            <td class="font-weight-bold">Technical Name</td>
-                                            <td class="font-weight-bold">Raw Material Name</td>
-                                            <td class="font-weight-bold">Action</td>
-                                        <!-- </div> -->
-                                    </tr>
-                                </thead><br>
-                                <ng-container *ngIf="isProgressBar" class="m-20 p-20">
-                                    <td colspan="5">
-                                        <mat-progress-bar mode="indeterminate">
-                                        </mat-progress-bar>
-                                    </td>
-                                </ng-container>
-                                <ng-container class="align-items-center m-20 text-center" *ngIf="is_data">
-                                    <p class="fs-16 fw-400">No Data Available.</p>
-                                </ng-container>
-                                <tbody *ngIf="is_table">
-                                    <tr *ngFor="let data of arr_product_data | paginate: {id:'pagination_product',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
-                                        <td>{{ data.index }}</td>
-                                        <td appColor [data]="data.category_color">{{ data.category_names }}</td>
-                                        <td appColor [data]="data.category_color" >{{ data.product_name }} </td>
-                                        <td>{{ data.product_technical_name }}</td>
-                                        <td>
-                                            <div class="font-weight-bold">
-                                                <ng-container *ngFor="let name of data.raw_material_names.split(',')">
-                                                    <div><span class="fas fa-arrow-right"></span>&nbsp;&nbsp;{{ name }}</div>
-                                                </ng-container>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button mat-stroked-button class="ml-3" (click)="deleteProduct(data.product_id,data.product_name)"><span class="fa fa-trash c-red"></span></button>
-                                        </td>
-                                    </tr><br>
-                                </tbody><br>
-                            </table>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <pagination-controls id="pagination_product" (pageChange)="p = $event" class="f-l"></pagination-controls>
-                                </div>
-                                <div class="col-md-6 z-index-9">
-                                    <mat-form-field appearance="fill" class="width-22 f-r">
-                                        <mat-label>Entries per page</mat-label>
-                                        <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
-                                            <mat-option value="10">10</mat-option>
-                                            <mat-option value="20">20</mat-option>
-                                            <mat-option value="35">35</mat-option>
-                                            <mat-option value="40">40</mat-option>
-                                            <mat-option value="50">50</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
+<div class="card">
+    <div class="row row-title">
+        <div class="col-md-6">
+            <span class="fs-20 fw-600">Products</span>
+        </div>
+        <div class="col-md-6">
+            <button mat-flat-button class="float-right save" data-toggle="collapse" data-target="#product" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+                <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Product
+            </button>
+        </div>
+    </div>
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="collapse" id="product">
+                <div class="card-body">
+                    <form class="productForm" [formGroup]="productForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Category</mat-label>
+                                    <mat-select formControlName="category_id">
+                                        <ng-container *ngFor="let data of category">
+                                            <mat-option value="{{ data.category_id }}">{{ data.category_name }}</mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="form-field">
+                                    <input matInput class="p-0" formControlName="product_name" placeholder="Product Name" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="form-field">
+                                    <input matInput class="p-0" formControlName="product_technical_name" placeholder="Product Technical Name" required>
+                                </mat-form-field>
                             </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-6 align-items-center d-flex">
+                                <mat-select class="line fs-15 fw-400" formControlName="raw_material_id" [multiple]="true" placeholder="Raw Material Name" required #multiselect>
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="raw_material_multi_FilterCtrl" placeholderLabel="Search here!"
+                                            [noEntriesFoundLabel]="'Not result found'"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of filtered_raw_material_name_multi | async" [value]="data.raw_material_id">
+                                        {{ data.raw_material_name }}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="col-md-6 dropdown">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Product Form</mat-label>
+                                    <mat-select formControlName="product_form" required>
+                                        <mat-option value="1">Liquid Product</mat-option>
+                                        <mat-option value="2">Solid Product</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#product" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                        <button mat-flat-button type="button" class="save pull-right" (click)="insertProduct()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 mt-10">
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="search()" placeholder="Search Product Name">
+                    </mat-search-bar>
+                </div><br><br>
+                <div class="table-responsive">
+                    <table id="example" class="table width-100">
+                        <thead class="text font-weight-bold">
+                                <th>#</th>
+                                <th>Category</th>
+                                <th>Product Name</th>
+                                <th>Technical Name</th>
+                                <th>Raw Material Name</th>
+                                <td class="text-align-end">Action</td>
+                        </thead><br>
+                        <ng-container *ngIf="isProgressBar">
+                            <tr class="border-none">
+                                <td colspan="6"> 
+                                    <mat-progress-bar mode="indeterminate">   
+                                    </mat-progress-bar>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="is_data">
+                            <tr class="align-items-center m-20 text-center">
+                                <td colspan="6"> 
+                                    <p class="fs-16 fw-400">No Data Available.</p>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="is_table">
+                            <tbody *ngFor="let data of arr_product_data | paginate: {id:'pagination_product',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
+                                <tr>
+                                    <td>{{ data.index }}</td>
+                                    <td appColor [data]="data.category_color">{{ data.category_names }}</td>
+                                    <td appColor [data]="data.category_color" >{{ data.product_name }} </td>
+                                    <td>{{ data.product_technical_name }}</td>
+                                    <td>
+                                        <div class="font-weight-bold">
+                                            <ng-container *ngFor="let name of data.raw_material_names.split(',')">
+                                                <div><span class="fas fa-arrow-right"></span>&nbsp;&nbsp;{{ name }}</div>
+                                            </ng-container>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button mat-stroked-button class="ml-3" (click)="deleteProduct(data.product_id,data.product_name)"><span class="fa fa-trash c-red"></span></button>
+                                    </td>
+                                </tr>
+                            </tbody><br>
+                        </ng-container>
+                    </table>
+                    <ng-container *ngIf="is_table">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <pagination-controls id="pagination_product" (pageChange)="p = $event" class="f-l"></pagination-controls>
+                            </div>
+                            <div class="col-md-6 z-index-9">
+                                <mat-form-field appearance="fill" class="width-22 f-r">
+                                    <mat-label>Entries per page</mat-label>
+                                    <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
         </div>

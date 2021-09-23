@@ -10,32 +10,35 @@
                     </ng-template>
                     <div class="card-body"><br>
                         <div class="col-md-12">
-                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text'
-                                name="product_name" [(ngModel)]="product_name" (ngModelChange)="searchProduct()"
-                                placeholder="Search Product Name">
+                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="searchProduct()" placeholder="Search Product Name">
                             </mat-search-bar>
                         </div>
                         <div class="table-responsive">
-                            <table id="example" class="table ">
-                                <thead class="text fs-14 fw-500">
+                            <table id="example" class="table">
+                                <thead class="text font-weight-bold">
                                     <th>#</th>
                                     <th>Product</th>
                                     <th>Technical Name</th>
                                     <th>Name</th>
                                     <th>Quantity</th>
                                 </thead>
-                                <ng-container *ngIf="isProgressBar_product" class="m-20 p-20">
-                                    <td colspan="5">
-                                        <mat-progress-bar mode="indeterminate">
-                                        </mat-progress-bar>
-                                    </td>
+                                <ng-container *ngIf="isProgressBar_product">
+                                    <tr class="m-20 p-20">
+                                        <td colspan="5">
+                                            <mat-progress-bar mode="indeterminate">
+                                            </mat-progress-bar>
+                                        </td>
+                                    </tr>
                                 </ng-container>
-                                <ng-container class="align-items-center m-20 text-center" *ngIf="is_data_product">
-                                    <p class="fs-16 fw-400">No Data Available.</p>
+                                <ng-container *ngIf="is_data_product">
+                                    <tr class="align-items-center m-20 text-center">
+                                        <td colspan="5">
+                                            <p class="fs-16 fw-400">No Data Available.</p>
+                                        </td>
+                                    </tr>
                                 </ng-container>
                                 <tbody *ngIf="is_table_product">
-                                    <tr
-                                        *ngFor="let data of arr_product_data | paginate: {id:'pagination_product',itemsPerPage:entries_per_page_product,currentPage:p_product}; let i = index">
+                                    <tr *ngFor="let data of arr_product_data | paginate: {id:'pagination_product',itemsPerPage:entries_per_page_product,currentPage:p_product}; let i = index">
                                         <td>{{ data.index }}</td>
                                         <td appColor [data]="data.category_color">
                                             <b>{{ data.product_name }}</b>&nbsp;&nbsp;<br>
@@ -51,27 +54,28 @@
                                     </tr><br>
                                 </tbody>
                             </table>
-                            <div class="row">
-                                <div class="col-md-6 mt-3">
-                                    <pagination-controls id="pagination_product"
-                                        (pageChange)="p_product = $event" class="f-l"></pagination-controls>
+                            <ng-container *ngIf="is_table_product">
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <pagination-controls id="pagination_product" (pageChange)="p_product = $event" class="f-l"></pagination-controls>
+                                    </div>
+                                    <div class="col-md-6 z-index-9">
+                                        <mat-form-field appearance="fill" class="width-22 f-r">
+                                            <mat-label>Entries per page</mat-label>
+                                            <mat-select id='entries_per_page_product'
+                                                [(value)]="entries_per_page_product"
+                                                [(ngModel)]="entries_per_page_product"
+                                                (selectionChange)="pagination($event)">
+                                                <mat-option value="10">10</mat-option>
+                                                <mat-option value="20">20</mat-option>
+                                                <mat-option value="35">35</mat-option>
+                                                <mat-option value="40">40</mat-option>
+                                                <mat-option value="50">50</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 z-index-9">
-                                    <mat-form-field appearance="fill" class="width-22 f-r">
-                                        <mat-label>Entries per page</mat-label>
-                                        <mat-select id='entries_per_page_product'
-                                            [(value)]="entries_per_page_product"
-                                            [(ngModel)]="entries_per_page_product"
-                                            (selectionChange)="pagination($event)">
-                                            <mat-option value="10">10</mat-option>
-                                            <mat-option value="20">20</mat-option>
-                                            <mat-option value="35">35</mat-option>
-                                            <mat-option value="40">40</mat-option>
-                                            <mat-option value="50">50</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </div>
+                            </ng-container>
                         </div>
                     </div>
                 </mat-tab>
@@ -83,73 +87,64 @@
                     </ng-template>
                     <div class="card-body"><br>
                         <div class="col-md-12">
-                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text'
-                                name="raw_material_name" [(ngModel)]="raw_material_name" (ngModelChange)="search()"
-                                placeholder="Search Raw Material Name">
+                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="raw_material_name" [(ngModel)]="raw_material_name" (ngModelChange)="search()" placeholder="Search Raw Material Name">
                             </mat-search-bar>
                         </div>
                         <br>
                         <div class="table-responsive">
                             <table id="example" class="table">
-                                <thead class="text">
-                                    <th>
-                                        <div class="top_row">
-                                            <div class="d-flex">
-                                                <div class="align-items-center d-flex min-width-120">#</div>
-                                                <div class="flex-even justify-content-start">Raw Material Name</div>
-                                                <div class="flex-even justify-content-center">Quantity</div>
-                                                <div class="flex-even justify-content-center">Unit</div>
-                                            </div>
-                                        </div>
-                                    </th>
+                                <thead class="text font-weight-bold">
+                                        <th>#</th>
+                                        <th>Raw Material Name</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
                                 </thead>
-                                <div *ngIf="isProgressBar_raw_material" class="m-20 p-20">
-                                    <mat-progress-bar mode="indeterminate">
-                                    </mat-progress-bar>
-                                </div>
-                                <div class="align-items-center m-20 text-center" *ngIf="is_data_raw_material">
-                                    <p class="fs-16 fw-400">No Data Available.</p>
-                                </div>
-                                <tbody *ngIf="is_table_raw_material">
-                                    <tr
-                                        *ngFor="let data of arr_raw_data | paginate: {id:'pagination_raw_material',itemsPerPage:entries_per_page_raw_material,currentPage:p_raw_material}; let i = index">
-                                        <td>
-                                            <div class="d-flex">
-                                                <div class="align-items-center d-flex min-width-120">{{ data.index
-                                                    }}</div>
-                                                <div class="flex-even justify-content-start">{{
-                                                    data.raw_material_name }}</div>
-                                                <div class="flex-even justify-content-center">{{
-                                                    data.raw_material_quantity }}</div>
-                                                <div class="flex-even justify-content-center">{{
-                                                    data.raw_material_unit }}</div>
-                                            </div>
+                                <ng-container *ngIf="isProgressBar_raw_material">
+                                    <tr class="m-20 p-20">
+                                        <td colspan="4">
+                                            <mat-progress-bar mode="indeterminate">
+                                            </mat-progress-bar>
                                         </td>
-                                    </tr><br>
-                                    <div class="row">
-                                        <div class="col-md-6 mt-3">
-                                            <pagination-controls id="pagination_raw_material"
-                                                (pageChange)="p_raw_material = $event" class="f-l">
-                                            </pagination-controls>
-                                        </div>
-                                        <div class="col-md-6 z-index-9">
-                                            <mat-form-field appearance="fill" class="width-22 f-r">
-                                                <mat-label>Entries per page</mat-label>
-                                                <mat-select id='entries_per_page_raw_material'
-                                                    [(value)]="entries_per_page_raw_material"
-                                                    [(ngModel)]="entries_per_page_raw_material"
-                                                    (selectionChange)="pagination($event)">
-                                                    <mat-option value="10">10</mat-option>
-                                                    <mat-option value="20">20</mat-option>
-                                                    <mat-option value="35">35</mat-option>
-                                                    <mat-option value="40">40</mat-option>
-                                                    <mat-option value="50">50</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                </tbody>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="is_data_raw_material">
+                                    <tr class="align-items-center m-20 text-center" >
+                                        <td colspan="4">
+                                            <p class="fs-16 fw-400">No Data Available.</p>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="is_table_raw_material">
+                                    <tbody *ngFor="let data of arr_raw_data | paginate: {id:'pagination_raw_material',itemsPerPage:entries_per_page_raw_material,currentPage:p_raw_material}; let i = index">
+                                        <tr>
+                                            <td>{{ data.index }}</td>
+                                            <td>{{ data.raw_material_name }}</td>
+                                            <td>{{ data.raw_material_quantity }}</td>
+                                            <td>{{ data.raw_material_unit }}</td>
+                                        </tr><br>
+                                    </tbody>
+                                </ng-container>
                             </table>
+                            <ng-container *ngIf="is_table_raw_material">
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <pagination-controls id="pagination_raw_material" (pageChange)="p_raw_material = $event" class="f-l">
+                                        </pagination-controls>
+                                    </div>
+                                    <div class="col-md-6 z-index-9">
+                                        <mat-form-field appearance="fill" class="width-22 f-r">
+                                            <mat-label>Entries per page</mat-label>
+                                            <mat-select id='entries_per_page_raw_material' [(value)]="entries_per_page_raw_material" [(ngModel)]="entries_per_page_raw_material" (selectionChange)="pagination($event)">
+                                                <mat-option value="10">10</mat-option>
+                                                <mat-option value="20">20</mat-option>
+                                                <mat-option value="35">35</mat-option>
+                                                <mat-option value="40">40</mat-option>
+                                                <mat-option value="50">50</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </mat-tab>
@@ -169,65 +164,62 @@
                             </div>
                             <div class="table-responsive">
                                 <table id="example" class="table black">
-                                    <thead class="text">
-                                        <th>
-                                            <div class="d-flex">
-                                                <div class="align-items-center d-flex min-width-120">#</div>
-                                                <div class="flex-even justify-content-start">Inventory Name</div>
-                                                <div class="flex-even justify-content-start">Quantity</div>
-                                                <div class="flex-even justify-content-start">Unit</div>
-                                            </div>
-                                        </th>
+                                    <thead class="text font-weight-bold">
+                                        <th>#</th>
+                                        <th>Inventory Name</th>
+                                        <th>Quantity</th>
+                                        <th class="text-align-end">Unit</th>
                                     </thead>
-                                    <div *ngIf="isProgressBar_inventory" class="m-20 p-20">
-                                        <mat-progress-bar mode="indeterminate">
-                                        </mat-progress-bar>
-                                    </div>
-                                    <div class="align-items-center m-20 text-center" *ngIf="is_data_inventory">
-                                        <p class="fs-16 fw-400">No Data Available.</p>
-                                    </div>
-                                    <tbody *ngIf="is_table_inventory">
-                                        <tr
-                                            *ngFor="let data of arr_inventory_data | paginate: {id:'pagination_inventory',itemsPerPage:1,currentPage:p_inventory}; let i = index">
-                                            <td>
-                                                <div class="top_row">
-                                                    <div class="d-flex">
-                                                        <div class="align-items-center d-flex min-width-120">{{
-                                                            data.index }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.inventory_name }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.inventory_quantity }}</div>
-                                                        <div class="flex-even justify-content-start">{{
-                                                            data.inventory_unit }}</div>
-                                                    </div>
-                                                </div>
+                                    <ng-container *ngIf="isProgressBar_inventory">
+                                        <tr class="border-none">
+                                            <td colspan="7"> 
+                                                <mat-progress-bar mode="indeterminate">   
+                                                </mat-progress-bar>
                                             </td>
-                                        </tr><br>
-                                        <div class="row">
-                                            <div class="col-md-6 mt-3">
-                                                <pagination-controls id="pagination_inventory"
-                                                    (pageChange)="p_inventory = $event" class="paginateCtrl f-l">
-                                                </pagination-controls>
-                                            </div>
-                                            <div class="col-md-6 z-index-9">
-                                                <mat-form-field appearance="fill" class="width-22 f-r">
-                                                    <mat-label>Entries per page</mat-label>
-                                                    <mat-select id='entries_per_page_inventory'
-                                                        [(value)]="entries_per_page_inventory"
-                                                        [(ngModel)]="entries_per_page_inventory"
-                                                        (selectionChange)="pagination($event)">
-                                                        <mat-option value="10">10</mat-option>
-                                                        <mat-option value="20">20</mat-option>
-                                                        <mat-option value="35">35</mat-option>
-                                                        <mat-option value="40">40</mat-option>
-                                                        <mat-option value="50">50</mat-option>
-                                                    </mat-select>
-                                                </mat-form-field>
-                                            </div>
-                                        </div>
-                                    </tbody><br>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="is_data_inventory">
+                                        <tr class="align-items-center m-20 text-center">
+                                            <td colspan="7"> 
+                                                <p class="fs-16 fw-400">No Data Available.</p>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                    <ng-container *ngIf="is_table_inventory">
+                                        <tbody *ngFor="let data of arr_inventory_data | paginate: {id:'pagination_inventory',itemsPerPage:entries_per_page_inventory,currentPage:p_inventory}; let i = index">
+                                            <tr>
+                                                <td>{{ data.index }}</td>
+                                                <td>{{ data.inventory_name }}</td>
+                                                <td>{{ data.inventory_quantity }}</td>
+                                                <td class="text-align-end">{{ data.inventory_unit }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </ng-container>
                                 </table>
+                                <ng-container *ngIf="is_table_inventory">
+                                    <div class="row">
+                                        <div class="col-md-6 mt-3">
+                                            <pagination-controls id="pagination_inventory"
+                                                (pageChange)="p_inventory = $event" class="paginateCtrl f-l">
+                                            </pagination-controls>
+                                        </div>
+                                        <div class="col-md-6 z-index-9">
+                                            <mat-form-field appearance="fill" class="width-22 f-r">
+                                                <mat-label>Entries per page</mat-label>
+                                                <mat-select id='entries_per_page_inventory'
+                                                    [(value)]="entries_per_page_inventory"
+                                                    [(ngModel)]="entries_per_page_inventory"
+                                                    (selectionChange)="pagination($event)">
+                                                    <mat-option value="10">10</mat-option>
+                                                    <mat-option value="20">20</mat-option>
+                                                    <mat-option value="35">35</mat-option>
+                                                    <mat-option value="40">40</mat-option>
+                                                    <mat-option value="50">50</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </ng-container>
                             </div>
                         </div>
                     </div>

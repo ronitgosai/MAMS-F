@@ -21,7 +21,7 @@
                                         <mat-form-field appearance="fill" [formGroup]="sellForm">
                                             <mat-label>Customer Name</mat-label>
                                             <mat-select formControlName="customer_id" required>
-                                                <mat-option *ngFor="let data of obj_customer_data" [value]="data.customer_id">{{ data.customer_name }}</mat-option>
+                                                <mat-option *ngFor="let data of customerData" [value]="data.customer_id">{{ data.customer_name }}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
@@ -36,29 +36,27 @@
                                         </mat-form-field>
                                     </div>  
                                      <div class="col-md-4">
-                                        <mat-form-field appearance="fill" [formGroup]="sellForm" *ngIf="is_product_enable">
+                                        <mat-form-field appearance="fill" [formGroup]="sellForm" *ngIf="isProductEnable">
                                             <mat-label>Product Name</mat-label>
                                             <mat-select formControlName="product_id" (selectionChange)="productChange($event)" required>
-                                                <mat-option *ngFor="let data of arr_product_from_category" [value]="data.product_id">
+                                                <mat-option *ngFor="let data of productFromCategory" [value]="data.product_id">
                                                     {{ data.product_name }}
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-form-field appearance="fill" [formGroup]="sellForm" *ngIf="is_inventory_enable">
+                                        <mat-form-field appearance="fill" [formGroup]="sellForm" *ngIf="isInventoryEnable">
                                             <mat-label>Inventory</mat-label>
                                             <mat-select formControlName="inventory_id" (selectionChange)="inventoryChange($event)" required>
-                                                <mat-option *ngFor="let data of arr_inventory_from_product" [value]="data.inventory_id">
+                                                <mat-option *ngFor="let data of inventoryFromProduct" [value]="data.inventory_id">
                                                     {{ data.inventory_name }}
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-4">
-                                        <mat-form-field class="form-field" [formGroup]="sellForm" *ngIf="is_inventory_enable">
-                                            <!-- [(ngModel)]="quantity" (keyup)="printNumber()" -->
-                                            <!-- min="1" max="qty" oninput="this.value = Math.abs(this.value)" -->
+                                        <mat-form-field class="form-field" [formGroup]="sellForm" *ngIf="isInventoryEnable">
                                             <input matInput formControlName="product_quantity" min="1"  [(ngModel)]="quantity" (keyup)="printNumber()" class="p-0" placeholder="Product Quantity" required>
                                         </mat-form-field>
                                     </div>
@@ -77,63 +75,69 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <div class="col-md-12">
-                                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="customer_name" [(ngModel)]="customer_name" (ngModelChange)="search()" placeholder="Search Customer Name">
+                                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="customerName" [(ngModel)]="customerName" (ngModelChange)="search()" placeholder="Search Customer Name">
                                 </mat-search-bar>
                             </div>
-                            <table id="example" class="table table-custome width-100">
-                                <thead class="text">
-                                    <tr>
-                                        <th class="font-weight-bold">#</th>
-                                        <th class="font-weight-bold">Customer Name</th>
-                                        <th class="font-weight-bold">Category Name</th>
-                                        <th class="font-weight-bold">Product Name</th>
-                                        <th class="font-weight-bold">Inventory Name</th>
-                                        <th class="font-weight-bold">Product Quantity</th>
-                                        <th class="font-weight-bold">Action</th>
-                                    </tr>
+                            <table id="example" class="table">
+                                <thead class="text font-weight-bold">
+                                    <th>#</th>
+                                    <th>Customer Name</th>
+                                    <th>Category Name</th>
+                                    <th>Product Name</th>
+                                    <th>Inventory Name</th>
+                                    <th>Product Quantity</th>
+                                    <th class="text-align-end">Action</th>
                                 </thead>
-                                <tr *ngIf="isProgressBar" class="m-20 p-20">
-                                    <td colspan="7">
-                                        <mat-progress-bar mode="indeterminate">
-                                        </mat-progress-bar>
-                                    </td>
-                                </tr>
-                                <tr *ngIf="is_data" class="align-items-center m-20 text-center">
-                                    <td colspan="7">
-                                        <p class="fs-16 fw-400">No Data Available.</p>>
-                                    </td>
-                                </tr>
-                                <tbody *ngIf="is_table">
-                                    <tr *ngFor="let data of sell_data | paginate: {id:'pagination_sell',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
-                                        <td>{{ data.index }}</td>
-                                        <td>{{ data.customer_name }}</td>
-                                        <td appColor [data]="data.category_color">{{ data.category_name }}</td>
-                                        <td appColor [data]="data.category_color">{{ data.product_name }}</td>
-                                        <td>{{ data.inventory_name }}</td>
-                                        <td>{{ data.product_quantity }}</td>
-                                        <td>
-                                            <button mat-stroked-button (click)="deleteSellItem(data.sell_id)"><span class="fa fa-trash c-red"></span></button>
+                                <ng-container *ngIf="isProgressBar">
+                                    <tr class="border-none">
+                                        <td colspan="7"> 
+                                            <mat-progress-bar mode="indeterminate">   
+                                            </mat-progress-bar>
                                         </td>
                                     </tr>
-                                </tbody>
+                                </ng-container>
+                                <ng-container *ngIf="isData">
+                                    <tr class="align-items-center m-20 text-center">
+                                        <td colspan="7"> 
+                                            <p class="fs-16 fw-400">No Data Available.</p>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="isTable">
+                                    <tbody *ngFor="let data of sellData | paginate: {id:'paginationSell',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                        <tr>
+                                            <td>{{ data.index }}</td>
+                                            <td>{{ data.customer_name }}</td>
+                                            <td appColor [data]="data.category_color">{{ data.category_name }}</td>
+                                            <td appColor [data]="data.category_color">{{ data.product_name }}</td>
+                                            <td>{{ data.inventory_name }}</td>
+                                            <td>{{ data.product_quantity }}</td>
+                                            <td class="text-align-end">
+                                                <button mat-stroked-button (click)="deleteSellItem(data.sell_id)"><span class="fa fa-trash c-red"></span></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </ng-container>
                             </table>
-                            <div class="row" *ngIf="is_table">
-                                <div class="col-md-6 mt-3">
-                                    <pagination-controls id="pagination_sell" (pageChange)="p = $event"  class="f-l"></pagination-controls>
+                            <ng-container *ngIf="isTable">
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <pagination-controls id="paginationSell" (pageChange)="p = $event"  class="f-l"></pagination-controls>
+                                    </div>
+                                    <div class="col-md-6 z-index-9">
+                                        <mat-form-field appearance="fill" class="width-22 f-r">
+                                            <mat-label>Entries per page</mat-label>
+                                            <mat-select id='entriesPerPage' [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                                <mat-option value="10">10</mat-option>
+                                                <mat-option value="20">20</mat-option>
+                                                <mat-option value="35">35</mat-option>
+                                                <mat-option value="40">40</mat-option>
+                                                <mat-option value="50">50</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 z-index-9">
-                                    <mat-form-field appearance="fill" class="width-22 f-r">
-                                        <mat-label>Entries per page</mat-label>
-                                        <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
-                                            <mat-option value="10">10</mat-option>
-                                            <mat-option value="20">20</mat-option>
-                                            <mat-option value="35">35</mat-option>
-                                            <mat-option value="40">40</mat-option>
-                                            <mat-option value="50">50</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

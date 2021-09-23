@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
 import { GlobalService } from 'app/services/global.service';
 import { RegistrationService } from 'app/services/dashboard/registration/registration.service';
 import { AdvanceSalaryService } from 'app/services/dashboard/payout/advance-salary/advance-salary.service';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-advance-salary',
@@ -51,9 +50,9 @@ export class AdvanceSalaryComponent implements OnInit {
   p: any = '1';
   entriesPerPage: any = '10';
   value = 'Clear me';
-  old_card_index: any;
+  oldCardIndex: any;
 
-  protected _onDestroy = new Subject<void>();
+  protected onDestroy = new Subject<void>();
   public staffFilterCtrl: FormControl = new FormControl();
   public filteredStaff: ReplaySubject<any[]> = new ReplaySubject<any[]>();
 
@@ -118,7 +117,7 @@ export class AdvanceSalaryComponent implements OnInit {
     this.registrationService.getStaffDetails().subscribe((staff: any) => {
       this.staffDetails = this.global.tableIndex(staff.data)
       this.filteredStaff.next(staff.data.slice());
-      this.staffFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
+      this.staffFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
         this.filterStaff();
       });
     })
@@ -198,12 +197,12 @@ export class AdvanceSalaryComponent implements OnInit {
   }
 
   editAdvanceSalary(id, card_index) {
-    if (this.old_card_index === undefined) {
-      this.old_card_index = card_index
+    if (this.oldCardIndex === undefined) {
+      this.oldCardIndex = card_index
     } else {
-      if (this.old_card_index !== card_index) {
-        let id = document.getElementById("advanceSalaryInfo" + this.old_card_index).classList.remove('show')
-        this.old_card_index = card_index
+      if (this.oldCardIndex !== card_index) {
+        let id = document.getElementById("advanceSalaryInfo" + this.oldCardIndex).classList.remove('show')
+        this.oldCardIndex = card_index
       }
     }
 
@@ -287,8 +286,8 @@ export class AdvanceSalaryComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.onDestroy.next();
+    this.onDestroy.complete();
   }
 
   protected filterStaff() {

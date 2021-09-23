@@ -29,8 +29,7 @@
                         </div>
                         <div class="col-md-6 mt-10">
                             <mat-form-field class="form-field">
-                                <input matInput formControlName="advanceSalary" (keyup)="printNumber()"
-                                    [(ngModel)]="salary" placeholder="Advance Salary">
+                                <input matInput formControlName="advanceSalary" (keyup)="printNumber()" [(ngModel)]="salary" placeholder="Advance Salary">
                             </mat-form-field>
                         </div>
                     </div><br>
@@ -40,15 +39,13 @@
                                 <div class="col-md-6">
                                     <mat-form-field class="form-field">
                                         <mat-label>Shift</mat-label>
-                                        <input matInput [readonly]="true" formControlName="shiftName"
-                                            [value]="data.shift_name">
+                                        <input matInput [readonly]="true" formControlName="shiftName" [value]="data.shift_name">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-6">
                                     <mat-form-field class="form-field">
                                         <mat-label>Salary</mat-label>
-                                        <input matInput [readonly]="true" formControlName="staffSalary"
-                                            [value]="data.staff_salary">
+                                        <input matInput [readonly]="true" formControlName="staffSalary" [value]="data.staff_salary">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -56,22 +53,19 @@
                                 <div class="col-md-4">
                                     <mat-form-field class="form-field">
                                         <mat-label>Department</mat-label>
-                                        <input matInput [readonly]="true" formControlName="workAreaName"
-                                            [value]="data.work_area_name">
+                                        <input matInput [readonly]="true" formControlName="workAreaName" [value]="data.work_area_name">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
                                     <mat-form-field class="form-field">
                                         <mat-label>Mobile Network Name</mat-label>
-                                        <input matInput [readonly]="true" formControlName="masterNetworkServiceProviderName"
-                                            [value]="data.master_network_service_provider_name">
+                                        <input matInput [readonly]="true" formControlName="masterNetworkServiceProviderName" [value]="data.master_network_service_provider_name">
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
                                     <mat-form-field class="form-field">
                                         <mat-label>Mobile Number</mat-label>
-                                        <input matInput [readonly]="true" formControlName="number"
-                                            [value]="data.mobile_number">
+                                        <input matInput [readonly]="true" formControlName="number" [value]="data.mobile_number">
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -92,86 +86,79 @@
             <div class="col-md-12">
             </div>
             <div class="table-responsive">
-                <table class="hover table table-custome width-100">
-                    <thead class="text sticky-top">
-                        <th>
-                            <div class="d-flex">
-                                <div class="align-items-center d-flex min-width-85">#</div>
-                                <div class="flex-even justify-content-start" scope="col">Staff Name</div>
-                                <div class="flex-even justify-content-start" scope="col">Salary</div>
-                                <div class="flex-even justify-content-start" scope="col">Advance</div>
-                                <!-- <div class="flex-even justify-content-start" scope="col">Date</div> -->
-                                <div class="flex-even justify-content-end" scope="col">Payable</div>
-                                <div class="flex-even justify-content-end" scope="col">Action
-                                </div>
-                            </div>
-                        </th>
+                <table class="table">
+                    <thead class="text font-weight-bold">
+                        <th>#</th>
+                        <th>Staff Name</th>
+                        <th>Salary</th>
+                        <th>Advance</th>
+                        <th>Payable</th>
+                        <th class="text-align-end">Action</th>
                     </thead>
-                    <ng-cotaniner *ngIf="isProgressBar">
-                        <div class="m-20 p-20">
-                            <mat-progress-bar mode="indeterminate">
-                            </mat-progress-bar>
-                        </div>
-                    </ng-cotaniner>
+                    <ng-container *ngIf="isProgressBar">
+                        <tr class="border-none">
+                            <td colspan="6"> 
+                                <mat-progress-bar mode="indeterminate">   
+                                </mat-progress-bar>
+                            </td>
+                        </tr>
+                    </ng-container>
                     <ng-container *ngIf="isData">
-                        <div class="m-20 text-center">
-                            <p class="fs-16 fw-400">No Data Available.</p>
-                        </div>
+                        <tr class="align-items-center m-20 text-center">
+                            <td colspan="6"> 
+                                <p class="fs-16 fw-400">No Data Available.</p>
+                            </td>
+                        </tr>
                     </ng-container>
                     <ng-container *ngIf="isTable">
-                        <tbody>
-                            <tr *ngFor="let data of advanceSalary | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                        <tbody *ngFor="let data of advanceSalary | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                            <tr>
+                                <td>{{ data.index }}</td>
+                                <td>{{ data.staff_name }}</td>
+                                <td>{{ data.staff_salary }}</td>
                                 <td>
-                                    <div class="top_row">
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
-                                            <div class="flex-even justify-content-start">{{ data.staff_name }}</div>
-                                            <div class="flex-even justify-content-start">{{ data.staff_salary }}</div>
-                                            <div class="flex-even justify-content-start">
-                                                <div class="font-weight-bold">
-                                                    <ng-container *ngFor="let salary of data.total_advance; let i = index">
-                                                        <div>
-                                                            {{ i+1 }}.&nbsp;{{ salary }}&nbsp;
-                                                            <small class="font-weight-bold">
-                                                                ({{ data.total[i] }})
-                                                            </small>
-                                                        </div>
-                                                    </ng-container>
-                                                    <hr>
-                                                    <span class="font-weight-bold">Total:&nbsp;</span>{{ data.advance }}
-                                                </div>
+                                    <div class="font-weight-bold">
+                                        <ng-container *ngFor="let salary of data.total_advance; let i = index">
+                                            <div>
+                                                {{ i+1 }}.&nbsp;{{ salary }}&nbsp;
+                                                <small class="font-weight-bold">
+                                                    ({{ data.total[i] }})
+                                                </small>
                                             </div>
-                                            <div class="flex-even justify-content-end font-weight-bold">{{ data.remaining }}</div>
-                                            <div class="flex-even justify-content-end">
-                                                <!-- <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#advanceSalaryInfo' + i" (click)="editAdvanceSalary(data.advance_salary_id,i)"><span class="fa fa-pen c-blue"></span></button> -->
-                                                <button mat-stroked-button class="ml-3" (click)="deleteAdvanceSalary(data.advance_salary_id)"><span class="fa fa-trash c-red"></span></button>
-                                            </div>
-                                        </div>
+                                        </ng-container>
+                                        <hr>
+                                        <span class="font-weight-bold">Total:&nbsp;</span>{{ data.advance }}
                                     </div>
                                 </td>
-                            </tr><br>
-                            <div class="row">
-                                <div class="col-md-6 mt-3">
-                                    <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
-                                    </pagination-controls>
-                                </div>
-                                <div class="col-md-6 z-index-9">
-                                    <mat-form-field appearance="fill" class="width-22 f-r">
-                                        <mat-label>Entries per page</mat-label>
-                                        <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
-                                            [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                            <mat-option value="10">10</mat-option>
-                                            <mat-option value="20">20</mat-option>
-                                            <mat-option value="35">35</mat-option>
-                                            <mat-option value="40">40</mat-option>
-                                            <mat-option value="50">50</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </tbody><br>
+                                <td class="font-weight-bold">{{ data.remaining }}</td>
+                                <td class="text-align-end">
+                                    <button mat-stroked-button class="ml-3" (click)="deleteAdvanceSalary(data.advance_salary_id)"><span class="fa fa-trash c-red"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
                     </ng-container>
                 </table>
+                <ng-container *ngIf="isTable">
+                    <div class="row">
+                        <div class="col-md-6 mt-3">
+                            <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
+                            </pagination-controls>
+                        </div>
+                        <div class="col-md-6 z-index-9">
+                            <mat-form-field appearance="fill" class="width-22 f-r">
+                                <mat-label>Entries per page</mat-label>
+                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
+                                    [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                    <mat-option value="10">10</mat-option>
+                                    <mat-option value="20">20</mat-option>
+                                    <mat-option value="35">35</mat-option>
+                                    <mat-option value="40">40</mat-option>
+                                    <mat-option value="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>

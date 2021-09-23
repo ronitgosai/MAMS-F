@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { CurrencyService } from 'app/services/dashboard/master/currency.service';
-import { NetWorkServiceProviderService } from 'app/services/dashboard/master/NetWorkServiceProvider.service';
 import { GlobalService } from 'app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';

@@ -30,7 +30,8 @@ export class CategoryComponent implements OnInit {
 
 
   isProgressBar: boolean;
-
+  isData: boolean;
+  
   oldCardIndex: any;
   categoryName: any;
   p: any = '1';

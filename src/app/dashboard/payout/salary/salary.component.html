@@ -79,72 +79,64 @@
 <div class="row ml-20 mr-20">
     <div class="col-md-12">
         <div class="card-body">
-            <div class="col-md-12">
-                <!-- <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="raw_material_name" [(ngModel)]="raw_material_name" (ngModelChange)="search()" placeholder="Search Raw Material Name">
-                            </mat-search-bar> -->
-            </div>
             <div class="table-responsive">
-                <table class="hover table table-custome width-100">
-                    <thead class="text sticky-top">
-                        <th>
-                            <div class="d-flex">
-                                <div class="align-items-center d-flex min-width-85">#</div>
-                                <div class="flex-even justify-content-start" scope="col">Staff Name</div>
-                                <div class="flex-even justify-content-center" scope="col">Salary</div>
-                                <div class="flex-even justify-content-center" scope="col">Date</div>
-                                <div class="flex-even justify-content-end z-index-8" scope="col">Action
-                                </div>
-                            </div>
-                        </th>
+                <table class="table">
+                    <thead class="text font-weight-bold">
+                        <th>#</th>
+                        <th>Staff Name</th>
+                        <th>Salary</th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </thead>
-                    <div *ngIf="isProgressBar" class="m-20 p-20">
-                        <mat-progress-bar mode="indeterminate">
-                        </mat-progress-bar>
-                    </div>
-                    <div class="m-20 text-center" *ngIf="isData">
-                        <p class="fs-16 fw-400">No Data Available.</p>
-                    </div>
-                    <tbody *ngIf="isTable">
-                        <tr
-                            *ngFor="let data of salaryDetail | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
-                            <td>
-                                <div class="top_row">
-                                    <div class="d-flex">
-                                        <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
-                                        <div class="flex-even justify-content-start">{{ data.staff_name }}</div>
-                                        <div class="flex-even justify-content-center">{{ data.salary }}</div>
-                                        <div class="flex-even justify-content-center">{{ data.created_date | date }}
-                                        </div>
-                                        <div class="flex-even justify-content-end">
-                                            <button mat-stroked-button class="ml-3"
-                                                (click)="deleteSalaryInfo(data.salary_id,data.staff_name)"><span
-                                                    class="fa fa-trash c-red"></span></button>
-                                        </div>
-                                    </div>
-                                </div>
+                    <ng-container *ngIf="isProgressBar">
+                        <tr class="border-none">
+                            <td colspan="5"> 
+                                <mat-progress-bar mode="indeterminate">   
+                                </mat-progress-bar>
                             </td>
-                        </tr><br>
-                        <div class="row">
-                            <div class="col-md-6 mt-3">
-                                <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
-                                </pagination-controls>
-                            </div>
-                            <div class="col-md-6 z-index-9">
-                                <mat-form-field appearance="fill" class="width-22 f-r">
-                                    <mat-label>Entries per page</mat-label>
-                                    <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
-                                        [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                        <mat-option value="10">10</mat-option>
-                                        <mat-option value="20">20</mat-option>
-                                        <mat-option value="35">35</mat-option>
-                                        <mat-option value="40">40</mat-option>
-                                        <mat-option value="50">50</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </tbody><br>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="isData">
+                        <tr class="align-items-center m-20 text-center">
+                            <td colspan="5"> 
+                                <p class="fs-16 fw-400">No Data Available.</p>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="isTable"></ng-container>
+                    <tbody *ngFor="let data of salaryDetail | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                        <tr>
+                            <td>{{ data.index }}</td>
+                            <td>{{ data.staff_name }}</td>
+                            <td>{{ data.salary }}</td>
+                            <td>{{ data.created_date | date }}
+                            </td>
+                            <td class="text-center-end">
+                                <button mat-stroked-button class="ml-3" (click)="deleteSalaryInfo(data.salary_id,data.staff_name)"><span class="fa fa-trash c-red"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
+                <ng-container *ngIf="isTable">
+                    <div class="row">
+                        <div class="col-md-6 mt-3">
+                            <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
+                            </pagination-controls>
+                        </div>
+                        <div class="col-md-6 z-index-9">
+                            <mat-form-field appearance="fill" class="width-22 f-r">
+                                <mat-label>Entries per page</mat-label>
+                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                    <mat-option value="10">10</mat-option>
+                                    <mat-option value="20">20</mat-option>
+                                    <mat-option value="35">35</mat-option>
+                                    <mat-option value="40">40</mat-option>
+                                    <mat-option value="50">50</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>

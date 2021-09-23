@@ -29,8 +29,8 @@ export class RawMaterialComponent implements OnInit {
   isSubmitted: boolean = false;
   buttons: boolean = false;
   isProgressBar: boolean;
-  is_data: boolean;
-  is_table: boolean;
+  isData: boolean;
+  isTable: boolean;
 
   input_number: any;
 
@@ -39,16 +39,15 @@ export class RawMaterialComponent implements OnInit {
   rawMaterialForm: FormGroup;
   updatedRawMaterialForm: FormGroup;
 
-  arr_raw_data = [];
-  arr_raw_data_backup = [];
+  rawMaterialData = [];
+  rawMaterialDataBackup = [];
 
-  raw_material_name;
+  rawMaterialName;
 
   p: any = '1';
-  entries_per_page: any = '10';
+  entriesPerPage: any = '10';
   value = 'Clear me';
-  old_card_index: any;
-  card_name = null;
+  oldCardIndex: any;
   // user_role: any;
 
   importRawMaterialData = {
@@ -56,15 +55,15 @@ export class RawMaterialComponent implements OnInit {
     raw_material_quantity: null
   }
 
-  protected _onDestroy = new Subject<void>();
-  public raw_material_FilterCtrl: FormControl = new FormControl();
-  public filtered_raw_material_name: ReplaySubject<any[]> = new ReplaySubject<any[]>();
+  protected onDestroy = new Subject<void>();
+  public rawMaterialFilterCtrl: FormControl = new FormControl();
+  public filteredRawMaterialName: ReplaySubject<any[]> = new ReplaySubject<any[]>();
   unit: any;
 
   ngOnInit(): void {
-    this.is_table = false;
+    this.isTable = false;
     this.isProgressBar = true;
-    this.is_data = false;
+    this.isData = false;
 
     this.rawMaterialForm = this.formBuilder.group({
       raw_material_name: ['', [Validators.required, this.global.noWhitespaceValidator]],
@@ -81,32 +80,32 @@ export class RawMaterialComponent implements OnInit {
 
   getRawMaterial() {
     this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
-      this.arr_raw_data = this.global.tableIndex(getRawMaterial.data)
-      for (let i = 0; i < this.arr_raw_data.length; i++) {
-        this.arr_raw_data[i].raw_material_quantity = this.global.tableComma(this.arr_raw_data[i].raw_material_quantity)
+      this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
+      for (let i = 0; i < this.rawMaterialData.length; i++) {
+        this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
       }
-      this.arr_raw_data_backup = this.arr_raw_data
+      this.rawMaterialDataBackup = this.rawMaterialData
       this.isProgressBar = false;
-      if (this.arr_raw_data.length > 0) {
-        this.is_data = false;
-        this.is_table = true;
-      } else if (this.arr_raw_data.length === 0) {
-        this.is_table = false;
-        this.is_data = true;
+      if (this.rawMaterialData.length > 0) {
+        this.isData = false;
+        this.isTable = true;
+      } else if (this.rawMaterialData.length === 0) {
+        this.isTable = false;
+        this.isData = true;
       }
-      this.filtered_raw_material_name.next(getRawMaterial.data.slice());
-      this.raw_material_FilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
+      this.filteredRawMaterialName.next(getRawMaterial.data.slice());
+      this.rawMaterialFilterCtrl.valueChanges.pipe(takeUntil(this.onDestroy)).subscribe(() => {
         this.filterBanks();
       });
     })
   }
 
   search() {
-    if (this.raw_material_name === '') {
-      this.arr_raw_data = this.arr_raw_data_backup
+    if (this.rawMaterialName === '') {
+      this.rawMaterialData = this.rawMaterialDataBackup
     } else {
-      this.arr_raw_data = this.arr_raw_data_backup.filter(res => {
-        return res.raw_material_name.toLowerCase().match(this.raw_material_name.toLowerCase());
+      this.rawMaterialData = this.rawMaterialDataBackup.filter(res => {
+        return res.raw_material_name.toLowerCase().match(this.rawMaterialName.toLowerCase());
       })
     }
   }
@@ -115,7 +114,7 @@ export class RawMaterialComponent implements OnInit {
   }
 
   insertRawMaterial() {
-    this.is_table = false;
+    this.isTable = false;
     this.isProgressBar = true;
     if (this.rawMaterialForm.valid) {
       this.isCollapsed = true;
@@ -128,17 +127,17 @@ export class RawMaterialComponent implements OnInit {
       }
       this.rawMaterialService.createRawMaterial(rawMaterial).subscribe(data => {
         this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
-          this.arr_raw_data = this.global.tableIndex(getRawMaterial.data)
-          for (let i = 0; i < this.arr_raw_data.length; i++) {
-            this.arr_raw_data[i].raw_material_quantity = this.global.tableComma(this.arr_raw_data[i].raw_material_quantity)
+          this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
+          for (let i = 0; i < this.rawMaterialData.length; i++) {
+            this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
           }
           this.isProgressBar = false;
-          if (this.arr_raw_data.length > 0) {
-            this.is_data = false;
-            this.is_table = true;
-          } else if (this.arr_raw_data.length === 0) {
-            this.is_table = false;
-            this.is_data = true;
+          if (this.rawMaterialData.length > 0) {
+            this.isData = false;
+            this.isTable = true;
+          } else if (this.rawMaterialData.length === 0) {
+            this.isTable = false;
+            this.isData = true;
           }
         })
       })
@@ -149,21 +148,21 @@ export class RawMaterialComponent implements OnInit {
     else {
       this.isCollapsed = false;
       this.isProgressBar = false;
-      this.is_table = true;
+      this.isTable = true;
       this.toastr.error("Please enter valid data.");
     }
   }
 
   editRawMaterial(raw_material_id, card_index) {
-    if (this.old_card_index === undefined) {
-      this.old_card_index = card_index
+    if (this.oldCardIndex === undefined) {
+      this.oldCardIndex = card_index
     } else {
-      if (this.old_card_index !== card_index) {
-        let id = document.getElementById("rawmaterialInfo" + this.old_card_index).classList.remove('show')
-        this.old_card_index = card_index
+      if (this.oldCardIndex !== card_index) {
+        let id = document.getElementById("rawmaterialInfo" + this.oldCardIndex).classList.remove('show')
+        this.oldCardIndex = card_index
       }
     }
-    let editData = this.arr_raw_data.find(d => d.raw_material_id === raw_material_id)
+    let editData = this.rawMaterialData.find(d => d.raw_material_id === raw_material_id)
     this.updatedRawMaterialForm.patchValue({
       update_raw_material_name: editData.raw_material_name,
       update_raw_material_unit: editData.raw_material_unit
@@ -197,21 +196,21 @@ export class RawMaterialComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if (this.updatedRawMaterialForm.get('update_raw_material_name').value && this.updatedRawMaterialForm.get('update_raw_material_unit').value) {
-          this.is_table = false;
+          this.isTable = false;
           this.isProgressBar = true;
           this.rawMaterialService.updateRawMaterial(updateRawMaterialInfo).subscribe((data) => {
             this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
-              this.arr_raw_data = this.global.tableIndex(getRawMaterial.data)
-              for (let i = 0; i < this.arr_raw_data.length; i++) {
-                this.arr_raw_data[i].raw_material_quantity = this.global.tableComma(this.arr_raw_data[i].raw_material_quantity)
+              this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
+              for (let i = 0; i < this.rawMaterialData.length; i++) {
+                this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
               }
               this.isProgressBar = false;
-              if (this.arr_raw_data.length > 0) {
-                this.is_data = false;
-                this.is_table = true;
-              } else if (this.arr_raw_data.length === 0) {
-                this.is_table = false;
-                this.is_data = true;
+              if (this.rawMaterialData.length > 0) {
+                this.isData = false;
+                this.isTable = true;
+              } else if (this.rawMaterialData.length === 0) {
+                this.isTable = false;
+                this.isData = true;
               }
             });
             this.rawMaterialService.updateImportRawMaterial(updateRawMaterialInfo).subscribe((updateImportRawMaterialInfo: any) => {
@@ -269,21 +268,21 @@ export class RawMaterialComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.is_table = false;
+        this.isTable = false;
         this.isProgressBar = true;
         this.rawMaterialService.deleteUpdateRawMaterial(deletData).subscribe(data => {
           this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
-            this.arr_raw_data = this.global.tableIndex(getRawMaterial.data)
-            for (let i = 0; i < this.arr_raw_data.length; i++) {
-              this.arr_raw_data[i].raw_material_quantity = this.global.tableComma(this.arr_raw_data[i].raw_material_quantity)
+            this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
+            for (let i = 0; i < this.rawMaterialData.length; i++) {
+              this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
             }
             this.isProgressBar = false;
-            if (this.arr_raw_data.length > 0) {
-              this.is_data = false;
-              this.is_table = true;
-            } else if (this.arr_raw_data.length === 0) {
-              this.is_table = false;
-              this.is_data = true;
+            if (this.rawMaterialData.length > 0) {
+              this.isData = false;
+              this.isTable = true;
+            } else if (this.rawMaterialData.length === 0) {
+              this.isTable = false;
+              this.isData = true;
             }
           })
         })
@@ -307,29 +306,29 @@ export class RawMaterialComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this._onDestroy.next();
-    this._onDestroy.complete();
+    this.onDestroy.next();
+    this.onDestroy.complete();
   }
 
   protected filterBanks() {
-    if (!this.arr_raw_data) {
+    if (!this.rawMaterialData) {
       return;
     }
     // get the search keyword
-    let search = this.raw_material_FilterCtrl.value;
+    let search = this.rawMaterialFilterCtrl.value;
     if (!search) {
-      this.filtered_raw_material_name.next(this.arr_raw_data.slice());
+      this.filteredRawMaterialName.next(this.rawMaterialData.slice());
       return;
     } else {
       search = search.toLowerCase();
     }
     // filter the banks
-    this.filtered_raw_material_name.next(
-      this.arr_raw_data.filter(data => {
+    this.filteredRawMaterialName.next(
+      this.rawMaterialData.filter(data => {
         return data.raw_material_name.toLowerCase().indexOf(search) > -1
       })
     );
-    this.filtered_raw_material_name.subscribe(d => {
+    this.filteredRawMaterialName.subscribe(d => {
     })
   }
 }

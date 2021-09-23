@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="row row-title">
+    <div class="row row-title sticky">
         <div class="col-md-6">
             <span class="fs-20 fw-600">Raw Material</span>
         </div>
@@ -44,100 +44,97 @@
         <div class="col-md-12">
             <div class="card-body">
                 <div class="col-md-12">
-                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="raw_material_name" [(ngModel)]="raw_material_name" (ngModelChange)="search()" placeholder="Search Raw Material Name">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="rawMaterialName" [(ngModel)]="rawMaterialName" (ngModelChange)="search()" placeholder="Search Raw Material Name">
                     </mat-search-bar>
                 </div>
                 <div class="table-responsive">
-                    <table class="hover table table-custome width-100">
-                        <thead class="text sticky-top">
-                            <th>
-                                <div class="d-flex">
-                                    <div class="align-items-center d-flex min-width-85">#</div>
-                                    <div class="flex-even justify-content-start" scope="col">Raw Material Name</div>
-                                    <div class="flex-even justify-content-center" scope="col">Quantity</div>
-                                    <div class="flex-even justify-content-center" scope="col">Unit</div>
-                                    <div class="flex-even justify-content-end z-index-8" scope="col">Action
-                                    </div>
-                                </div>
-                            </th>
+                    <table class="table">
+                        <thead class="text font-weight-bold">
+                            <th>#</th>
+                            <th>Raw Material Name</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th class="text-align-end">Action</th>
                         </thead>
-                        <div  *ngIf="isProgressBar" class="border-none">
-                            <mat-progress-bar mode="indeterminate">   
-                            </mat-progress-bar>
-                        </div>
-                        <div *ngIf="is_data">
-                            <p class="fs-16 fw-400">No Data Available.</p>
-                        </div>
-                        <tbody *ngIf="is_table">
-                            <tr *ngFor="let data of arr_raw_data | paginate: {id:'pagination_raw',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
-                                <td>
-                                    <div class="top_row rawMaterialTable">
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
-                                            <div class="flex-even justify-content-start">{{ data.raw_material_name }}</div>
-                                            <div class="flex-even justify-content-center">{{ data.raw_material_quantity }}</div>
-                                            <div class="flex-even justify-content-center">{{ data.raw_material_unit }}</div>
-                                            <div class="flex-even justify-content-end">
-                                                <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#rawmaterialInfo' + i" (click)="editRawMaterial(data.raw_material_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                                <button mat-stroked-button class="ml-3" (click)="deleteUpdateRawMaterialData(data.raw_material_id,data.raw_material_name)"><span class="fa fa-trash c-red"></span></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="top_row">
-                                        <div class="col-md-12">
-                                            <div class="collapse" id="rawmaterialInfo{{ i }}">
-                                                <div class="card-body">
-                                                    <form class="updatedRawMaterialForm" [formGroup]="updatedRawMaterialForm">
-                                                        <div class="col-md-12">
-                                                            <span class="fs-16 fw-500">Please enter updated raw material name OR raw material unit for above raw material.<br><br></span>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <mat-form-field class="form-field">
-                                                                    <input matInput class="p-0" formControlName="update_raw_material_name" placeholder="Raw Material Name">
-                                                                </mat-form-field>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <mat-form-field appearance="fill">
-                                                                    <mat-label>Types</mat-label>
-                                                                    <mat-select formControlName="update_raw_material_unit">
-                                                                        <mat-option value="Liter"> Litre </mat-option>
-                                                                        <mat-option value="Kilogram"> Kilogram </mat-option>
-                                                                        <mat-option value="Tone"> Ton </mat-option>
-                                                                    </mat-select>
-                                                                </mat-form-field>
-                                                            </div>
-                                                        </div>
-                                                        <button type="reset" mat-flat-button class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                                        <button type="reset" mat-flat-button class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#rawmaterialInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                        <button type="button" mat-flat-button class="save pull-right" (click)="updateRawMaterialInfo(data.raw_material_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Raw Material</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <ng-container *ngIf="isProgressBar">
+                            <tr class="border-none">
+                                <td colspan="5"> 
+                                    <mat-progress-bar mode="indeterminate">   
+                                    </mat-progress-bar>
                                 </td>
-                            </tr><br>
-                            <div class="row">
-                                <div class="col-md-6 mt-3">
-                                    <pagination-controls id="pagination_raw" (pageChange)="p = $event" class="f-l">
-                                    </pagination-controls>
-                                </div>
-                                <div class="col-md-6 z-index-9">
-                                    <mat-form-field appearance="fill" class="width-22 f-r">
-                                        <mat-label>Entries per page</mat-label>
-                                        <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
-                                            <mat-option value="10">10</mat-option>
-                                            <mat-option value="20">20</mat-option>
-                                            <mat-option value="35">35</mat-option>
-                                            <mat-option value="40">40</mat-option>
-                                            <mat-option value="50">50</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </tbody><br>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="isData">
+                            <tr class="align-items-center m-20 text-center">
+                                <td colspan="5"> 
+                                    <p class="fs-16 fw-400">No Data Available.</p>
+                                </td>
+                            </tr>
+                        </ng-container>
+                        <ng-container *ngIf="isTable">
+                            <tbody *ngFor="let data of rawMaterialData | paginate: {id:'paginationRaw',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                <tr>
+                                    <td>{{ data.index }}</td>
+                                    <td>{{ data.raw_material_name }}</td>
+                                    <td>{{ data.raw_material_quantity }}</td>
+                                    <td>{{ data.raw_material_unit }}</td>
+                                    <td class="text-align-end">
+                                        <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#rawmaterialInfo' + i" (click)="editRawMaterial(data.raw_material_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                        <button mat-stroked-button class="ml-3" (click)="deleteUpdateRawMaterialData(data.raw_material_id,data.raw_material_name)"><span class="fa fa-trash c-red"></span></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="p-0">
+                                        <div class="collapse pb-5" id="rawmaterialInfo{{ i }}">
+                                            <form class="updatedRawMaterialForm" [formGroup]="updatedRawMaterialForm">
+                                                <p class="fs-16 fw-500">Please enter updated raw material name OR raw material unit for above raw material.<br><br></p>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <mat-form-field class="form-field">
+                                                            <input matInput class="p-0" formControlName="update_raw_material_name" placeholder="Raw Material Name">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label>Types</mat-label>
+                                                            <mat-select formControlName="update_raw_material_unit">
+                                                                <mat-option value="Liter"> Litre </mat-option>
+                                                                <mat-option value="Kilogram"> Kilogram </mat-option>
+                                                                <mat-option value="Tone"> Ton </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <button type="reset" mat-flat-button class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                <button type="reset" mat-flat-button class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#rawmaterialInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                <button type="button" mat-flat-button class="save pull-right" (click)="updateRawMaterialInfo(data.raw_material_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Raw Material</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody><br>
+                        </ng-container>
                     </table>
+                    <ng-container *ngIf="isTable">
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <pagination-controls id="paginationRaw" (pageChange)="p = $event" class="f-l">
+                                </pagination-controls>
+                            </div>
+                            <div class="col-md-6 z-index-9">
+                                <mat-form-field appearance="fill" class="width-22 f-r">
+                                    <mat-label>Entries per page</mat-label>
+                                    <mat-select id='entriesPerPage' [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
         </div>
