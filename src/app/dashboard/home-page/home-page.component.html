@@ -12,8 +12,8 @@
                 <div class="col-md-12">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example" class="table table-custom">
-                                <thead class="fs-14 fw-500">
+                            <table id="example" class="table">
+                                <thead class="font-weight-bold">
                                     <th class="max-width-100"> # </th>
                                     <th class="max-width-300"> Category </th>
                                     <th class="max-width-300"> Product Name </th>
@@ -56,24 +56,24 @@
                         <span class="fs-20 fw-600 pt-15 pl-15" routerLink="/dashboard/raw-material">Raw Material</span>
                         <hr>
                         <div class="card-body">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="width-5">#</th>
-                                        <th class="width-15">Raw Material Name</th>
-                                        <th class="width-10">Quantity</th>
-                                        <th class="width-10">Import Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let raw_material of importRawMaterial">
-                                        <td class="width-5">{{ raw_material.index }}</td>
-                                        <td class="width-15">{{ raw_material.import_raw_material_name }}</td>
-                                        <td class="width-10">{{ raw_material.raw_material_quantity }}</td>
-                                        <td class="width-10">{{ raw_material.import_raw_material_date | date: 'dd/MMMM/yyy' }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table id="example" class="table">
+                                    <thead class="font-weight-bold">
+                                        <th>#</th>
+                                        <th>Raw Material Name</th>
+                                        <th>Quantity</th>
+                                        <th>Import Date</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let raw_material of importRawMaterial">
+                                            <td>{{ raw_material.index }}</td>
+                                            <td>{{ raw_material.import_raw_material_name }}</td>
+                                            <td>{{ raw_material.raw_material_quantity }}</td>
+                                            <td>{{ raw_material.import_raw_material_date | date: 'dd/MMMM/yyy' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,24 +83,24 @@
                         <span class="fs-20 fw-600 pt-15 pl-15" routerLink="/dashboard/inventory">Inventory</span>
                         <hr>
                         <div class="card-body">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="width-5">#</th>
-                                        <th class="width-10">Inventory Name</th>
-                                        <th class="width-10">Quantity</th>
-                                        <th class="width-10">Import Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let inventory of importInventory">
-                                        <td class="width-5">{{ inventory.index }}</td>
-                                        <td class="width-10">{{ inventory.import_inventory_name }}</td>
-                                        <td class="width-10">{{ inventory.import_inventory_quantity }}</td>
-                                        <td class="width-10">{{ inventory.import_inventory_date | date: 'dd/MMMM/yyy' }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="font-weight-bold">
+                                        <th class="fs-14 fw-500">#</th>
+                                        <th class="fs-14 fw-500">Inventory Name</th>
+                                        <th class="fs-14 fw-500">Quantity</th>
+                                        <th class="fs-14 fw-500">Import Date</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let inventory of importInventory">
+                                            <td>{{ inventory.index }}</td>
+                                            <td>{{ inventory.import_inventory_name }}</td>
+                                            <td>{{ inventory.import_inventory_quantity }}</td>
+                                            <td>{{ inventory.import_inventory_date | date: 'dd/MMMM/yyy' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

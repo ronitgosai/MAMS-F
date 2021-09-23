@@ -50,44 +50,46 @@
                             </mat-search-bar>
                         </div>
                         <div class="table-responsive">
-                            <table id="example" class="table table-custom datatable">
-                                <thead class="text">
-                                    <th>
-                                        <div class="d-flex">
-                                            <div class="align-items-center d-flex min-width-85">#</div>
-                                            <div class="flex-even">Customer Name</div>
-                                            <div class="flex-even">Customer Contact</div>
-                                            <div class="flex-even">Customer Address</div>
-                                            <div class="flex-even justify-content-end">Action</div>
-                                        </div>
-                                    </th>
+                            <table id="example" class="table ">
+                                <thead class="text font-weight-bold">
+                                    <th>#</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Contact</th>
+                                    <th>Customer Address</th>
+                                    <th class="text-align-end">Action</th>
                                 </thead>
-                                <div *ngIf="isProgressBar" class="m-20 p-20">
-                                    <mat-progress-bar mode="indeterminate">
-                                    </mat-progress-bar>
-                                </div>
-                                <div class="align-items-center m-20 text-center" *ngIf="isData">
-                                    <p class="fs-16 fw-400">No Data Available.</p>
-                                </div>
-                                <tbody *ngIf="isTable">
-                                    <tr *ngFor="let data of customerDetails | paginate: {id:'pagination_customer',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
-                                        <td>
-                                            <div class="top_row">
-                                                <div class="d-flex">
-                                                    <div class="align-items-center d-flex min-width-85">{{ data.index }}</div>
-                                                    <div class="flex-even">{{ data.customer_name }}</div>
-                                                    <div class="flex-even">{{ data.customer_contact }}</div>
-                                                    <div class="flex-even">{{ data.customer_address }}</div>
-                                                    <div class="flex-even justify-content-end">
-                                                        <button mat-stroked-button class="mr-3" data-toggle="collapse" [attr.data-target]="'#customerInfo' + i" (click)="editCustomer(data.customer_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                                        <button mat-stroked-button class="mr-3" (click)="deleteCustomer(data.customer_id,data.customer_name)"><span class="fa fa-trash c-red"></span></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="top_row">
+                                <ng-container *ngIf="isProgressBar">
+                                    <tr class="border-none">
+                                        <td colspan="5"> 
+                                            <mat-progress-bar mode="indeterminate">   
+                                            </mat-progress-bar>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="isData">
+                                    <tr class="align-items-center m-20 text-center">
+                                        <td colspan="5"> 
+                                            <p class="fs-16 fw-400">No Data Available.</p>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <ng-container *ngIf="isTable">
+                                    <tbody *ngFor="let data of customerDetails | paginate: {id:'pagination_customer',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                        <tr>
+                                            <td>{{ data.index }}</td>
+                                            <td>{{ data.customer_name }}</td>
+                                            <td>{{ data.customer_contact }}</td>
+                                            <td>{{ data.customer_address }}</td>
+                                            <td class="text-align-end">
+                                                <button mat-stroked-button class="mr-3" data-toggle="collapse" [attr.data-target]="'#customerInfo' + i" (click)="editCustomer(data.customer_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                                <button mat-stroked-button class="mr-3" (click)="deleteCustomer(data.customer_id,data.customer_name)"><span class="fa fa-trash c-red"></span></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="p-0">
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <div class="collapse" id="customerInfo{{ i }}">
+                                                        <div class="collapse pb-5" id="customerInfo{{ i }}">
                                                             <div class="card-body">
                                                                 <form class="updateCustomerForm" [formGroup]="updateCustomerForm">
                                                                     <div class="col-md-12">
@@ -118,28 +120,30 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                    </tr><br>
-                                    <div class="row">
-                                        <div class="col-md-6 mt-3">
-                                            <pagination-controls id="pagination_customer" (pageChange)="p = $event" class="f-l"></pagination-controls>
-                                        </div>
-                                        <div class="col-md-6 z-index-9">
-                                            <mat-form-field appearance="fill"  class="width-22 f-r">
-                                                <mat-label>Entries per page</mat-label>
-                                                <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
-                                                    <mat-option value="10">10</mat-option>
-                                                    <mat-option value="20">20</mat-option>
-                                                    <mat-option value="35">35</mat-option>
-                                                    <mat-option value="40">40</mat-option>
-                                                    <mat-option value="50">50</mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div>
-                                </tbody><br>                            
+                                            </td>
+                                        </tr>
+                                    </tbody><br>
+                                </ng-container>
                             </table>
+                            <ng-container *ngIf="isTable">
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <pagination-controls id="pagination_customer" (pageChange)="p = $event" class="f-l"></pagination-controls>
+                                    </div>
+                                    <div class="col-md-6 z-index-9">
+                                        <mat-form-field appearance="fill"  class="width-22 f-r">
+                                            <mat-label>Entries per page</mat-label>
+                                            <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
+                                                <mat-option value="10">10</mat-option>
+                                                <mat-option value="20">20</mat-option>
+                                                <mat-option value="35">35</mat-option>
+                                                <mat-option value="40">40</mat-option>
+                                                <mat-option value="50">50</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

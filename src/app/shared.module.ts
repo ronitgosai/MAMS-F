@@ -21,6 +21,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgxPrintModule } from 'ngx-print';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [],
   imports: [
@@ -39,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     NgxMatSelectSearchModule,
     MatProgressBarModule,
+    MatTableModule,
     Ng2SearchPipeModule,
     OrderModule,
     NgxPaginationModule,

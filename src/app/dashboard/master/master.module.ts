@@ -12,6 +12,7 @@ import { InventoryModule } from './inventory/inventory.module';
 import { RoleComponent } from './role/role.component';
 import { SharedModule } from 'app/shared.module';
 import { ProductModule } from './product/product.module';
+import { MailModule } from './mail/mail.module';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
     CategoryModule,
     ProductModule,
     NetworkServiceProviderModule,
+    MailModule,
     WorkAreaModule,
     ShiftModule,
     CurrencyModule,

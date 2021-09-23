@@ -27,53 +27,52 @@ export class ProductComponent implements OnInit {
   }
 
   isProgressBar: boolean;
-  is_table: boolean;
-  is_data: boolean;
+  isTable: boolean;
+  isData: boolean;
 
-  arr_product_data = [];
-  arr_product_data_backup = [];
+  productData = [];
+  productDataBackup = [];
 
-  product_name: any;
+  productName: any;
   p: number = 1;
-  entries_per_page: any = '10';
+  entriesPerPage: any = '10';
   value = 'Clear me';
 
   ngOnInit(): void {
-    this.is_table = false;
+    this.isTable = false;
     this.isProgressBar = true;
-    this.is_data = false;
-
+    this.isData = false;
     this.getProductTable();
   }
 
   getProductTable() {
     this.isProgressBar = true;
     this.productService.getProduct().subscribe((getProduct: any) => {
-      this.arr_product_data = this.global.tableIndex(getProduct.data);
-      this.arr_product_data_backup = this.arr_product_data;
+      this.productData = this.global.tableIndex(getProduct.data);
+      this.productDataBackup = this.productData;
       this.isProgressBar = false;
-      if (this.arr_product_data.length > 0) {
-        this.is_data = false;
-        this.is_table = true;
-      } else if (this.arr_product_data.length === 0) {
-        this.is_table = false;
-        this.is_data = true;
+      if (this.productData.length > 0) {
+        this.isData = false;
+        this.isTable = true;
+      } else if (this.productData.length === 0) {
+        this.isData = true;
+        this.isTable = false;
       }
     })
   }
 
 
   search() {
-    if (this.product_name === '') {
-      this.arr_product_data = this.arr_product_data_backup
+    if (this.productName === '') {
+      this.productData = this.productDataBackup
     } else {
-      this.arr_product_data = this.arr_product_data_backup.filter(d => {
+      this.productData = this.productDataBackup.filter(d => {
         return (
-          d.product_name.toLowerCase().match(this.product_name.toLowerCase()) ||
-          d.product_technical_name.toLowerCase().match(this.product_name.toLowerCase()) ||
-          (d.category_id === 0 && ('FUNGICIDES').toLowerCase().match(this.product_name.toLowerCase())) ||
-          (d.category_id === 1 && ('HERBICIDES').toLowerCase().match(this.product_name.toLowerCase())) ||
-          (d.category_id === 2 && ('INSECTICIDES').toLowerCase().match(this.product_name.toLowerCase()))
+          d.product_name.toLowerCase().match(this.productName.toLowerCase()) ||
+          d.product_technical_name.toLowerCase().match(this.productName.toLowerCase()) ||
+          (d.category_id === 0 && ('FUNGICIDES').toLowerCase().match(this.productName.toLowerCase())) ||
+          (d.category_id === 1 && ('HERBICIDES').toLowerCase().match(this.productName.toLowerCase())) ||
+          (d.category_id === 2 && ('INSECTICIDES').toLowerCase().match(this.productName.toLowerCase()))
         )
       })
     }

@@ -111,18 +111,16 @@
                             </mat-search-bar>
                         </div><br><br>
                         <div class="table-responsive whitespace">
-                            <table class="table width-100">
-                                <thead class="text">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Staff Name</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Shift</th>
-                                        <th>Day</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead><br>
+                            <table class="table">
+                                <thead class="text font-weight-bold">
+                                    <th>#</th>
+                                    <th>Staff Name</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Shift</th>
+                                    <th>Day</th>
+                                    <th>Action</th>
+                                </thead>
                                 <ng-container *ngIf="isProgressBar">
                                     <tr class="border-none">
                                         <td colspan="7"> 
@@ -131,7 +129,7 @@
                                         </td>
                                     </tr>
                                 </ng-container>
-                                <ng-container *ngIf="attendanceDetails.length === 0">
+                                <ng-container *ngIf="isData">
                                     <tr class="align-items-center m-20 text-center">
                                         <td colspan="7"> 
                                             <p class="fs-16 fw-400">No Data Available.</p>
@@ -139,8 +137,8 @@
                                     </tr>
                                 </ng-container>
                                 <ng-container *ngIf="isTable">
-                                    <tbody>
-                                        <tr *ngFor="let data of attendanceDetails | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                    <tbody *ngFor="let data of attendanceDetails | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                        <tr>
                                             <td>{{ data.index }}</td>
                                             <td>{{ data.staff_name }}</td>
                                             <td>{{ data.date | date:'dd/MMMM/yyyy' }}</td>
@@ -154,25 +152,27 @@
                                     </tbody><br>
                                 </ng-container>
                             </table>
-                            <div class="row width-100 responsive">
-                                <div class="col-md-6 mt-3">
-                                    <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
-                                    </pagination-controls>
+                            <ng-container *ngIf="isTable">
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
+                                        </pagination-controls>
+                                    </div>
+                                    <div class="col-md-6 z-index-9">
+                                        <mat-form-field appearance="fill" class="width-22 f-r">
+                                            <mat-label>Entries per page</mat-label>
+                                            <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
+                                                [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                                <mat-option value="10">10</mat-option>
+                                                <mat-option value="20">20</mat-option>
+                                                <mat-option value="35">35</mat-option>
+                                                <mat-option value="40">40</mat-option>
+                                                <mat-option value="50">50</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
                                 </div>
-                                <div class="col-md-6 z-index-9">
-                                    <mat-form-field appearance="fill" class="width-22 f-r">
-                                        <mat-label>Entries per page</mat-label>
-                                        <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
-                                            [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                            <mat-option value="10">10</mat-option>
-                                            <mat-option value="20">20</mat-option>
-                                            <mat-option value="35">35</mat-option>
-                                            <mat-option value="40">40</mat-option>
-                                            <mat-option value="50">50</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </div>
-                            </div>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

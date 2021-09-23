@@ -34,37 +34,37 @@ export class SellComponent implements OnInit {
   updateSellFrom: FormGroup;
 
   isProgressBar: boolean;
-  is_product_enable: boolean;
-  is_inventory_enable: boolean;
-  is_table: boolean;
-  is_show: boolean;
-  is_data: boolean;
-  is_done: boolean;
+  isProductEnable: boolean;
+  isInventoryEnable: boolean;
+  isTable: boolean;
+  isShow: boolean;
+  isData: boolean;
+  isDone: boolean;
 
-  sell_data = [];
-  stock_product = [];
-  obj_customer_data = [];
-  obj_customer_data_backup = [];
-  arr_product_from_category = [];
-  arr_inventory_from_product = [];
+  sellData = [];
+  stockProduct = [];
+  customerData = [];
+  customerDataBackup = [];
+  productFromCategory = [];
+  inventoryFromProduct = [];
   category = [];
 
   key: string = 'customer_name';
   reverse: boolean = false;
   p: number = 1;
-  entries_per_page: any = '10';
+  entriesPerPage: any = '10';
   value = 'Clear me';
-  customer_name: any;
-  product_id: any;
+  customerName: any;
+  productId: any;
   qty: any;
   quantity: any;
 
   ngOnInit(): void {
-    this.is_product_enable = false;
-    this.is_inventory_enable = false;
-    this.is_table = false;
+    this.isProductEnable = false;
+    this.isInventoryEnable = false;
+    this.isTable = false;
     this.isProgressBar = true;
-    this.is_data = false;
+    this.isData = false;
 
     this.sellForm = this.formBuilder.group({
       customer_id: ['', [Validators.required]],
@@ -82,55 +82,55 @@ export class SellComponent implements OnInit {
 
     // this.isProgressBar = true;
     this.sellService.getSell().subscribe((getSellDetail: any) => {
-      this.sell_data = this.global.tableIndex(getSellDetail.data);
-      for (let i = 0; i < this.sell_data.length; i++) {
-        this.sell_data[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sell_data[i].product_quantity)
+      this.sellData = this.global.tableIndex(getSellDetail.data);
+      for (let i = 0; i < this.sellData.length; i++) {
+        this.sellData[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sellData[i].product_quantity)
       }
       this.isProgressBar = false;
-      if (this.sell_data.length > 0) {
-        this.is_data = false;
-        this.is_table = true;
-      } else if (this.sell_data.length === 0) {
-        this.is_table = false;
-        this.is_data = true;
+      if (this.sellData.length > 0) {
+        this.isData = false;
+        this.isTable = true;
+      } else if (this.sellData.length === 0) {
+        this.isTable = false;
+        this.isData = true;
       }
     })
 
     this.sellService.getProductWiseInventory().subscribe((response: any) => {
-      this.stock_product = response.data
-      if (this.stock_product.length > 0) {
+      this.stockProduct = response.data
+      if (this.stockProduct.length > 0) {
         this.isProgressBar = false;
-        this.is_show = true;
+        this.isShow = true;
       }
     })
 
     this.customerService.getCustomer().subscribe((response: any) => {
-      this.obj_customer_data = response.data
-      if (this.obj_customer_data.length > 0) {
+      this.customerData = response.data
+      if (this.customerData.length > 0) {
         this.isProgressBar = false;
-        this.is_show = true;
+        this.isShow = true;
       }
     })
     this.getProductCategory();
   }
 
   productCategoryChange(event) {
-    this.is_product_enable = false;
+    this.isProductEnable = false;
     let category_id = {
       'category_id': event.value,
     };
     this.sellService.getCategoryWiseProduct(category_id).subscribe((getCategoryWiceProduct: any) => {
-      this.arr_product_from_category = getCategoryWiceProduct.data;
-      if (this.arr_product_from_category.length > 0) {
+      this.productFromCategory = getCategoryWiceProduct.data;
+      if (this.productFromCategory.length > 0) {
         this.isProgressBar = false;
-        this.is_product_enable = true;
+        this.isProductEnable = true;
       }
     });
   }
 
   productChange(event) {
-    this.product_id = event.value;
-    let tmp_inventory = this.stock_product.filter(d => d.product_id === event.value)
+    this.productId = event.value;
+    let tmp_inventory = this.stockProduct.filter(d => d.product_id === event.value)
     let tmp_inventory_id = [];
     tmp_inventory.map((d, index) => {
       tmp_inventory_id[index] = d.inventory_id
@@ -139,10 +139,10 @@ export class SellComponent implements OnInit {
       'inventory_id': tmp_inventory_id
     }
     this.sellService.getInventoryName(inventory_id).subscribe((response: any) => {
-      this.arr_inventory_from_product = response.data
-      if (this.arr_inventory_from_product.length > 0) {
-        this.is_product_enable = true;
-        this.is_inventory_enable = true;
+      this.inventoryFromProduct = response.data
+      if (this.inventoryFromProduct.length > 0) {
+        this.isProductEnable = true;
+        this.isInventoryEnable = true;
       }
     })
   }
@@ -159,11 +159,11 @@ export class SellComponent implements OnInit {
   }
 
   search() {
-    if (this.customer_name === '') {
-      this.obj_customer_data = this.obj_customer_data_backup
+    if (this.customerName === '') {
+      this.customerData = this.customerDataBackup
     } else {
-      this.obj_customer_data = this.obj_customer_data_backup.filter(res => {
-        return res.customer_name.toLowerCase().match(this.customer_name.toLowerCase());
+      this.customerData = this.customerDataBackup.filter(res => {
+        return res.customer_name.toLowerCase().match(this.customerName.toLowerCase());
       })
     }
   }
@@ -171,14 +171,14 @@ export class SellComponent implements OnInit {
   pagination(event) { }
 
   inventoryChange(event) {
-    this.is_inventory_enable = true;
-    this.qty = this.stock_product.find(d => d.inventory_id === event.value && d.product_id === this.product_id).quantity
+    this.isInventoryEnable = true;
+    this.qty = this.stockProduct.find(d => d.inventory_id === event.value && d.product_id === this.productId).quantity
   }
 
   insertSellDetails() {
-    this.is_table = false;
+    this.isTable = false;
     this.isProgressBar = true;
-    this.is_done = true;
+    this.isDone = true;
     // this.sellForm.get('product_quantity').value = Number(this.sellForm.get('product_quantity').value.split(',').join(''))
     let product_quantity = {
       'quantity': Number(this.sellForm.get('product_quantity').value.split(',').join('')),
@@ -190,13 +190,13 @@ export class SellComponent implements OnInit {
     }
     if (Number(this.sellForm.get('product_quantity').value.split(',').join('')) >= this.qty) {
       this.toastr.error("Please enter quantity less than stock quantity")
-      this.is_done = false;
+      this.isDone = false;
     } else if (Number(this.sellForm.get('product_quantity').value.split(',').join('')) === 0) {
       this.toastr.error("Please enter quantity greater than 0")
-      this.is_done = false;
+      this.isDone = false;
     }
     else {
-      if (this.sellForm.valid && this.is_done === true) {
+      if (this.sellForm.valid && this.isDone === true) {
         let sellDetails = {
           'customer_id': this.sellForm.get('customer_id').value,
           'category_id': this.sellForm.get('category_id').value,
@@ -209,17 +209,17 @@ export class SellComponent implements OnInit {
         }
         this.sellService.createSell(sellDetails).subscribe(data => {
           this.sellService.getSell().subscribe((getSellDetail: any) => {
-            this.sell_data = this.global.tableIndex(getSellDetail.data)
-            for (let i = 0; i < this.sell_data.length; i++) {
-              this.sell_data[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sell_data[i].product_quantity)
+            this.sellData = this.global.tableIndex(getSellDetail.data)
+            for (let i = 0; i < this.sellData.length; i++) {
+              this.sellData[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sellData[i].product_quantity)
             }
             this.isProgressBar = false;
-            if (this.sell_data.length > 0) {
-              this.is_data = false;
-              this.is_table = true;
-            } else if (this.sell_data.length === 0) {
-              this.is_table = false;
-              this.is_data = true;
+            if (this.sellData.length > 0) {
+              this.isData = false;
+              this.isTable = true;
+            } else if (this.sellData.length === 0) {
+              this.isTable = false;
+              this.isData = true;
             }
           })
         })
@@ -228,12 +228,12 @@ export class SellComponent implements OnInit {
         })
         this.toastr.success("Sale has been made successfully!");
         this.sellForm.reset();
-        this.is_product_enable = false;
-        this.is_inventory_enable = false;
+        this.isProductEnable = false;
+        this.isInventoryEnable = false;
         document.getElementById('collapseButton').click();
       } else {
         this.isProgressBar = false;
-        this.is_table = true;
+        this.isTable = true;
         this.toastr.error("Please fill the form")
       }
     }
@@ -263,21 +263,21 @@ export class SellComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.is_table = false;
+        this.isTable = false;
         this.isProgressBar = true;
         this.sellService.deleteSellItem(delete_sell_item_id).subscribe(data => {
           this.sellService.getSell().subscribe((getSellDetail: any) => {
-            this.sell_data = this.global.tableIndex(getSellDetail.data)
-            for (let i = 0; i < this.sell_data.length; i++) {
-              this.sell_data[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sell_data[i].product_quantity)
+            this.sellData = this.global.tableIndex(getSellDetail.data)
+            for (let i = 0; i < this.sellData.length; i++) {
+              this.sellData[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sellData[i].product_quantity)
             }
             this.isProgressBar = false;
-            if (this.sell_data.length > 0) {
-              this.is_data = false;
-              this.is_table = true;
-            } else if (this.sell_data.length === 0) {
-              this.is_table = false;
-              this.is_data = true;
+            if (this.sellData.length > 0) {
+              this.isData = false;
+              this.isTable = true;
+            } else if (this.sellData.length === 0) {
+              this.isTable = false;
+              this.isData = true;
             }
           })
         })

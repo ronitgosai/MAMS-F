@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { RawMaterialService } from 'app/services/dashboard/raw-material/raw-material.service';
 import { ReportService } from 'app/services/dashboard/report/report.service';
@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
+import { SendMailService } from 'app/services/dashboard/master/send-mail.service';
+import { MailContactService } from 'app/services/mail-contact.service';
 
 @Component({
   selector: 'app-material-report',
@@ -19,6 +21,8 @@ export class MaterialReportComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private global: GlobalService,
+    private mailService: SendMailService,
+    private mailContactService: MailContactService,
     private toastr: ToastrService,
     private rawMaterialService: RawMaterialService,
     private reportService: ReportService,
@@ -28,7 +32,9 @@ export class MaterialReportComponent implements OnInit {
 
   rawMaterialForm: FormGroup;
   importRawMaterialForm: FormGroup;
+  emailForm: FormGroup;
 
+  emailInfo = [];
   rawMaterial = [];
   allRawMaterialName = [];
   rawMaterialName = [];
@@ -77,7 +83,19 @@ export class MaterialReportComponent implements OnInit {
       import_raw_material_date_end: ['']
     });
 
+    this.emailForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    })
+
     this.getRawMaterial();
+    this.getEmailAddress();
+  }
+
+  /* Get Email Address */
+  getEmailAddress(){
+    this.mailService.getEmailAddress().subscribe((email: object) => {
+      this.emailInfo = email['data']; 
+    })
   }
 
   /* Raw Material */
@@ -118,6 +136,14 @@ export class MaterialReportComponent implements OnInit {
       }
       this.reportService.pdf(data).subscribe((pdfmake) => {
         saveAs(pdfmake, "modernagrichem")
+      })
+    }
+  }
+
+  senMail(){
+    if(this.emailForm.valid){
+      this.mailContactService.createFormData(this.emailForm.value).subscribe(response => {
+        console.log("response-->",response)
       })
     }
   }

@@ -70,8 +70,23 @@
                 </tbody>
             </table>
         </div>
+        <form class="emailForm" [formGroup]="emailForm">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill"  class="mt-13">   
+                    <mat-label>Email</mat-label>
+                    <mat-select formControlName="email">
+                        <mat-option *ngFor="let data of emailInfo" [value]="data.email">
+                            {{ data.email }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
         <button mat-flat-button type="button" class="save" (click)="rawMaterialPdf()">
             <span class="fa fa-file-pdf fs-16"></span>&nbsp;&nbsp;<span>Export PDF</span>
+        </button>
+        <button mat-flat-button type="button" class="ml-3 sendMail" (click)="senMail()">
+            <span class="fas fa-paper-plane fs-16"></span>&nbsp;&nbsp;<span>Send Mail</span>
         </button>
     </div>
 </div>

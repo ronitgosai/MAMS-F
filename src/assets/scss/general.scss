@@ -1,36 +1,55 @@
 .main-content {
   margin-top: -20px;
-  .table-custome {
-    width: 100% !important;
-    overflow: auto !important;
-    z-index: 8 !important;
+  .container-fluid {
+    .row-title {
+      padding: 20px;
+      .col-md-6 {
+        display: flex !important;
+        align-items: center !important;
+        &:last-child {
+          flex-direction: row-reverse !important;
+        }
+      }
+    }
+    .title {
+      font-size: 20px !important;
+      font-weight: bold !important;
+    }
   }
+
   thead {
     z-index: 7 !important;
   }
+
   .form-field {
     margin-top: 13px !important;
     width: 100%;
   }
+
   .material-type {
     margin-left: 50% !important;
   }
+
   .date-picker {
     width: 200% !important;
   }
+
   .top_row {
     display: table;
     width: 100%;
   }
+
   .flex-even {
     flex: 1;
     display: flex;
     align-items: center;
   }
+
   .line {
     margin-top: 5px;
     border-bottom: 1px solid;
   }
+
   .example-section {
     margin: 12px 0;
   }
@@ -52,6 +71,13 @@
     line-height: 0 !important;
   }
 }
+
+::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 .search-bar {
   border-top: 5px !important;
   border-radius: 25px !important;
@@ -91,11 +117,6 @@
   .m-b {
     margin-bottom: 100px;
   }
-
-}
-.table-custome {
-  width: 100% !important;
-  overflow: hidden;
 }
 .btn {
   box-shadow: none !important;
@@ -127,7 +148,7 @@
   border-bottom: 1px solid;
 }
 
-.whitespace{
+.whitespace {
   white-space: nowrap !important;
 }
 
@@ -217,32 +238,34 @@
   background-color: green !important;
   color: white;
 }
-.ngx-pagination a, .ngx-pagination button{
+.ngx-pagination a,
+.ngx-pagination button {
   &:hover {
     background-color: blue !important;
-    color:white;
+    color: white;
   }
 }
 
-.pagination{
+.pagination {
   .ngx-pagination .current {
     background-color: green !important;
     color: white;
   }
-  .ngx-pagination a, .ngx-pagination button{
+  .ngx-pagination a,
+  .ngx-pagination button {
     &:hover {
       background-color: blue !important;
-      color:white;
+      color: white;
     }
   }
 }
 
-.row-title{
+.row-title {
   padding: 20px;
-  .col-md-6{
+  .col-md-6 {
     display: flex !important;
     align-items: center !important;
-    &:last-child{
+    &:last-child {
       flex-direction: row-reverse !important;
     }
   }

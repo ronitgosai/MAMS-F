@@ -1,0 +1,142 @@
+<div class="card">
+    <div class="row row-title">
+        <div class="col-md-6">
+            <span class="fs-20 fw-600">Set Mail</span>
+        </div>
+        <div class="col-md-6">
+            <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#setMail" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+                <span class="fas fa-plus"></span>&nbsp;&nbsp;Set Mail
+            </button>
+        </div>
+    </div>
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="collapse " id="setMail">
+                <div class="card-body">
+                    <form class="setMailForm" [formGroup]="setMailForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="form-field" [formGroup]="setMailForm">
+                                    <input matInput type="text" formControlName="firstName" placeholder="First Name">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="form-field" [formGroup]="setMailForm">
+                                    <input matInput type="text" formControlName="lastName" placeholder="Last Name">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="form-field" [formGroup]="setMailForm">
+                                    <input matInput type="email" formControlName="email" placeholder="Email Address">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="form-group"><br>
+                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                            <button mat-flat-button type="reset" data-toggle="collapse" data-target="#setMail" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button mat-flat-button type="button" class="save pull-right" (click)="setMail()"><span class="fas fa-save"></span>&nbsp;&nbsp;Send Mail</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="m-0 mt-10">
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="email" [(ngModel)]="email" (ngModelChange)="search()" placeholder="Search By Email">
+                    </mat-search-bar>
+                </div>
+                <div class="table-responsive">
+                    <table id="example" class="table">
+                        <thead class="text">
+                            <tr>
+                                <th class="font-weight-bold">#</th>
+                                <th class="font-weight-bold">Fisrt Name</th>
+                                <th class="font-weight-bold">Last Name</th>
+                                <th class="font-weight-bold">Email</th>
+                                <th class="font-weight-bold max-width-100 justify-content-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tr *ngIf="isProgressBar" class="m-20 p-20">
+                            <td colspan="7">
+                                <mat-progress-bar mode="indeterminate">
+                                </mat-progress-bar>
+                            </td>
+                        </tr>
+                        <tr *ngIf="isData" class="align-items-center m-20 text-center">
+                            <td colspan="7">
+                                <p class="fs-16 fw-400">No Data Available.</p>
+                            </td>
+                        </tr>
+                        <ng-container *ngIf="isTable"></ng-container>
+                        <tbody *ngFor="let data of setEmailData | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                            <tr>
+                                <td>{{ data.index }}</td>
+                                <td>{{ data.first_name }}</td>
+                                <td>{{ data.last_name }}</td>
+                                <td>{{ data.email }}</td>
+                                <td class="max-width-100 justify-content-end">
+                                    <button mat-stroked-button class="mr-3" data-toggle="collapse" [attr.data-target]="'#setMailInfo' + i" (click)="editMailSetting(data.mail_setting_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                    <button mat-stroked-button (click)="deleteMail(data.set_email_id,data.first_name,data.last_name)"><span class="fa fa-trash c-red"></span></button>
+                                </td>
+                            </tr><br>
+                            <td colspan="7">
+                                <div class="collapse" id="setMailInfo{{ i }}">
+                                    <div class="card-body">
+                                        <form class="updateSetMailForm" [formGroup]="updateSetMailForm">
+                                            <div class="col-md-12">
+                                                <span class="fs-16 fw-500">Please enter update mail setting for above mail.<br><br></span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="form-field">
+                                                        <input matInput type="email" formControlName="updateFirstName" placeholder="First Name">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="form-field">
+                                                        <input matInput type="text" formControlName="updateLastName" placeholder="Lst Name">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="form-field">
+                                                        <input matInput type="text" formControlName="updateEmail" placeholder="Email Address">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <button type="reset" mat-flat-button class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                            <button type="reset" mat-flat-button class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#setMailInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                            <button type="button" mat-flat-button class="save pull-right" (click)="updateMail(data.set_email_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Raw Material</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tbody><br>
+                    </table>
+                    <ng-container *ngIf="isPagination">
+                        <div class="row">   
+                            <div class="col-md-6 mt-3">
+                                <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l"></pagination-controls>
+                            </div>
+                            <div class="col-md-6 z-index-9">
+                                <mat-form-field appearance="fill"  class="width-22 f-r">
+                                    <mat-label>Entries per page</mat-label>
+                                    <mat-select id='entriesPerPage'  [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
