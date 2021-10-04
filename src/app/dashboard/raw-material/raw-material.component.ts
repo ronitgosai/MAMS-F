@@ -111,15 +111,13 @@ export class RawMaterialComponent implements OnInit {
   }
 
   printNumber() {
-    this.unit = Number(this.importRawMaterialForm.get('raw_material_quantity').value.split(',').join('')).toLocaleString('en-IN')
+    this.unit = Number(this.importRawMaterialForm.get('raw_material_quantity').value.split(',').join('')).toLocaleString('en-IN');
   }
 
   getRawMaterial() {
     this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
       this.RawMaterialData = this.global.tableIndex(getRawMaterial.data);
       this.RawMaterialData.map((d, i) => {
-        // console.log(d.raw_material/_name)
-        // console.log(Object.keys(d.raw_material_name))
       })
       for (let i = 0; i < this.RawMaterialData.length; i++) {
         this.RawMaterialData[i].raw_material_quantity = this.global.tableComma(this.RawMaterialData[i].raw_material_quantity)

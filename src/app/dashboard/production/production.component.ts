@@ -172,7 +172,6 @@ export class ProductionComponent implements OnInit {
           this.arr_raw_material_backup[index] = Number(this.arr_raw_material_backup[index])
         })
         this.prePlanProductionId = prePlanProductionData.pre_plan_production_id;
-        console.log(this.prePlanProductionId)
         this.is_disabled = true;
         this.full_table = true;
         this.is_table = true;
@@ -262,7 +261,7 @@ export class ProductionComponent implements OnInit {
 
   getProduct() {
     this.productService.getProduct().subscribe((getProduct: any) => {
-      this.productData = getProduct.data;
+      this.productData = this.global.tableIndex(getProduct.data);
     });
   }
 

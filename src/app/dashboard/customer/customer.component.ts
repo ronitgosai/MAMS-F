@@ -67,7 +67,7 @@ export class CustomerComponent implements OnInit {
 
     this.customerForm = this.formBuilder.group({
       customerName: ['', [Validators.required, this.global.noWhitespaceValidator]],
-      customerContact: ['', [Validators.required]],
+      customerContact: ['', [Validators.required, Validators.pattern('^([-+/*]\d+(\.\d+)?)*')]],
       customerAddress: ['', [Validators.required, this.global.noWhitespaceValidator]],
     })
 

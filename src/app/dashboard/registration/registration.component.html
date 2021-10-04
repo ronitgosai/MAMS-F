@@ -3,7 +3,7 @@
         <div class="card">
             <div class="row row-title">
                 <div class="col-md-6">
-                    <span class="fs-20 fw-600">Staff</span>
+                    <span class="fs-20 fw-600">Id</span>
                 </div>
                 <div class="col-md-6">
                     <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" id="collapseButton" data-target="#registration">
@@ -189,7 +189,7 @@
                                                                     <mat-label>Mobile Network</mat-label>
                                                                     <mat-select formControlName="updateStaffMobileServiceProviderId">
                                                                         <ng-container *ngFor="let data of netWorkServiceProvider">
-                                                                            <mat-option value="{{ data.	master_network_service_provider_id }}">
+                                                                            <mat-option value="{{ data.master_network_service_provider_id }}">
                                                                                 {{ data.master_network_service_provider_name }}
                                                                             </mat-option>
                                                                         </ng-container>

@@ -143,7 +143,6 @@ export class MaterialReportComponent implements OnInit {
   senMail(){
     if(this.emailForm.valid){
       this.mailContactService.createFormData(this.emailForm.value).subscribe(response => {
-        console.log("response-->",response)
       })
     }
   }

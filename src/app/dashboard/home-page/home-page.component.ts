@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { InventoryService } from 'app/services/dashboard/inventory/inventory.service';
@@ -28,6 +29,7 @@ export class HomePageComponent implements OnInit {
   constructor(
     private router: Router,
     private toastr: ToastrService,
+    private formBuilder: FormBuilder,
     private userService: UserService,
     private rawMaterialService: RawMaterialService,
     private inventoryService: InventoryService,
@@ -36,10 +38,11 @@ export class HomePageComponent implements OnInit {
     private sellService: SellService,
     private global: GlobalService,
     private titleService: Title
-    ) {
-      titleService.setTitle("Home-Page | Modern Agrichem");
-    }
+  ) {
+    titleService.setTitle("Home-Page | Modern Agrichem");
+  }
 
+  ff: FormGroup;
   userDetails = [];
   rawMaterial = [];
   importRawMaterial = [];
@@ -50,6 +53,11 @@ export class HomePageComponent implements OnInit {
   id: any;
 
   ngOnInit(): void {
+    this.ff = this.formBuilder.group({
+      value1: [''],
+      value2: [''],
+      value3: ['']
+    })
 
     this.id = localStorage.getItem('user_id');
 

@@ -9,11 +9,83 @@
                         Product
                     </ng-template>
                     <div class="card-body"><br>
-                        <div class="col-md-12">
-                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="searchProduct()" placeholder="Search Product Name">
-                            </mat-search-bar>
+                        <div class="col-md-6 f-r">
+                            <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" id="collapseButton" data-target="#manualProduct" aria-expanded="false" aria-controls="collapseExample">
+                                <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Manual Product
+                            </button>
                         </div>
+                        <br><br><br>
+                        <div class="row ml-20 mr-20">
+                            <div class="col-md-12">
+                                <div class="collapse" id="manualProduct">
+                                    <div class="card-body">
+                                        <form class="productForm" [formGroup]="productForm">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Category</mat-label>
+                                                        <mat-select formControlName="categoryId" (selectionChange)="categoryChange($event)">
+                                                            <ng-container *ngFor="let data of categoryProduct">
+                                                                <mat-option value="{{ data.category_id }}">
+                                                                    {{ data.category_name }}
+                                                                </mat-option>    
+                                                            </ng-container>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field class="form-field">
+                                                        <input matInput formControlName="productName" placeholder="Product Name">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field class="form-field">
+                                                        <input matInput formControlName="productTechnicalName" placeholder="Product Technical Name">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Product Form</mat-label>
+                                                        <mat-select formControlName="productForm" required>
+                                                            <mat-option value="1">Liquid Product</mat-option>
+                                                            <mat-option value="2">Solid Product</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-label>Inventory Name</mat-label>
+                                                        <mat-select formControlName="inventoryId">
+                                                            <ng-container *ngFor="let data of inventoryFromProduct">
+                                                                <mat-option value="{{ data.inventory_id }}">
+                                                                    {{ data.inventory_name }}
+                                                                </mat-option>
+                                                            </ng-container>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="form-field">
+                                                        <input matInput class="p-0" [(ngModel)]="unit" (keyup)="printNumber()" formControlName="productQuantity" placeholder="Product Qunatity" required>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                            <button mat-flat-button type="reset" data-toggle="collapse" data-target="#manualProduct" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                            <button mat-flat-button type="submit" class="save pull-right" (click)="insertProduct()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Manually Product</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="table-responsive">
+                            <div class="col-md-12">
+                                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="searchProduct()" placeholder="Search Product Name">
+                                </mat-search-bar>
+                            </div>
                             <table id="example" class="table">
                                 <thead class="text font-weight-bold">
                                     <th>#</th>
@@ -80,7 +152,7 @@
                     </div>
                 </mat-tab>
                 <!-- Raw Material -->
-                <mat-tab>
+                <mat-tab label="Raw Material">
                     <ng-template mat-tab-label>
                         <mat-icon class="fab fa-buromobelexperte"></mat-icon>&nbsp;&nbsp;
                         Raw Material

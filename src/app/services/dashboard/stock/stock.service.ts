@@ -6,13 +6,17 @@ import { Header } from "app/header";
   providedIn: "root",
 })
 export class StockService {
-  constructor(private http: HttpClient,private header: Header) {}
+  constructor(private http: HttpClient, private header: Header) { }
 
   getStock() {
-    return this.http.get(environment.apiUrl + "/stock/get_stock_list", {headers: this.header.getToken()});
+    return this.http.get(environment.apiUrl + "/stock/get_stock_list", { headers: this.header.getToken() });
+  }
+
+  getProductForm(data) {
+    return this.http.post(environment.apiUrl + "/stock/get_product_form", data, { headers: this.header.getToken() });
   }
 
   createStock(data) {
-    return this.http.post(environment.apiUrl + "/stock/create_stock", data, {headers: this.header.getToken()});
+    return this.http.post(environment.apiUrl + "/stock/create_stock", data, { headers: this.header.getToken() });
   }
 }

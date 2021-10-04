@@ -72,7 +72,6 @@
                                                             <div class="flex-even form-group mr-3">{{ data.raw_material_quantity }}</div>
                                                             <div class="flex-even form-group mr-2">
                                                                 <input class="p-0" type="number" min="0" oninput="this.value = Math.abs(this.value)" [ngClass]="{'invalid': isSubmitted && (data.raw_material_quantity < arr_raw_material_backup[i] || arr_raw_material_backup[i] === '')}" [(ngModel)]="arr_raw_material_backup[i]" [value]="data.raw_material_quantity" placeholder="Raw Material Quantity">
-                                                                {{ arr_raw_material_backup[i] }}
                                                             </div>
                                                             <div class="flex-even form-group">{{ data.raw_material_unit }}</div>
                                                         </div>

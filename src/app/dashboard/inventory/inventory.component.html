@@ -83,7 +83,7 @@
                         <div class="card-body">
                             <form class="form-group" [formGroup]="importInventoryForm">
                                 <div class="row">
-                                    <div class="col-md-3 align-items-center" [formGroup]="importInventoryForm">
+                                    <div class="col-md-3 align-items-center mt-8" [formGroup]="importInventoryForm">
                                         <mat-select class="line fs-15 fw-400" formControlName="importInventoryName" (selectionChange)="importInventoryChange($event)" placeholder="Inventory Name" #singleSelect>
                                             <mat-option>
                                                 <ngx-mat-select-search [formControl]="inventoryFilterCtrl" placeholderLabel="Search here!" [noEntriesFoundLabel]="'Not result found'"></ngx-mat-select-search>
@@ -105,7 +105,7 @@
                                     </div>
                                     <div class="col-md-3" [formGroup]="importInventoryForm">
                                         <div class="d-flex">
-                                            <input matInput class="form-control mb-3 p-0 bg-white date-picker" formControlName="importInventoryDate" placeholder="DD MMMM YY" [matDatepicker]="newPicker" (click)="newPicker.open()" #newDate>
+                                            <input matInput class="form-control mb-3 p-0 bg-white mt-1" style="border-bottom: 1px solid" formControlName="importInventoryDate" placeholder="DD MMMM YY" [matDatepicker]="newPicker" (click)="newPicker.open()" #newDate>
                                             <mat-datepicker #newPicker></mat-datepicker>
                                         </div>
                                     </div>

@@ -9,6 +9,22 @@ import { Header } from "app/header";
 export class RawMaterialService {
   constructor(private http: HttpClient, private header: Header) { }
 
+  // subProductListUrl() {
+  //   return this.http.get(environment.subProductListUrl, { headers: this.header.getToken() });
+  // }
+  // attributeGroupUrl() {
+  //   return this.http.get(environment.attributeGroupUrl, { headers: this.header.getToken() });
+  // }
+  // conversionTypeUrl() {
+  //   return this.http.get(environment.conversionTypeUrl, { headers: this.header.getToken() });
+  // }
+  // productTypeUrl() {
+  //   return this.http.get(environment.productTypeUrl, { headers: this.header.getToken() });
+  // }
+  // processListUrl() {
+  //   return this.http.get(environment.processListUrl, { headers: this.header.getToken() });
+  // }
+
   getRawMaterial() {
     return this.http.get(environment.apiUrl + "/raw_material/get_raw_material_list", { headers: this.header.getToken() });
   }

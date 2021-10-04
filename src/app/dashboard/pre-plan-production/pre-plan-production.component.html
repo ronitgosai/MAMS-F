@@ -29,54 +29,60 @@
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-6" *ngIf="isProduct">
-                                        <mat-form-field appearance="fill">
-                                            <mat-label>Product</mat-label>
-                                            <mat-select formControlName="productId" (selectionChange)="productChange($event)">
-                                                <ng-container *ngFor="let data of productName">
-                                                    <mat-option value="{{ data.product_id }}">
-                                                        {{ data.product_name }}
-                                                    </mat-option>
-                                                </ng-container>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <table *ngIf="isRawMaterial" class="table table-responsive">
-                                    <thead class="text font-weight-bold">
-                                            <th>#</th>
-                                            <th>Raw Material Name</th>
-                                            <th>Stock Quantity</th>
-                                            <th>In Use Quantity</th>
-                                            <th>Unit</th>
-                                    </thead>
-                                    <ng-container *ngIf="isProgressBarTable">
-                                        <tr class="border-none">
-                                            <td colspan="5"> 
-                                                <mat-progress-bar mode="indeterminate">   
-                                                </mat-progress-bar>
-                                            </td>
-                                        </tr>
+                                    <ng-container *ngIf="isProduct">
+                                        <div class="col-md-6">
+                                            <mat-form-field appearance="fill">
+                                                <mat-label>Product</mat-label>
+                                                <mat-select formControlName="productId" (selectionChange)="productChange($event)">
+                                                    <ng-container *ngFor="let data of productName">
+                                                        <mat-option value="{{ data.product_id }}">
+                                                            {{ data.product_name }}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
                                     </ng-container>
-                                    <!-- <ng-container *ngIf="isData">
-                                        <tr class="align-items-center m-20 text-center">
-                                            <td colspan="7"> 
-                                                <p class="fs-16 fw-400">No Data Available.</p>
-                                            </td>
-                                        </tr>
-                                    </ng-container> -->
-                                    <tbody>
-                                        <tr *ngFor="let data of rawMaterialName; let i = index">
-                                            <td>{{ i+1 }}</td>
-                                            <td>{{ data.raw_material_name }}</td>
-                                            <td>{{ data.raw_material_quantity }}</td>
-                                            <td>
-                                                <input class="p-0" oninput="this.value=this.value.replace(/[^0-9]/g,'')" [ngClass]="{'invalid': isSubmitted && (data.raw_material_quantity < rawMaterialNameBackup[i] || rawMaterialNameBackup[i] === '')}" [ngModelOptions]="{standalone: true}" [(ngModel)]="rawMaterialNameBackup[i]" placeholder="Raw Material Quantity">
-                                            </td>
-                                            <td>{{ data.raw_material_unit }}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                </div>
+                                <div class="table-responsive">
+                                    <ng-container *ngIf="isRawMaterial">
+                                        <table class="table width-100">
+                                            <thead class="text font-weight-bold">
+                                                    <th>#</th>
+                                                    <th>Raw Material Name</th>
+                                                    <th>Stock Quantity</th>
+                                                    <th>In Use Quantity</th>
+                                                    <th>Unit</th>
+                                            </thead>
+                                            <ng-container *ngIf="isProgressBarTable">
+                                                <tr class="border-none">
+                                                    <td colspan="5"> 
+                                                        <mat-progress-bar mode="indeterminate">   
+                                                        </mat-progress-bar>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                            <!-- <ng-container *ngIf="isData">
+                                                <tr class="align-items-center m-20 text-center">
+                                                    <td colspan="7"> 
+                                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                                    </td>
+                                                </tr>
+                                            </ng-container> -->
+                                            <tbody>
+                                                <tr *ngFor="let data of rawMaterialName; let i = index">
+                                                    <td>{{ i+1 }}</td>
+                                                    <td>{{ data.raw_material_name }}</td>
+                                                    <td>{{ data.raw_material_quantity }}</td>
+                                                    <td>
+                                                        <input class="p-0" oninput="this.value=this.value.replace(/[^0-9]/g,'')" [ngClass]="{'invalid': isSubmitted && (data.raw_material_quantity < rawMaterialNameBackup[i] || rawMaterialNameBackup[i] === '')}" [ngModelOptions]="{standalone: true}" [(ngModel)]="rawMaterialNameBackup[i]" placeholder="Raw Material Quantity">
+                                                    </td>
+                                                    <td>{{ data.raw_material_unit }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ng-container>
+                                </div>
                                 <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b" (click)="cancel()"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
                                 <button mat-flat-button type="reset" data-toggle="collapse" data-target="#preplan" class="cancel pull-right ml-2" (click)="cancel()"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
                                 <button mat-flat-button type="button" class="save pull-right" (click)="insertPrePlanProduction()"><span class="fas fa-save"></span>&nbsp;&nbsp;Create New Pre Plan Production</button>
@@ -95,7 +101,7 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table" style="white-space: nowrap !important">
-                                <thead class="text sticky-top font-weight-bold">
+                                <thead class="text font-weight-bold">
                                     <th>#</th>
                                     <th>Product Name</th>
                                     <th>Raw Material Name</th>

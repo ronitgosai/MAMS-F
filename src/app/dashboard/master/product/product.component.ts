@@ -34,6 +34,7 @@ export class ProductComponent implements OnInit {
   is_table: boolean;
   is_data: boolean;
   productForm: FormGroup;
+  productDocumentForm: FormGroup;
   rawMaterialForm: FormGroup;
   importRawMaterialForm: FormGroup;
 
@@ -50,6 +51,8 @@ export class ProductComponent implements OnInit {
   raw_material = [];
   value = 'Clear me';
 
+  fileDetails: { file: any; name: any; size: string; };
+
   protected _onDestroy = new Subject<void>();
   public raw_material_multi_FilterCtrl: FormControl = new FormControl();
   public product_raw_name: FormControl = new FormControl();
@@ -65,8 +68,14 @@ export class ProductComponent implements OnInit {
       product_name: ['', [Validators.required, this.global.noWhitespaceValidator]],
       product_technical_name: ['', [Validators.required, this.global.noWhitespaceValidator]],
       raw_material_id: ['', [Validators.required]],
-      product_form: ['', [Validators.required]]
+      product_form: ['', [Validators.required]],
+      product_description: ['', [Validators.required]],
     });
+
+    this.productDocumentForm = this.formBuilder.group({
+      product_document: [''],
+      product_image: ['']
+    })
 
     this.rawMaterialForm = this.formBuilder.group({
       raw_material_name: ['', [Validators.required]],
@@ -110,7 +119,7 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  getProductCategory(){
+  getProductCategory() {
     this.productCategoryService.getMasterProductCategory().subscribe((categoryName: any) => {
       this.category = this.global.tableIndex(categoryName.data);
     })
@@ -135,34 +144,97 @@ export class ProductComponent implements OnInit {
   pagination(event) {
   }
 
+  toggleWebCam() {
+    // throw new Error('Method not implemented.');
+  }
+
+  onImagePicked(event): void {
+    let file = null;
+    if (event.target) {
+      file = (event.target as HTMLInputElement).files[0];
+      this.setImageDetails(file);
+    } else {
+      fetch(event.imageAsDataUrl).then(res => res.blob()).then(blob => {
+        file = new File([blob], 'image.png', blob);
+        this.setImageDetails(file);
+        this.toggleWebCam();
+      });
+    }
+  }
+
+  onFilePicked(event): void {
+    let file = null;
+    if (event.target) {
+      file = (event.target as HTMLInputElement).files[0];
+      this.setDocumentDetails(file);
+    } else {
+      fetch(event.pdfAsDataUrl).then(res => res.blob()).then(blob => {
+        file = new File([blob], 'document.pdf', blob);
+        this.setDocumentDetails(file);
+        this.toggleWebCam();
+      });
+    }
+  }
+
+  setImageDetails(file): void {
+    this.fileDetails = {
+      file,
+      name: file.name,
+      size: (file.size / 1048576).toFixed(2)
+    };
+    this.productDocumentForm.get('product_image').updateValueAndValidity();
+    this.productDocumentForm.get('product_image').setValue(file);
+  }
+
+  setDocumentDetails(file): void {
+    this.fileDetails = {
+      file,
+      name: file.name,
+      size: (file.size / 1048576).toFixed(2)
+    };
+    this.productDocumentForm.get('product_document').updateValueAndValidity();
+    this.productDocumentForm.get('product_document').setValue(file);
+  }
+
   insertProduct() {
     this.is_table = false;
     this.isProgressBar = true;
     let raw_material_id = this.productForm.get('raw_material_id').value
     let category_id = this.productForm.get('category_id').value
     if (this.productForm.valid) {
-      let product = {
-        'category_id': this.productForm.get('category_id').value,
-        'product_name': this.productForm.get('product_name').value,
-        'product_technical_name': this.productForm.get('product_technical_name').value,
-        'raw_material_id': this.productForm.get('raw_material_id').value,
-        'product_form': this.productForm.get('product_form').value,
-        'session_id': localStorage.getItem('session_id'),
-        'created_date': this.global.getDateZone(),
-        'created_time': this.global.getTimeZone()
+      const productDataForm = new FormData();
+      if (productDataForm) {
+        productDataForm.append('product_name', this.productForm.value.product_name),
+        productDataForm.append('product_technical_name', this.productForm.value.product_technical_name),
+        productDataForm.append('product_form', this.productForm.value.product_form),
+        productDataForm.append('product_description', this.productForm.value.product_description),
+        productDataForm.append('product_image', this.productDocumentForm.value.product_image),
+        productDataForm.append('session_id', localStorage.getItem('session_id')),
+        productDataForm.append('created_date', this.global.getDateZone()),
+        productDataForm.append('created_time', this.global.getTimeZone())
       }
-      this.productService.createProduct(product).subscribe((createProduct: any) => {
-        this.productService.getProduct().subscribe((getProduct: any) => {
-          this.arr_product_data = this.global.tableIndex(getProduct.data);
-          this.isProgressBar = false;
-          if (this.arr_product_data.length > 0) {
-            this.is_data = false;
-            this.is_table = true;
-          } else if (this.arr_product_data.length === 0) {
-            this.is_table = false;
-            this.is_data = true;
+      this.productService.createProduct(productDataForm).subscribe((createProduct: any) => {
+          const productDocument = new FormData();
+          if (productDocument) {
+            productDocument.append('product_id',createProduct.data.product_id),
+            productDocument.append('product_document',this.productDocumentForm.value.product_document),
+            productDocument.append('session_id',localStorage.getItem('session_id')),
+            productDocument.append('created_date',this.global.getDateZone()),
+            productDocument.append('created_time',this.global.getTimeZone())
           }
-        })
+          this.productService.createProductDocument(productDocument).subscribe(document => {
+            this.productService.getProduct().subscribe((getProduct: any) => {
+              this.arr_product_data = this.global.tableIndex(getProduct.data);
+              this.isProgressBar = false;
+              if (this.arr_product_data.length > 0) {
+                this.is_data = false;
+                this.is_table = true;
+              } else if (this.arr_product_data.length === 0) {
+                this.is_table = false;
+                this.is_data = true;
+              }
+            })
+          })
         let category = {
           'product_id': createProduct.data.product_id,
           'category_id': category_id,

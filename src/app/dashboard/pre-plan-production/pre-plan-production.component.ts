@@ -190,7 +190,6 @@ export class PrePlanProductionComponent implements OnInit {
       this.isProduct = false;
       this.isRawMaterial = false;
     } else {
-      console.log("if")
       this.isProduct = true;
       this.isRawMaterial = true;
       this.toastr.error("Please Enter Raw Material Quantity");
@@ -279,7 +278,6 @@ export class PrePlanProductionComponent implements OnInit {
       'updated_date': this.global.getDateZone(),
       'updated_time': this.global.getTimeZone()
     };
-    console.log(deletePrePlanProduction)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",

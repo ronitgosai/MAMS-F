@@ -64,7 +64,7 @@
             </div>
         </div>
         <div class="card">
-            <div class="col-md-12 row-title">
+            <div class="row row-title">
                 <div class="col-md-6">
                     <span class="fs-20 fw-600">Import Raw Material</span>
                 </div>
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="d-flex">
-                                            <input readonly class="form-control mt-15 bg-white date-picker" formControlName="import_raw_material_date" placeholder="DD MMMM YY" [matDatepicker]="newPicker" (click)="newPicker.open()" #newDate>
+                                            <input readonly class="form-control bg-white mt-15" style="border-bottom: 1px solid;" formControlName="import_raw_material_date" placeholder="DD MMMM YY" [matDatepicker]="newPicker" (click)="newPicker.open()" #newDate>
                                             <mat-datepicker #newPicker></mat-datepicker>
                                         </div>
                                     </div>
