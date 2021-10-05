@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { RawMaterialService } from 'app/services/dashboard/raw-material/raw-material.service';
 import { GlobalService } from 'app/services/global.service';
 import { ProductCategoryService } from 'app/services/dashboard/master/product-category.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -24,7 +25,8 @@ export class ProductComponent implements OnInit {
     private rawMaterialService: RawMaterialService,
     private productCategoryService: ProductCategoryService,
     private toastr: ToastrService,
-    private global: GlobalService
+    private global: GlobalService,
+    private router: Router
   ) {
     titelService.setTitle("Product | Modern Agrichem")
   }
@@ -205,36 +207,36 @@ export class ProductComponent implements OnInit {
       const productDataForm = new FormData();
       if (productDataForm) {
         productDataForm.append('product_name', this.productForm.value.product_name),
-        productDataForm.append('product_technical_name', this.productForm.value.product_technical_name),
-        productDataForm.append('product_form', this.productForm.value.product_form),
-        productDataForm.append('product_description', this.productForm.value.product_description),
-        productDataForm.append('product_image', this.productDocumentForm.value.product_image),
-        productDataForm.append('session_id', localStorage.getItem('session_id')),
-        productDataForm.append('created_date', this.global.getDateZone()),
-        productDataForm.append('created_time', this.global.getTimeZone())
+          productDataForm.append('product_technical_name', this.productForm.value.product_technical_name),
+          productDataForm.append('product_form', this.productForm.value.product_form),
+          productDataForm.append('product_description', this.productForm.value.product_description),
+          productDataForm.append('product_image', this.productDocumentForm.value.product_image),
+          productDataForm.append('session_id', localStorage.getItem('session_id')),
+          productDataForm.append('created_date', this.global.getDateZone()),
+          productDataForm.append('created_time', this.global.getTimeZone())
       }
       this.productService.createProduct(productDataForm).subscribe((createProduct: any) => {
-          const productDocument = new FormData();
-          if (productDocument) {
-            productDocument.append('product_id',createProduct.data.product_id),
-            productDocument.append('product_document',this.productDocumentForm.value.product_document),
-            productDocument.append('session_id',localStorage.getItem('session_id')),
-            productDocument.append('created_date',this.global.getDateZone()),
-            productDocument.append('created_time',this.global.getTimeZone())
-          }
-          this.productService.createProductDocument(productDocument).subscribe(document => {
-            this.productService.getProduct().subscribe((getProduct: any) => {
-              this.arr_product_data = this.global.tableIndex(getProduct.data);
-              this.isProgressBar = false;
-              if (this.arr_product_data.length > 0) {
-                this.is_data = false;
-                this.is_table = true;
-              } else if (this.arr_product_data.length === 0) {
-                this.is_table = false;
-                this.is_data = true;
-              }
-            })
+        const productDocument = new FormData();
+        if (productDocument) {
+          productDocument.append('product_id', createProduct.data.product_id),
+            productDocument.append('product_document', this.productDocumentForm.value.product_document),
+            productDocument.append('session_id', localStorage.getItem('session_id')),
+            productDocument.append('created_date', this.global.getDateZone()),
+            productDocument.append('created_time', this.global.getTimeZone())
+        }
+        this.productService.createProductDocument(productDocument).subscribe(document => {
+          this.productService.getProduct().subscribe((getProduct: any) => {
+            this.arr_product_data = this.global.tableIndex(getProduct.data);
+            this.isProgressBar = false;
+            if (this.arr_product_data.length > 0) {
+              this.is_data = false;
+              this.is_table = true;
+            } else if (this.arr_product_data.length === 0) {
+              this.is_table = false;
+              this.is_data = true;
+            }
           })
+        })
         let category = {
           'product_id': createProduct.data.product_id,
           'category_id': category_id,
@@ -289,6 +291,11 @@ export class ProductComponent implements OnInit {
       this.is_table = true;
       this.toastr.error("Please input all the field");
     }
+  }
+
+  viewProductDetails(productId) {
+    const url = 'http://localhost:4200/dashboard/product-details/' + productId;
+    window.open(url, '_blank').focus();
   }
 
   deleteProduct(delete_product, product_name) {

@@ -6,10 +6,10 @@ import { ToastrService } from "ngx-toastr";
 
 declare const $: any;
 declare interface RouteInfo {
-  path: string;
-  title: string;
-  icon: string;
-  role: string[];
+  path?: string;
+  title?: string;
+  icon?: string;
+  role?: string[];
 }
 
 export const ROUTES: RouteInfo[] = [

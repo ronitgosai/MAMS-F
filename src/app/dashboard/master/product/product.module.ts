@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ProductComponent } from './product.component';
 import { SharedModule } from 'app/shared.module';
 
+
 @NgModule({
   declarations: [
-    ProductComponent
+    ProductComponent,
   ],
   imports: [
     CommonModule,

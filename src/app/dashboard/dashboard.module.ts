@@ -6,7 +6,6 @@ import { SidebarComponent } from "app/components/sidebar/sidebar.component";
 import { NavbarComponent } from "app/components/navbar/navbar.component";
 import { FooterModule } from "app/components/footer/footer.module";
 import { CanDashboardActivateService } from "app/auth/auth-gaurd/can-dashboard-activate.service";
-import { PrePlanProductionComponent } from './pre-plan-production/pre-plan-production.component';
 
 const routes: Routes = [
   {
@@ -47,6 +46,10 @@ const routes: Routes = [
         path: "product",
         loadChildren: () => import("./product/product.module").then((module) => module.ProductModule),
         canActivate: [CanDashboardActivateService],
+      },
+      {
+        path: "product-details/:id",
+        loadChildren: () => import("./product-details/product-details.module").then((module) => module.ProductDetailsModule),
       },
       {
         path: "sell",

@@ -102,6 +102,7 @@
                             <th>Product Name</th>
                             <th>Technical Name</th>
                             <th>Raw Material Name</th>
+                            <th class="text-align-end">View</th>
                             <th class="text-align-end">Action</th>
                         </thead><br>
                         <ng-container *ngIf="isProgressBar">
@@ -132,6 +133,9 @@
                                                 <div><span class="fas fa-arrow-right"></span>&nbsp;&nbsp;{{ name }}</div>
                                             </ng-container>
                                         </div>
+                                    </td>
+                                    <td class="text-align-end">
+                                        <button mat-stroked-button (click)="viewProductDetails(data.product_id)"><i class="fas fa-eye"></i></button>
                                     </td>
                                     <td class="text-align-end">
                                         <button mat-stroked-button class="ml-3" (click)="deleteProduct(data.product_id,data.product_name)"><span class="fa fa-trash c-red"></span></button>

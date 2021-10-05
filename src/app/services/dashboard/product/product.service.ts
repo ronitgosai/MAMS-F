@@ -12,12 +12,15 @@ export class ProductService {
     return this.http.get(environment.apiUrl + "/product/get_product_list", { headers: this.header.getToken() });
   }
 
+  getProductById(id) {
+    return this.http.post(environment.apiUrl + "/product/get_product_by_id", id, { headers: this.header.getToken() });
+  }
+
   createStockProduct(data) {
     return this.http.post(environment.apiUrl + "/product/create_stock_product", data, { headers: this.header.getToken() });
   }
 
   createProduct(data) {
-    data.raw_material_id = data.raw_material_id.toString();
     return this.http.post(environment.apiUrl + "/product/create_product", data, { headers: this.header.getToken() });
   }
 
