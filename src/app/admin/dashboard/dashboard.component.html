@@ -1,0 +1,110 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="p-10">
+            <!-- Ongoing Production -->
+            <div class="card">
+                <div class="row cursor-pointer">
+                    <div class="col-md-6"><br>
+                        <span class="fs-20 fw-600 p-20" routerLink="/production">Ongoing Production</span>
+                    </div>
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="example" class="table">
+                                <thead class="font-weight-bold">
+                                    <th class="max-width-100"> # </th>
+                                    <th class="max-width-300"> Category </th>
+                                    <th class="max-width-300"> Product Name </th>
+                                    <th class="max-width-600"> Raw Material Info </th>
+                                    <th class="max-width-200"> Start Date </th>
+                                    <th class="max-width-200"> Start Time </th>
+                                </thead>
+                                <tbody *ngFor="let data of production; let i = index; is_ongoing_table">
+                                    <tr>
+                                        <td clsss="max-width-100"> {{ data.index }} </td>
+                                        <td clsss="max-width-300" appColor [data]="data.category_color">{{ data.category_name }}</td>
+                                        <td clsss="max-width-300" appColor [data]="data.category_color"> {{ data.product_name }} </td>
+                                        <td>
+                                            <div>
+                                                <ng-container
+                                                    *ngFor="let name of data. raw_material_names.split(','); let i = index">
+                                                    <div>
+                                                        {{ i+1 }}.&nbsp;
+                                                        {{ name }} <span class="fas fa-arrow-right"></span>
+                                                        {{ data.raw_material_quantity.split(',')[i] }}
+                                                        {{ data.raw_material_unit.split(',')[i] }}
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </td>
+                                        <td clsss="max-width-200"> {{ data.start_date | date: 'dd/MMMM/yyyy'}} </td>
+                                        <td clsss="max-width-200"> {{ data.start_time }} </td>
+                                    </tr>
+                                </tbody>
+                                <br>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row cursor-pointer">
+                <!-- Raw Material -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <span class="fs-20 fw-600 pt-15 pl-15" routerLink="/raw-material">Raw Material</span>
+                        <hr>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="example" class="table">
+                                    <thead class="font-weight-bold">
+                                        <th>#</th>
+                                        <th>Raw Material Name</th>
+                                        <th>Quantity</th>
+                                        <th>Import Date</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let raw_material of importRawMaterial">
+                                            <td>{{ raw_material.index }}</td>
+                                            <td>{{ raw_material.import_raw_material_name }}</td>
+                                            <td>{{ raw_material.raw_material_quantity }}</td>
+                                            <td>{{ raw_material.import_raw_material_date | date: 'dd/MMMM/yyy' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Inventory -->
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <span class="fs-20 fw-600 pt-15 pl-15" routerLink="/inventory">Inventory</span>
+                        <hr>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class="font-weight-bold">
+                                        <th class="fs-14 fw-500">#</th>
+                                        <th class="fs-14 fw-500">Inventory Name</th>
+                                        <th class="fs-14 fw-500">Quantity</th>
+                                        <th class="fs-14 fw-500">Import Date</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let inventory of importInventory">
+                                            <td>{{ inventory.index }}</td>
+                                            <td>{{ inventory.import_inventory_name }}</td>
+                                            <td>{{ inventory.import_inventory_quantity }}</td>
+                                            <td>{{ inventory.import_inventory_date | date: 'dd/MMMM/yyy' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

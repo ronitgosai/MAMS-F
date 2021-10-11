@@ -1,0 +1,186 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="row ml-20 mr-20">
+                <div class="col-md-12">
+                    <!-- Product Details -->
+                    <div class="row row-title">
+                        <span class="fs-20 fw-600">Product Details</span>
+                    </div>
+                    <div class="row">
+                        <ng-container *ngIf="productDetails.length === 0">
+                            <div class="text-center">
+                                <h1>No data Available</h1>
+                            </div>
+                        </ng-container>
+                        <div class="col-md-4">
+                            <ng-container *ngFor="let data of productDetails">
+                                <img src="{{data.product_image_url}}" class="product-image">
+                            </ng-container>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <ng-container *ngFor="let data of productDetails">
+                                        <tr>
+                                            <th>Category Name</th>
+                                            <td appColor [data]="data.category_color">{{ data.category_names }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <td appColor [data]="data.category_color">{{ data.product_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Product Technical Name</th>
+                                            <td>{{ data.product_technical_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Product Form</th>
+                                            <td>{{ data.product_form }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Product Description</th>
+                                            <td>{{ data.product_description }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Raw Material Info</th>
+                                            <td>
+                                                <div class="font-weight-bold">
+                                                    <ng-container
+                                                        *ngFor="let name of data.raw_material_names.split(',')">
+                                                        <div><span class="fas fa-arrow-right"></span>&nbsp;&nbsp;{{ name
+                                                            }}</div>
+                                                    </ng-container>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Past Production Info -->
+        <div class="card">
+            <div class="row ml-20 mr-20">
+                <div class="col-md-12">
+                    <div class="row row-title">
+                        <span class="fs-20 fw-600">Production Info</span>
+                    </div>
+                    <div class="row">
+                        <div class="table-responsive">
+                            <table id="example" class="table table-custom width-100 overflow-x">
+                                <thead class="table-header">
+                                    <th class="max-width-200"> Product Name </th>
+                                    <th class="max-width-200"> Raw Material </th>
+                                    <th class="max-width-200"> Inventory </th>
+                                    <th class="max-width-100 text-align-end"> Start Time </th>
+                                    <th class="max-width-100 text-align-end"> End Time </th>
+                                </thead>
+                                <!-- <div *ngIf="isProgressBar_past" class="m-20 p-20">
+                                <mat-progress-bar mode="indeterminate">   
+                                </mat-progress-bar>
+                            </div>/ -->
+                                <!-- *ngIf="is_past_table" -->
+                                <tbody>
+                                    <tr *ngFor="let data of pastProductionByProduct">
+                                        <td class="max-width-200" appColor [data]="data.category_color">
+                                            {{ data.product_name }}
+                                            <div>
+                                                <small appColor [data]="data.category_color">
+                                                    ({{ data.category_name }})
+                                                </small>
+                                            </div>
+                                        </td>
+                                        <td class="max-width-200">
+                                            <ng-container
+                                                *ngFor="let name of data.raw_material_names.split(','); let i = index">
+                                                <div>
+                                                    {{ name }}
+                                                </div>
+                                                <div class="font-weight-bold">
+                                                    ({{ data.raw_material_quantity[i] }}
+                                                    {{ data.raw_material_unit.split(',')[i]}})
+                                                </div>
+                                            </ng-container>
+                                        </td>
+                                        <td class="max-width-200">
+                                            <ng-container
+                                                *ngFor="let inventory of  data.inventory_name.split(','); let i = index">
+                                                <div class="word-break">
+                                                    {{ inventory }}
+                                                </div>
+                                                <div class="font-weight-bold">
+                                                    ({{ data.inventory_qty[i] }}
+                                                    {{ data.inventory_unit.split(',')[i] }})
+                                                </div>
+                                            </ng-container>
+                                        </td>
+                                        <td class="max-width-200 text-align-end"> {{ data.start_date | date:
+                                            'dd/MMMM/yyyy' }}<br>{{ data.start_time }} </td>
+                                        <td class="max-width-200 text-align-end"> {{ data.end_date | date:
+                                            'dd/MMMM/yyyy' }}<br>{{ data.end_time }} </td>
+                                    </tr>
+                                </tbody>
+                            </table><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Sell Info -->
+        <div class="card">
+            <div class="row ml-20 mr-20">
+                <div class="col-md-12">
+                    <div class="row row-title">
+                        <span class="fs-20 fw-600">Product Sell Info</span>
+                    </div>
+                    <ng-container *ngIf="productDetails.length === 0">
+                        <div class="text-center">
+                            <h1>No data Available</h1>
+                        </div>
+                    </ng-container>
+                    <div class="row">
+                        <table id="example" class="table">
+                            <thead class="text font-weight-bold">
+                                <th>Customer Name</th>
+                                <th>Category Name</th>
+                                <th>Product Name</th>
+                                <th>Inventory Name</th>
+                                <th>Product Quantity</th>
+                            </thead>
+                            <!-- <ng-container>
+                                <tr class="border-none">
+                                    <td colspan="7"> 
+                                        <mat-progress-bar mode="indeterminate">   
+                                        </mat-progress-bar>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container>
+                                <tr class="align-items-center m-20 text-center">
+                                    <td colspan="7"> 
+                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    </td>
+                                </tr>
+                            </ng-container> -->
+                            <ng-container>
+                                <tbody *ngFor="let data of productSellDetails">
+                                    <tr>
+                                        <td>{{ data.customer_name }}</td>
+                                        <td appColor [data]="data.category_color">{{ data.category_name }}</td>
+                                        <td appColor [data]="data.category_color">{{ data.product_name }}</td>
+                                        <td>{{ data.inventory_name }}</td>
+                                        <td>{{ data.product_quantity }}</td>
+                                    </tr>
+                                </tbody>
+                            </ng-container>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

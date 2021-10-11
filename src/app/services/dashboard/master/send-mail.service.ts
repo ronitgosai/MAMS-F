@@ -27,7 +27,6 @@ export class SendMailService {
   }
 
   deleteMail(data) {
-    console.log("Service",data);
     return this.http.put(environment.apiUrl + "/master/delete_mail", data, { headers: this.header.getToken() });
   }
 }

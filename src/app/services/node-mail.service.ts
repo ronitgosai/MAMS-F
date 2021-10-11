@@ -14,7 +14,6 @@ export class NodeMailService {
   ) { }
 
   sendMail(formData: FormData){
-    console.log("Service-->", formData.get('email'));
     return this.httpClient.post(environment.apiUrl + '/node_mailer', formData, { headers: this.header.getToken() })
   }
 }

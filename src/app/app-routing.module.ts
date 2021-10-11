@@ -5,17 +5,12 @@ import { CanActivateService } from './auth/auth-gaurd/can-activate.service';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth',
-    pathMatch: 'full',
+    loadChildren: () => import('./admin/admin.module').then(module => module.DashboardModule),
+    canActivate: [CanActivateService]
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(module => module.AuthModule),
-  },
-  {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(module => module.DashboardModule),
-    canActivate: [CanActivateService]
   },
   // page not access
   {
@@ -38,7 +33,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       initialNavigation: 'enabled',
-      scrollPositionRestoration: 'top'
+      scrollPositionRestoration: 'top'    
     }
     )],
   exports: [

@@ -1,0 +1,88 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card">
+            <mat-tab-group class="card">
+                <!-- Raw Material -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fab fa-buromobelexperte"></mat-icon>&nbsp;&nbsp;
+                        Raw Material
+                    </ng-template>
+                    <app-raw-material></app-raw-material>
+                </mat-tab>
+                <!-- Inventory -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-prescription-bottle"></mat-icon>&nbsp;&nbsp;
+                        Inventory
+                    </ng-template>
+                    <app-inventory></app-inventory>
+                </mat-tab>
+                <!-- Category -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-vial"></mat-icon>&nbsp;&nbsp;
+                        Product
+                    </ng-template>
+                    <app-product></app-product>
+                </mat-tab>
+                <!-- Mail Service -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-envelope"></mat-icon>&nbsp;&nbsp;
+                        Mail Service
+                    </ng-template>
+                    <app-mail></app-mail>
+                </mat-tab>
+                <!-- Role -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="far fa-user-circle"></mat-icon>&nbsp;&nbsp;
+                        Role
+                    </ng-template>
+                    <app-role></app-role>
+                </mat-tab>
+                <!-- Category -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-th"></mat-icon>&nbsp;&nbsp;
+                        Product Category
+                    </ng-template>
+                    <app-category></app-category>
+                </mat-tab>
+                <!-- Network Service Provider -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-wifi"></mat-icon>&nbsp;&nbsp;
+                        Network Service Provider
+                    </ng-template>
+                    <app-network-service-provider></app-network-service-provider>
+                </mat-tab>
+                <!-- Work Area -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-building"></mat-icon>&nbsp;&nbsp;
+                        Work Area
+                    </ng-template>
+                    <app-work-area></app-work-area>
+                </mat-tab>
+                <!-- Shift -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-cloud-sun"></mat-icon>&nbsp;&nbsp;
+                        Shift
+                    </ng-template>
+                    <app-shift></app-shift>
+                </mat-tab>
+                <!-- Currency -->
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="fas fa-dollar-sign"></mat-icon>&nbsp;&nbsp;
+                        Currency
+                    </ng-template>
+                    <app-currency></app-currency>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>

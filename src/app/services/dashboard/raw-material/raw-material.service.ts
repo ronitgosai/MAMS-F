@@ -10,7 +10,7 @@ export class RawMaterialService {
   constructor(private http: HttpClient, private header: Header) { }
 
   getRawMaterial() {
-    return this.http.get(environment.apiUrl + "/raw_material/get_raw_material_list", { headers: this.header.getToken() });
+    return this.http.get(environment.apiUrl + "/raw_material/get_raw_material_list", { headers: this.header.getToken() },);
   }
 
   createRawMaterial(insertRawMaterial) {
