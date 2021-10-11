@@ -13,7 +13,7 @@ export class CanLoadLoginService implements CanLoad {
     if (!localStorage.getItem('token')) {
       return true;
     }
-    this.router.navigateByUrl('dashboard/raw-material');
+    this.router.navigateByUrl('raw-material');
     return false;
   }
 }

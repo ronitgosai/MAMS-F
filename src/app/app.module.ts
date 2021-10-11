@@ -21,6 +21,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { CommonModule } from "@angular/common";
+import { FooterModule } from './components/footer/footer.module';
 
 export const MY_FORMATS = {
   parse: {
@@ -36,6 +37,7 @@ export const MY_FORMATS = {
 
 @NgModule({
   imports: [
+    FooterModule,
     CommonModule,
     BrowserAnimationsModule,
     FormsModule,

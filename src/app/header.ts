@@ -12,6 +12,8 @@ export class Header {
   getToken(): HttpHeaders {
     return new HttpHeaders().set("Authorization", localStorage.getItem("token"));
   }
+
+  getUsernamePassword(): HttpHeaders {
+    return new HttpHeaders().set("Authorization", "Basic Auth " + "Username: test" + "password: test");
+  }
 }
-// export const header = new HttpHeaders().set("Authorization",localStorage.getItem("token"));
-// src\app\header.ts
