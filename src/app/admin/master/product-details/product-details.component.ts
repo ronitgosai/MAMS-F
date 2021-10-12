@@ -38,7 +38,6 @@ export class ProductDetailsComponent implements OnInit {
     }
     this.productService.getProductById(productId).subscribe((product: any) => {
       this.productDetails = product.data;
-      console.log(this.productDetails)
     });
     this.productService.getProductionById(productId).subscribe((production: any) => {
       this.pastProductionByProduct = production.data

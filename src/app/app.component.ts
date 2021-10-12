@@ -13,7 +13,7 @@ export class AppComponent {
 
   route: string;
 
-  constructor(location: Location, private userService: UserService, router: Router,private header: Header) {
+  constructor(location: Location, private userService: UserService, router: Router, private header: Header) {
     router.events.subscribe((val) => {
       if (location.path() != '') {
         this.route = location.path();

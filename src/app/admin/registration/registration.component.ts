@@ -170,7 +170,6 @@ export class RegistrationComponent implements OnInit {
   insertStaff() {
     this.isProgressBar = true;
     const salary = parseInt(this.userForm.get('staffSalary').value.split(',').join(''));
-    console.log("staff",salary)
     const userFileUpload = new FormData();
     if (userFileUpload) {
       userFileUpload.append('staffName', this.userForm.value.staffName),
