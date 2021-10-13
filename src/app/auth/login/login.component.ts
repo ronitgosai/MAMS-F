@@ -62,17 +62,9 @@ export class LoginComponent implements OnInit {
                 this.sessionId = getSession.data.find(d => d.session_id === d.session_id)
                 localStorage.setItem('session_id', this.sessionId.session_id)
                 this.toastr.success("Login Successfully! Welcome to MAMS");
-                this.router.navigateByUrl('dashboard');
+                this.router.navigateByUrl('/dashboard');
               })
             })
-            // setTimeout(() => {
-            //   sessionStorage.removeItem('token');
-            //   sessionStorage.removeItem('user_id');
-            //   sessionStorage.removeItem('session_id');
-            //   sessionStorage.removeItem('role');
-            //   this.router.navigateByUrl('auth/login');
-            //   this.toastr.error("Session Expired")
-            // }, 43200)
           } else {
             this.isSubmitted = false;
             this.isProgressBar = false;

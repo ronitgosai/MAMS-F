@@ -17,13 +17,13 @@ export const ROUTES: RouteInfo[] = [
     path: "/dashboard",
     title: "Dashboard",
     icon: "fas fa-home",
-    role: [environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sell, environment.customerRole, environment.staff],
+    role: [environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole ],
   },
   {
     path: "/master",
     title: "Master",
     icon: "fas fa-stream",
-    role: [environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sell, environment.customerRole, environment.staff],
+    role: [environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole],
   },
   {
     path: "/raw-material",
@@ -83,7 +83,7 @@ export const ROUTES: RouteInfo[] = [
     path: "/staff",
     title: "Staff",
     icon: "fas fa-people-carry",
-    role: [environment.adminRole, environment.staff],
+    role: [environment.adminRole, environment.staffRole],
   },
   {
     path: "/attendance",
@@ -153,6 +153,10 @@ export class SidebarComponent implements OnInit {
   }
 
   getTitle() {
+  }
+
+  getUserRole(menuItem){
+    return menuItem.role.some(ur => this.user_role.split(',').indexOf(ur) > -1)
   }
 
   logOut() {

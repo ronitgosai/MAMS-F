@@ -45,6 +45,7 @@ export class ResetPasswordComponent implements OnInit {
 
     this.userService.get_user_list().subscribe((get_user_list: any) => {
       this.userDetails = get_user_list.data
+      console.log(this.userDetails);
     })
   }
 

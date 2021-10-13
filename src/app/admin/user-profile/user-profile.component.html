@@ -26,13 +26,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 font-weight-bold">
                                 <label>Role</label>
-                                <div *ngIf="data.user_role == '397A244226452948404D635166546A576E5A7234753778214125442A462D4A61'">Admin</div>
-                                <div *ngIf="data.user_role == '733676397924423F4528482B4D6251655468576D5A7134743777217A25432A46'">Account</div>
-                                <div *ngIf="data.user_role == '58703273357638792F423F4428472B4B6250655368566D597133743677397A24'">Production</div>
-                                <div *ngIf="data.user_role == '66556A586E3272357538782F413F442A472D4B6150645367566B597033733676'">Sell</div>
-                                <div *ngIf="data.user_role == '4D635166546A576E5A7234753778214125432A462D4A614E645267556B587032'">Staff</div>
+                                <div>{{ data.role_name }}</div>
                             </div>
                         </div>
                     </form>
