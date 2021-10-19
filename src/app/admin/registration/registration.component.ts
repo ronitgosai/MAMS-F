@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 export class RegistrationComponent implements OnInit {
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private sanitizer: DomSanitizer,
     private titelService: Title,
     private formBuilder: FormBuilder,
@@ -172,7 +172,33 @@ export class RegistrationComponent implements OnInit {
     const salary = parseInt(this.userForm.get('staffSalary').value.split(',').join(''));
     const userFileUpload = new FormData();
     if (userFileUpload) {
-      userFileUpload.append('staffName', this.userForm.value.staffName),
+      if (this.userForm.value.staffIdProof === '') {
+        userFileUpload.append('staffName', this.userForm.value.staffName),
+        userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
+        userFileUpload.append('staffSalary', salary.toString()),
+        userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
+        userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
+        userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
+        userFileUpload.append('created_date', this.global.getDateZone()),
+        userFileUpload.append('created_time', this.global.getTimeZone())
+        this.registrationService.createStaffWithOutFile(userFileUpload).subscribe((createStaff) => {
+          this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
+            this.staffDetails = this.global.tableIndex(staffDetails.data);
+            for (let i = 0; i < this.staffDetails.length; i++) {
+              this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
+            }
+            this.isProgressBar = false;
+            if (this.staffDetails.length > 0) {
+              this.isData = false;
+            } else {
+              this.isData = true;
+            }
+          })
+        })
+        this.userForm.reset();
+        document.getElementById('collapseButton').click();
+      } else {
+        userFileUpload.append('staffName', this.userForm.value.staffName),
         userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
         userFileUpload.append('staffSalary', salary.toString()),
         userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
@@ -181,22 +207,24 @@ export class RegistrationComponent implements OnInit {
         userFileUpload.append('staffIdProof', this.userForm.value.staffIdProof),
         userFileUpload.append('created_date', this.global.getDateZone()),
         userFileUpload.append('created_time', this.global.getTimeZone())
-      this.registrationService.createStaff(userFileUpload).subscribe((createStaff) => {
-        this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
-          this.staffDetails = this.global.tableIndex(staffDetails.data);
-          for (let i = 0; i < this.staffDetails.length; i++) {
-            this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
-          }
-          this.isProgressBar = false;
-          if (this.staffDetails.length > 0) {
-            this.isData = false;
-          } else {
-            this.isData = true;
-          }
-        })
-      })
-      this.userForm.reset();
-      document.getElementById('collapseButton').click();
+        this.registrationService.createStaffWithFile(userFileUpload).subscribe((createStaff) => {
+          this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
+            this.staffDetails = this.global.tableIndex(staffDetails.data);
+            for (let i = 0; i < this.staffDetails.length; i++) {
+              this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
+            }
+            this.isProgressBar = false;
+            if (this.staffDetails.length > 0) {
+              this.isData = false;
+            } else {
+              this.isData = true;
+            }
+          })
+        });
+        this.userForm.get('staffIdProof').setValue(null);
+        this.userForm.reset();
+        document.getElementById('collapseButton').click();
+      }
     } else {
       this.isProgressBar = false;
       this.toastr.error("Please fill and valid all fields!")
@@ -246,7 +274,7 @@ export class RegistrationComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if (userUpdateFile.get('staffIdProof') === null) {
+        if (userUpdateFile.get('staffIdProof') === '') {
           userUpdateFile.append('staffId', staffId),
             userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
             userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),

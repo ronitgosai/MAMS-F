@@ -41,6 +41,7 @@ export class StaffComponent implements OnInit {
   obj_staff_data = [];
   obj_staff_data_backup = [];
   role = [];
+  updateUserRole = [];
   old_card_index;
   old_card_index_password;
   hide = true;
@@ -72,6 +73,7 @@ export class StaffComponent implements OnInit {
     });
 
     this.updateStaffForm = this.formBuilder.group({
+      update_user_role: ['', [Validators.required]],
       update_full_name: ['', [Validators.required]],
       update_user_email: ['', [Validators.required]],
       update_user_contact: ['', [Validators.required]],
@@ -116,7 +118,7 @@ export class StaffComponent implements OnInit {
     // filter the raw material name
     this.filteredUserRoleMulti.next(
       this.role.filter(data => {
-        return data.raw_material_name.toLowerCase().indexOf(search) > -1
+        return data.role_name.toLowerCase().indexOf(search) > -1
       })
     );
     this.filteredUserRoleMulti.subscribe(d => {
@@ -237,8 +239,10 @@ export class StaffComponent implements OnInit {
         this.old_card_index = card_index
       }
     }
-    let editData = this.obj_staff_data.find(d => d.user_id === user_id)
+    let editData = this.obj_staff_data.find(d => d.user_id === user_id);
+    this.updateUserRole = editData.role_id.split(',')
     this.updateStaffForm.patchValue({
+      update_user_role: this.updateUserRole,
       update_full_name: editData.full_name,
       update_user_email: editData.user_email,
       update_user_contact: editData.user_contact
@@ -263,7 +267,10 @@ export class StaffComponent implements OnInit {
       "user_email": this.updateStaffForm.get('update_user_email').value,
       "user_contact": this.updateStaffForm.get('update_user_contact').value,
       'updated_date': this.global.getDateZone()
-    }
+    };
+
+    let updateUserRole = [];
+    updateUserRole = this.updateStaffForm.get('update_user_role').value;
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -284,7 +291,17 @@ export class StaffComponent implements OnInit {
         if (this.updateStaffForm.get('update_full_name').value || this.updateStaffForm.get('update_user_email').value || this.updateStaffForm.get('update_user_contact').value) {
           this.is_table = false;
           this.isProgressBar = true;
-          this.staffService.updateStaff(update_user_info).subscribe((data) => {
+          this.staffService.updateStaff(update_user_info).subscribe((updateUser: any) => {
+            updateUserRole.map((d, i) => {
+              let userRoleInfo = {
+                'user_role_id': user_id,
+                'master_role_id': d,
+                'old_master_role_id': this.updateUserRole[i],
+                // 'session_id': localStorage.getItem('session_id'),
+              }
+              this.staffService.updateUserRole(userRoleInfo).subscribe(role => {
+              })
+            })
             this.staffService.getStaff().subscribe((getStaff: any) => {
               this.obj_staff_data = this.global.tableIndex(getStaff.data)
               this.isProgressBar = false;

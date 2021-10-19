@@ -155,6 +155,18 @@
                                                             <div class="col-md-12">
                                                                 <span class="fs-16 fw-500">Please enter update user name OR user email OR user contact for above user.<br></span>
                                                             </div>
+                                                            <mat-form-field appearance="fill">
+                                                                <mat-label>User Role</mat-label>
+                                                                <mat-select formControlName="update_user_role" [multiple]="true" #multiselect>
+                                                                    <mat-option>
+                                                                        <ngx-mat-select-search [formControl]="userRoleFilterCtrl" placeholderLabel="Search here!"
+                                                                            [noEntriesFoundLabel]="'Not result found'"></ngx-mat-select-search>
+                                                                    </mat-option>
+                                                                    <mat-option *ngFor="let data of filteredUserRoleMulti | async" [value]="data.master_role_id">
+                                                                        {{ data.role_name }}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <mat-form-field class="form-field">

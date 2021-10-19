@@ -24,6 +24,11 @@ export class StaffService {
     return this.http.put(environment.apiUrl + "/login/update_user",updateUserInfo,{ headers: this.header.getToken() });
   }
 
+  updateUserRole(updateUserInfo) {
+    // consoel.l
+    return this.http.put(environment.apiUrl + "/login/update_user_role",updateUserInfo,{ headers: this.header.getToken() });
+  }
+
   updateStaffPassword(updateUserPassword) {
     return this.http.put(environment.apiUrl + "/login/update_user_password",updateUserPassword,{ headers: this.header.getToken() });
   }

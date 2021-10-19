@@ -152,7 +152,7 @@
                                     </tbody><br>
                                 </ng-container>
                             </table>
-                            <ng-container *ngIf="isTable">
+                            <ng-container *ngIf="!isTable">
                                 <div class="row">
                                     <div class="col-md-6 mt-3">
                                         <pagination-controls id="pagination" (pageChange)="p = $event" class="f-l">
