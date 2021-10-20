@@ -23,6 +23,8 @@ import { NgxPrintModule } from 'ngx-print';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatFileUploadModule } from 'angular-material-fileupload';
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -52,7 +54,8 @@ import { MatFileUploadModule } from 'angular-material-fileupload';
     MatAutocompleteModule,
     MatCheckboxModule,
     NgxPrintModule,
-    MatFileUploadModule
+    MatFileUploadModule,
+    NgxMatFileInputModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }

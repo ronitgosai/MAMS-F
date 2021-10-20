@@ -297,22 +297,22 @@ export class StaffComponent implements OnInit {
                 'user_role_id': user_id,
                 'master_role_id': d,
                 'old_master_role_id': this.updateUserRole[i],
-                // 'session_id': localStorage.getItem('session_id'),
+                'session_id': localStorage.getItem('session_id'),
               }
               this.staffService.updateUserRole(userRoleInfo).subscribe(role => {
+                this.staffService.getStaff().subscribe((getStaff: any) => {
+                  this.obj_staff_data = this.global.tableIndex(getStaff.data)
+                  this.isProgressBar = false;
+                  if (this.obj_staff_data.length > 0) {
+                    this.is_data = false;
+                    this.is_table = true;
+                  } else if (this.obj_staff_data.length === 0) {
+                    this.is_table = false;
+                    this.is_data = true;
+                  }
+                });
               })
             })
-            this.staffService.getStaff().subscribe((getStaff: any) => {
-              this.obj_staff_data = this.global.tableIndex(getStaff.data)
-              this.isProgressBar = false;
-              if (this.obj_staff_data.length > 0) {
-                this.is_data = false;
-                this.is_table = true;
-              } else if (this.obj_staff_data.length === 0) {
-                this.is_table = false;
-                this.is_data = true;
-              }
-            });
             this.toastr.success("Staff Info Successfully updated!");
             this.updateStaffForm.reset();
             Swal.fire({

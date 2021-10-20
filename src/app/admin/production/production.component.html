@@ -108,12 +108,12 @@
                                             <th class="max-width-200 text-align-end"> Start Time </th>
                                             <th class="max-width-100 text-align-end"> Action </th>
                                     </thead>
-                                        <tr *ngIf="isProgressBar" class="border-none">
-                                            <td colspan="7"> 
-                                                <mat-progress-bar mode="indeterminate">   
-                                                </mat-progress-bar>
-                                            </td>
-                                        </tr>
+                                    <ng-container *ngIf="isProgressBar">
+                                        <td colspan="7" class="border-none"> 
+                                            <mat-progress-bar mode="indeterminate">   
+                                            </mat-progress-bar>
+                                        </td>
+                                    </ng-container>
                                     <tbody *ngFor="let data of productionData | paginate: {id:'ongoing_pagination',itemsPerPage:entries_per_page,currentPage:p}; let i = index; is_ongoing_table">
                                         <tr>
                                             <td clsss="max-width-100"> {{ data.index }} </td>
@@ -346,10 +346,12 @@
                                 <th class="fs-14 fw-500 max-width-100 text-align-end"> Action </th>
                             </tr>
                         </thead>
-                        <!-- <div *ngIf="isProgressBar_past" class="m-20 p-20">
-                            <mat-progress-bar mode="indeterminate">   
-                            </mat-progress-bar>
-                        </div> -->
+                        <ng-container *ngIf="isProgressBar_past">
+                            <td colspan="7" class="m-20 p-20">
+                                <mat-progress-bar mode="indeterminate">   
+                                </mat-progress-bar>
+                            </td>
+                        </ng-container>
                         <tbody *ngIf="is_past_table">
                             <tr *ngFor="let data of stop_production_data | paginate: {id:'past_pagination',itemsPerPage:entries_per_page_past,currentPage:past}; let i = index">
                                 <td class="max-width-100"> {{ data.index }} </td>

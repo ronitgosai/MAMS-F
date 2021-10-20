@@ -19,6 +19,7 @@
   "dependencies": {
     "@agm/core": "^1.1.0",
     "@angular-material-components/color-picker": "^6.0.0",
+    "@angular-material-components/file-input": "^6.0.0",
     "@angular/animations": "^11.2.6",
     "@angular/cdk": "^10.2.4",
     "@angular/common": "11.2.6",

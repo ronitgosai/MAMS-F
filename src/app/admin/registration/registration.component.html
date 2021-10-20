@@ -109,19 +109,15 @@
                                     <th class="text-center-end">Action</th>
                                 </thead>
                                 <ng-container *ngIf="isProgressBar">
-                                    <tr class="border-none">
-                                        <td colspan="9"> 
-                                            <mat-progress-bar mode="indeterminate">   
-                                            </mat-progress-bar>
-                                        </td>
-                                    </tr>
+                                    <td colspan="9" class="border-none"> 
+                                        <mat-progress-bar mode="indeterminate">   
+                                        </mat-progress-bar>
+                                    </td>
                                 </ng-container>
                                 <ng-container *ngIf="isData">
-                                    <tr class="align-items-center m-20 text-center">
-                                        <td colspan="9"> 
-                                            <p class="fs-16 fw-400">No Data Available.</p>
-                                        </td>
-                                    </tr>
+                                    <td colspan="9" class="align-items-center m-20 text-center"> 
+                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    </td>
                                 </ng-container>
                                 <ng-container *ngIf="staffDetails.length > 0">
                                     <tbody *ngFor="let data of staffDetails | paginate: {id:'pagination',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
@@ -140,7 +136,7 @@
                                             </td>
                                             <td class="text-center-end">
                                                 <div>
-                                                    <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#staffInfo' + i" (click)="editStaffInfo(data.staff_id,i)"><span class="fa fa-pen c-blue"></span></button><br>
+                                                    <button mat-stroked-button data-toggle="collapse" class="mb-2"[attr.data-target]="'#staffInfo' + i" (click)="editStaffInfo(data.staff_id,i)"><span class="fa fa-pen c-blue"></span></button><br>
                                                 </div>
                                                 <div>
                                                     <button mat-stroked-button (click)="deleteStaffDetails(data.staff_id, data.staff_name)"><span class="fa fa-trash c-red"></span></button>
@@ -209,7 +205,13 @@
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
-                                                        <input class="form-control width-32" type="file" id="files" (change)="onFilePicked($event)" name=""/>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <mat-form-field class="form-field">
+                                                                    <input matInput type="file" id="files" (change)="onFilePicked($event)" name=""/>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
                                                     </form>
                                                     <button type="reset" mat-flat-button class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
                                                     <button type="reset" mat-flat-button class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#staffInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
@@ -227,13 +229,19 @@
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <!-- <img [attr.src]="'http://localhost:4444/staff/{{ data.staff_id_proof}}' | secure | async" class="product-image"/> -->
-                                                            <img src="http://localhost:4444/staff/{{ data.staff_id_proof}}" class="product-image">
-                                                            <!-- <img src="https://backend.modernagrichem.com/staff/{{ data.staff_id_proof}}" width="400px"> -->
-                                                        </div>
+                                                        <ng-container *ngIf="data.staff_id_proof">
+                                                            <div class="modal-body">
+                                                                <img src="http://localhost:4444/staff/{{ data.staff_id_proof }}" class="product-image">
+                                                                <!-- <img src="https://backend.modernagrichem.com/staff/{{ data.staff_id_proof}}" class="product-image"> -->
+                                                            </div>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="!data.staff_id_proof">
+                                                            <div class="modal-body font-weight-bold text-center">
+                                                                No Staff Available
+                                                            </div>
+                                                        </ng-container>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-dark ctrlBtn" data-dismiss="modal">Close</button>
+                                                            <button mat-flat-button type="button" class="save" data-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -95,19 +95,15 @@
                                     <th class="text-align-end">Action</th>
                                 </thead>
                                 <ng-container *ngIf="isProgressBar">
-                                    <tr class="border-none">
-                                        <td colspan="7"> 
-                                            <mat-progress-bar mode="indeterminate">   
-                                            </mat-progress-bar>
-                                        </td>
-                                    </tr>
+                                    <td colspan="7" class="border-none"> 
+                                        <mat-progress-bar mode="indeterminate">   
+                                        </mat-progress-bar>
+                                    </td>
                                 </ng-container>
                                 <ng-container *ngIf="is_data">
-                                    <tr class="align-items-center m-20 text-center">
-                                        <td colspan="7"> 
-                                            <p class="fs-16 fw-400">No Data Available.</p>
-                                        </td>
-                                    </tr>
+                                    <td colspan="7" class="align-items-center m-20 text-center"> 
+                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    </td>
                                 </ng-container>
                                 <ng-container *ngIf="is_table">
                                     <tbody *ngFor="let data of obj_staff_data | paginate: {itemsPerPage:entries_per_page,currentPage:p}; let i = index">

@@ -35,7 +35,7 @@ export class RegistrationService {
   }
 
   updateStaffIdProof(updateStaffDetails) {
-    return this.http.put(environment.apiUrl + "/staff/update_staff_idproof", updateStaffDetails, { headers: this.header.getToken() });
+    return this.http.put(environment.apiUrl + "/staff/update_staff_id_proof", updateStaffDetails, { headers: this.header.getToken() });
   }
 
   deleteStaff(staffId) {
