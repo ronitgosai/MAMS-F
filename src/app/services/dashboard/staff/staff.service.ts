@@ -16,8 +16,17 @@ export class StaffService {
     return this.http.post(environment.apiUrl + "/login/create_user", data, {headers: this.header.getToken()});
   }
 
+  createUserRole(data) {
+    return this.http.post(environment.apiUrl + "/login/create_user_role", data, {headers: this.header.getToken()});
+  }
+
   updateStaff(updateUserInfo) {
     return this.http.put(environment.apiUrl + "/login/update_user",updateUserInfo,{ headers: this.header.getToken() });
+  }
+
+  updateUserRole(updateUserInfo) {
+    // consoel.l
+    return this.http.put(environment.apiUrl + "/login/update_user_role",updateUserInfo,{ headers: this.header.getToken() });
   }
 
   updateStaffPassword(updateUserPassword) {

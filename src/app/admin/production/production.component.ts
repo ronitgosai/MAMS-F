@@ -432,7 +432,6 @@ export class ProductionComponent implements OnInit {
             }
           });
         })
-        console.log("Array raw",this.arr_raw_material_backup)
         // insert raw_material info in tbl_production_raw_material table
         this.arr_raw_material.map((d, index) => {
           let raw_material = {
@@ -465,7 +464,6 @@ export class ProductionComponent implements OnInit {
             });
           })
           // raw_material_quantity minus from tbl_raw_material
-          console.log("Array in",this.arr_raw_material_backup[index])
           let raw_material_quantity = {
             'raw_material_id': d.raw_material_id,
             'raw_material_quantity': this.arr_raw_material_backup[index],

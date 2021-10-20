@@ -68,6 +68,10 @@ export class PrePlanProductionComponent implements OnInit {
   public filteredRawMaterialMulti: ReplaySubject<any[]> = new ReplaySubject<any[]>();
 
   ngOnInit(): void {
+    this.isProgressBar = true;
+    this.isData = false;
+    this.isTable = false;
+
     this.isProduct = false;
     this.isRawMaterial = false;
     this.rawMaterialNameBackup = [];
@@ -88,11 +92,13 @@ export class PrePlanProductionComponent implements OnInit {
   getPrePlanProductionList() {
     this.prePalnProductionService.getPrPlanProductionList().subscribe((prePlanProduction: any) => {
       this.prePlanProductionData = this.global.tableIndex(prePlanProduction.data);
-      for (let i = 0; i < this.prePlanProductionData.length; i++) {
-        // this.prePlanProductionData[i].quantity = this.prePlanProductionData[i].quantity.split(',')
-        for (let j = 0; j < this.prePlanProductionData[i].quantity.length; j++) {
-          // this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
-        }
+      this.isProgressBar = false;
+      if (this.prePlanProductionData.length > 0) {
+        this.isData = false;
+        this.isTable = true;
+      } else if (this.prePlanProductionData.length === 0) {
+        this.isData = true;
+        this.isTable = false;
       }
     })
   }
@@ -154,12 +160,12 @@ export class PrePlanProductionComponent implements OnInit {
 
   insertPrePlanProduction() {
     let isRawMaterialBackup: boolean = true;
-    this.rawMaterialNameBackup.map((d,i) => {
-      if(d === null){
+    this.rawMaterialNameBackup.map((d, i) => {
+      if (d === null) {
         isRawMaterialBackup = false;
       }
     })
-    if(isRawMaterialBackup){
+    if (isRawMaterialBackup) {
       let prePlanProductionId = uuidv4();
       this.rawMaterialName.map((d, i) => {
         let prePlanData = {
@@ -175,10 +181,13 @@ export class PrePlanProductionComponent implements OnInit {
         this.prePalnProductionService.createPrePlanProduction(prePlanData).subscribe((createPrePlanProduction) => {
           this.prePalnProductionService.getPrPlanProductionList().subscribe((prePlanProduction: any) => {
             this.prePlanProductionData = this.global.tableIndex(prePlanProduction.data);
-            for (let i = 0; i < this.prePlanProductionData.length; i++) {
-              for (let j = 0; j < this.prePlanProductionData[i].quantity.length; j++) {
-                // this.prePlanProductionData[i].quantity[j] = parseInt(this.prePlanProductionData[i].quantity[j]).toLocaleString('en-IN')
-              }
+            this.isProgressBar = false;
+            if (this.prePlanProductionData.length > 0) {
+              this.isData = false;
+              this.isTable = true;
+            } else if (this.prePlanProductionData.length === 0) {
+              this.isData = true;
+              this.isTable = false;
             }
           })
         })
@@ -254,6 +263,14 @@ export class PrePlanProductionComponent implements OnInit {
             this.prePalnProductionService.updatePrePlanProduction(updatePrePlanProductionInfo).subscribe((updateProduction) => {
               this.prePalnProductionService.getPrPlanProductionList().subscribe((prPlanProductionList: any) => {
                 this.prePlanProductionData = this.global.tableIndex(prPlanProductionList.data);
+                this.isProgressBar = false;
+                if (this.prePlanProductionData.length > 0) {
+                  this.isData = false;
+                  this.isTable = true;
+                } else if (this.prePlanProductionData.length === 0) {
+                  this.isData = true;
+                  this.isTable = false;
+                }
               })
             })
           }
@@ -294,20 +311,28 @@ export class PrePlanProductionComponent implements OnInit {
       cancelButtonText: "No, cancel!",
       reverseButtons: true,
     })
-    .then((result) => {
-      if (result.isConfirmed) {
-        this.prePalnProductionService.deletePrePlanProduction(deletePrePlanProduction).subscribe((deleteProduciton) => {
-          this.prePalnProductionService.getPrPlanProductionList().subscribe((getPrePlanProduction: any) => {
-            this.prePlanProductionData = this.global.tableIndex(getPrePlanProduction.data);
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.prePalnProductionService.deletePrePlanProduction(deletePrePlanProduction).subscribe((deleteProduciton) => {
+            this.prePalnProductionService.getPrPlanProductionList().subscribe((getPrePlanProduction: any) => {
+              this.prePlanProductionData = this.global.tableIndex(getPrePlanProduction.data);
+              this.isProgressBar = false;
+              if (this.prePlanProductionData.length > 0) {
+                this.isData = false;
+                this.isTable = true;
+              } else if (this.prePlanProductionData.length === 0) {
+                this.isData = true;
+                this.isTable = false;
+              }
+            });
+            this.toastr.success("Pre Plan Production deleted successfully");
           });
-          this.toastr.success("Pre Plan Production deleted successfully");
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Your Pre Plan Production has beeen deleted.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+          Swal.fire({
+            icon: "success",
+            title: "Your Pre Plan Production has beeen deleted.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
@@ -319,7 +344,7 @@ export class PrePlanProductionComponent implements OnInit {
           );
         }
       }
-    );
+      );
   }
 
   cancel() {

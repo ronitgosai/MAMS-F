@@ -44,6 +44,8 @@ export class RawMaterialComponent implements OnInit {
 
   rawMaterialName;
 
+  userRole: any;
+
   p: any = '1';
   entriesPerPage: any = '10';
   value = 'Clear me';
@@ -74,7 +76,6 @@ export class RawMaterialComponent implements OnInit {
       update_raw_material_name: ['', [Validators.required, this.global.noWhitespaceValidator]],
       update_raw_material_unit: ['', [Validators.required]],
     })
-
     this.getRawMaterial();
   }
 

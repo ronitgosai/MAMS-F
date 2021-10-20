@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { RoleService } from 'app/services/dashboard/master/role.service';
 import { StaffService } from 'app/services/dashboard/staff/staff.service';
 import { GlobalService } from 'app/services/global.service';
 import { ToastrService } from 'ngx-toastr';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { UserReportModule } from '../report/user-report/user-report.module';
+
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.scss']
 })
+
 export class StaffComponent implements OnInit {
 
   constructor(
@@ -17,7 +23,8 @@ export class StaffComponent implements OnInit {
     private staffService: StaffService,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private global: GlobalService
+    private global: GlobalService,
+    private roleService: RoleService
   ) {
     titelService.setTitle("Staff | Modern Agrichem")
   }
@@ -33,6 +40,8 @@ export class StaffComponent implements OnInit {
 
   obj_staff_data = [];
   obj_staff_data_backup = [];
+  role = [];
+  updateUserRole = [];
   old_card_index;
   old_card_index_password;
   hide = true;
@@ -43,6 +52,10 @@ export class StaffComponent implements OnInit {
   p: number = 1;
   entries_per_page: any = '10';
   value = 'Clear me';
+
+  protected _onDestroy = new Subject<void>();
+  public userRoleFilterCtrl: FormControl = new FormControl();
+  public filteredUserRoleMulti: ReplaySubject<any[]> = new ReplaySubject<any[]>();
 
   ngOnInit(): void {
     this.is_table = false;
@@ -60,6 +73,7 @@ export class StaffComponent implements OnInit {
     });
 
     this.updateStaffForm = this.formBuilder.group({
+      update_user_role: ['', [Validators.required]],
       update_full_name: ['', [Validators.required]],
       update_user_email: ['', [Validators.required]],
       update_user_contact: ['', [Validators.required]],
@@ -71,6 +85,44 @@ export class StaffComponent implements OnInit {
     })
 
     this.getStaffDetails();
+    this.getUserRole();
+  }
+
+  getUserRole() {
+    this.roleService.getMasterRole().subscribe((role: any) => {
+      this.role = role.data;
+      this.filteredUserRoleMulti.next(role.data.slice());
+      this.userRoleFilterCtrl.valueChanges.pipe(takeUntil(this._onDestroy)).subscribe(() => {
+        this.filterBanks();
+      })
+    })
+  }
+
+  ngOnDestroy() {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  protected filterBanks() {
+    if (!this.role) {
+      return;
+    }
+    // get the search keyword
+    let search = this.userRoleFilterCtrl.value;
+    if (!search) {
+      this.filteredUserRoleMulti.next(this.role.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the raw material name
+    this.filteredUserRoleMulti.next(
+      this.role.filter(data => {
+        return data.role_name.toLowerCase().indexOf(search) > -1
+      })
+    );
+    this.filteredUserRoleMulti.subscribe(d => {
+    })
   }
 
   matchValues(matchTo: string): (AbstractControl) => ValidationErrors | null {
@@ -95,7 +147,7 @@ export class StaffComponent implements OnInit {
 
   getStaffDetails() {
     this.staffService.getStaff().subscribe((getStaff: any) => {
-      this.obj_staff_data = this.global.tableIndex(getStaff.data)
+      this.obj_staff_data = this.global.tableIndex(getStaff.data);
       this.obj_staff_data_backup = this.obj_staff_data
       this.isProgressBar = false;
       if (this.obj_staff_data.length > 0) {
@@ -108,7 +160,7 @@ export class StaffComponent implements OnInit {
     })
   }
 
-  // noWhitespaceValidator(control: FormControl) {
+  // noWhitespaceValidator(control: FormControl) {p
   //   const isWhitespace = (control.value || '').trim().length === 0;
   //   const isValid = !isWhitespace;
   //   return isValid ? null : { 'whitespace': true };
@@ -131,9 +183,10 @@ export class StaffComponent implements OnInit {
     this.is_submitted = true;
     this.is_table = false;
     this.isProgressBar = true;
+    let userRole = [];
+    userRole = this.staffForm.get('user_role').value;
     if (this.staffForm.valid) {
       let staffInfo = {
-        'user_role': this.staffForm.get('user_role').value,
         'full_name': this.staffForm.get('full_name').value,
         'user_email': this.staffForm.get('user_email').value,
         'user_contact': this.staffForm.get('user_contact').value,
@@ -142,7 +195,18 @@ export class StaffComponent implements OnInit {
         'confirm_password': this.staffForm.get('confirm_password').value,
         'created_date': this.global.getDateZone()
       }
-      this.staffService.createStaff(staffInfo).subscribe(data => {
+      this.staffService.createStaff(staffInfo).subscribe((user: any) => {
+        userRole.map((d, i) => {
+          let userRoleInfo = {
+            'user_role_id': user.data.user_id,
+            'master_role_id': userRole[i],
+            'session_id': localStorage.getItem('session_id'),
+            'created_date': this.global.getDateZone(),
+            'created_time': this.global.getTimeZone()
+          }
+          this.staffService.createUserRole(userRoleInfo).subscribe(role => {
+          })
+        })
         this.staffService.getStaff().subscribe((getStaff: any) => {
           this.obj_staff_data = this.global.tableIndex(getStaff.data)
           this.isProgressBar = false;
@@ -154,11 +218,11 @@ export class StaffComponent implements OnInit {
             this.is_data = true;
           }
         })
+        this.toastr.success('Successfully added staff');
+        this.staffForm.reset();
+        // this.is_submitted = fla;
+        document.getElementById('collapseButton').click();
       })
-      this.toastr.success('Successfully added staff');
-      this.staffForm.reset();
-      // this.is_submitted = fla;
-      document.getElementById('collapseButton').click();
     } else {
       this.isProgressBar = false;
       this.is_table = true;
@@ -175,8 +239,10 @@ export class StaffComponent implements OnInit {
         this.old_card_index = card_index
       }
     }
-    let editData = this.obj_staff_data.find(d => d.user_id === user_id)
+    let editData = this.obj_staff_data.find(d => d.user_id === user_id);
+    this.updateUserRole = editData.role_id.split(',')
     this.updateStaffForm.patchValue({
+      update_user_role: this.updateUserRole,
       update_full_name: editData.full_name,
       update_user_email: editData.user_email,
       update_user_contact: editData.user_contact
@@ -201,7 +267,10 @@ export class StaffComponent implements OnInit {
       "user_email": this.updateStaffForm.get('update_user_email').value,
       "user_contact": this.updateStaffForm.get('update_user_contact').value,
       'updated_date': this.global.getDateZone()
-    }
+    };
+
+    let updateUserRole = [];
+    updateUserRole = this.updateStaffForm.get('update_user_role').value;
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -222,18 +291,28 @@ export class StaffComponent implements OnInit {
         if (this.updateStaffForm.get('update_full_name').value || this.updateStaffForm.get('update_user_email').value || this.updateStaffForm.get('update_user_contact').value) {
           this.is_table = false;
           this.isProgressBar = true;
-          this.staffService.updateStaff(update_user_info).subscribe((data) => {
-            this.staffService.getStaff().subscribe((getStaff: any) => {
-              this.obj_staff_data = this.global.tableIndex(getStaff.data)
-              this.isProgressBar = false;
-              if (this.obj_staff_data.length > 0) {
-                this.is_data = false;
-                this.is_table = true;
-              } else if (this.obj_staff_data.length === 0) {
-                this.is_table = false;
-                this.is_data = true;
+          this.staffService.updateStaff(update_user_info).subscribe((updateUser: any) => {
+            updateUserRole.map((d, i) => {
+              let userRoleInfo = {
+                'user_role_id': user_id,
+                'master_role_id': d,
+                'old_master_role_id': this.updateUserRole[i],
+                'session_id': localStorage.getItem('session_id'),
               }
-            });
+              this.staffService.updateUserRole(userRoleInfo).subscribe(role => {
+                this.staffService.getStaff().subscribe((getStaff: any) => {
+                  this.obj_staff_data = this.global.tableIndex(getStaff.data)
+                  this.isProgressBar = false;
+                  if (this.obj_staff_data.length > 0) {
+                    this.is_data = false;
+                    this.is_table = true;
+                  } else if (this.obj_staff_data.length === 0) {
+                    this.is_table = false;
+                    this.is_data = true;
+                  }
+                });
+              })
+            })
             this.toastr.success("Staff Info Successfully updated!");
             this.updateStaffForm.reset();
             Swal.fire({

@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 export class RegistrationComponent implements OnInit {
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private sanitizer: DomSanitizer,
     private titelService: Title,
     private formBuilder: FormBuilder,
@@ -54,6 +54,8 @@ export class RegistrationComponent implements OnInit {
 
   isProgressBar: boolean;
   isData: boolean;
+
+  idProof: string;
 
   ngOnInit(): void {
     this.isProgressBar = true;
@@ -170,34 +172,61 @@ export class RegistrationComponent implements OnInit {
   insertStaff() {
     this.isProgressBar = true;
     const salary = parseInt(this.userForm.get('staffSalary').value.split(',').join(''));
-    console.log("staff",salary)
     const userFileUpload = new FormData();
     if (userFileUpload) {
-      userFileUpload.append('staffName', this.userForm.value.staffName),
-        userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
-        userFileUpload.append('staffSalary', salary.toString()),
-        userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
-        userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
-        userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
-        userFileUpload.append('staffIdProof', this.userForm.value.staffIdProof),
-        userFileUpload.append('created_date', this.global.getDateZone()),
-        userFileUpload.append('created_time', this.global.getTimeZone())
-      this.registrationService.createStaff(userFileUpload).subscribe((createStaff) => {
-        this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
-          this.staffDetails = this.global.tableIndex(staffDetails.data);
-          for (let i = 0; i < this.staffDetails.length; i++) {
-            this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
-          }
-          this.isProgressBar = false;
-          if (this.staffDetails.length > 0) {
-            this.isData = false;
-          } else {
-            this.isData = true;
-          }
+      if (this.userForm.value.staffIdProof === '') {
+        userFileUpload.append('staffName', this.userForm.value.staffName),
+          userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
+          userFileUpload.append('staffSalary', salary.toString()),
+          userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
+          userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
+          userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
+          userFileUpload.append('created_date', this.global.getDateZone()),
+          userFileUpload.append('created_time', this.global.getTimeZone())
+        this.registrationService.createStaffWithOutFile(userFileUpload).subscribe((createStaff) => {
+          this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
+            this.staffDetails = this.global.tableIndex(staffDetails.data);
+            for (let i = 0; i < this.staffDetails.length; i++) {
+              this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
+            }
+            this.isProgressBar = false;
+            if (this.staffDetails.length > 0) {
+              this.isData = false;
+            } else {
+              this.isData = true;
+            }
+          })
         })
-      })
-      this.userForm.reset();
-      document.getElementById('collapseButton').click();
+        this.userForm.reset();
+        document.getElementById('collapseButton').click();
+      } else {
+        userFileUpload.append('staffName', this.userForm.value.staffName),
+          userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
+          userFileUpload.append('staffSalary', salary.toString()),
+          userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
+          userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
+          userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
+          userFileUpload.append('staffIdProof', this.userForm.value.staffIdProof),
+          userFileUpload.append('created_date', this.global.getDateZone()),
+          userFileUpload.append('created_time', this.global.getTimeZone())
+        this.registrationService.createStaffWithFile(userFileUpload).subscribe((createStaff) => {
+          this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
+            this.staffDetails = this.global.tableIndex(staffDetails.data);
+            for (let i = 0; i < this.staffDetails.length; i++) {
+              this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
+            }
+            this.isProgressBar = false;
+            if (this.staffDetails.length > 0) {
+              this.isData = false;
+            } else {
+              this.isData = true;
+            }
+          })
+        });
+        this.userForm.get('staffIdProof').setValue(null);
+        this.userForm.reset();
+        document.getElementById('collapseButton').click();
+      }
     } else {
       this.isProgressBar = false;
       this.toastr.error("Please fill and valid all fields!")
@@ -222,7 +251,7 @@ export class RegistrationComponent implements OnInit {
       updateStaffSalary: editData.staff_salary,
       updateStaffShiftId: editData.shift_id,
       updateStaffMobileServiceProviderId: editData.mobile_service_provider_id,
-      updateStaffIdProof: editData.staff_id_proof,
+      // updateStaffIdProof: editData.staff_id_proof,
       updateStaffMobileNumber: editData.mobile_number,
     })
   }
@@ -247,16 +276,16 @@ export class RegistrationComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        if (userUpdateFile.get('staffIdProof') === null) {
+        if (this.updatedUserForm.value.updateStaffIdProof === '') {
           userUpdateFile.append('staffId', staffId),
-            userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
-            userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
-            userUpdateFile.append('staffSalary', updateSalary.toString()),
-            userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
-            userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
-            userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
-            userUpdateFile.append('updated_date', this.global.getDateZone()),
-            userUpdateFile.append('updated_time', this.global.getTimeZone())
+          userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
+          userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
+          userUpdateFile.append('staffSalary', updateSalary.toString()),
+          userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
+          userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
+          userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
+          userUpdateFile.append('updated_date', this.global.getDateZone()),
+          userUpdateFile.append('updated_time', this.global.getTimeZone())
           this.registrationService.updateStaffInfo(userUpdateFile).subscribe((updateInfo: any) => {
             this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
               this.staffDetails = this.global.tableIndex(staffDetails.data);
@@ -271,17 +300,17 @@ export class RegistrationComponent implements OnInit {
               }
             })
           })
-        } else if (userUpdateFile) {
+        } else if (this.updatedUserForm.value.updateStaffIdProof != '') {
           userUpdateFile.append('staffId', staffId),
-            userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
-            userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
-            userUpdateFile.append('staffSalary', updateSalary.toString()),
-            userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
-            userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
-            userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
-            userUpdateFile.append('staffIdProof', this.updatedUserForm.value.updateStaffIdProof),
-            userUpdateFile.append('updated_date', this.global.getDateZone()),
-            userUpdateFile.append('updated_time', this.global.getTimeZone())
+          userUpdateFile.append('staffName', this.updatedUserForm.value.updateStaffName),
+          userUpdateFile.append('staffWorkAreaId', this.updatedUserForm.value.updateStaffWorkAreaId),
+          userUpdateFile.append('staffSalary', updateSalary.toString()),
+          userUpdateFile.append('staffShiftId', this.updatedUserForm.value.updateStaffShiftId),
+          userUpdateFile.append('mobileServiceProviderId', this.updatedUserForm.value.updateStaffMobileServiceProviderId),
+          userUpdateFile.append('staffMobileNumber', this.updatedUserForm.value.updateStaffMobileNumber),
+          userUpdateFile.append('staffIdProof', this.updatedUserForm.value.updateStaffIdProof),
+          userUpdateFile.append('updated_date', this.global.getDateZone()),
+          userUpdateFile.append('updated_time', this.global.getTimeZone())
           this.registrationService.updateStaffIdProof(userUpdateFile).subscribe((updateInfo: any) => {
             this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
               this.staffDetails = this.global.tableIndex(staffDetails.data);

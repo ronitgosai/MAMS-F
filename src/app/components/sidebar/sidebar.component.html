@@ -21,7 +21,8 @@
     <ul class="nav">
       <ng-container *ngFor="let menuItem of menuItems; let i = index">
         <li routerLinkActive="active"  class="nav-item">
-          <a class="nav-link" [routerLink]="[menuItem.path]" *ngIf="menuItem.role.indexOf(user_role) > -1">
+          <!-- {{ menuItem.role.some(ur => user_role.split(',').indexOf(ur) > -1) }} -->
+          <a class="nav-link" [routerLink]="[menuItem.path]" *ngIf="getUserRole(menuItem)">
             <span class="{{ menuItem.icon }} fs-18"></span>
             <span class="fs-18 fw-400 ml-3">{{ menuItem.title }}</span>
           </a>

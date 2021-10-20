@@ -426,7 +426,6 @@ export class RawMaterialComponent implements OnInit {
   }
 
   importRawMaterial() {
-    
     this.isTable = false;
     this.isProgressBarImport = true;
     if (this.importRawMaterialForm.valid) {

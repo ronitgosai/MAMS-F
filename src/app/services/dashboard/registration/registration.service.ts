@@ -18,8 +18,12 @@ export class RegistrationService {
     return this.http.post(environment.apiUrl + "/staff/get_selected_staff_list", id, { headers: this.header.getToken() });
   }
 
-  createStaff(staffDetails) {
-    return this.http.post(environment.apiUrl + "/staff/create_staff", staffDetails, { headers: this.header.getToken() });
+  createStaffWithOutFile(staffDetails) {
+    return this.http.post(environment.apiUrl + "/staff/create_staff_with_out_file", staffDetails, { headers: this.header.getToken() });
+  }
+
+  createStaffWithFile(staffDetails) {
+    return this.http.post(environment.apiUrl + "/staff/create_staff_with_file", staffDetails, { headers: this.header.getToken() });
   }
 
   updateStaffSalary(id){
@@ -31,7 +35,7 @@ export class RegistrationService {
   }
 
   updateStaffIdProof(updateStaffDetails) {
-    return this.http.put(environment.apiUrl + "/staff/update_staff_idproof", updateStaffDetails, { headers: this.header.getToken() });
+    return this.http.put(environment.apiUrl + "/staff/update_staff_id_proof", updateStaffDetails, { headers: this.header.getToken() });
   }
 
   deleteStaff(staffId) {
