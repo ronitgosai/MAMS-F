@@ -10,6 +10,9 @@ import { SellService } from 'app/services/dashboard/sell/sell.service';
 import { GlobalService } from 'app/services/global.service';
 import { UserService } from 'app/services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 @Component({
   selector: 'app-Dashboard',
@@ -95,6 +98,13 @@ export class DashboardComponent implements OnInit {
     this.productService.getProduct().subscribe((productInfo: any) => {
       this.product = this.global.tableIndex(productInfo.data);
     })
+  }
+
+  exportPdf() {
+    console.log("export")    
+    const doc = new jsPDF();
+    autoTable(doc, { html: "#rawMaterialTable" });
+    doc.save("rawMaterialList.pdf");
   }
 
   getProduction() {
