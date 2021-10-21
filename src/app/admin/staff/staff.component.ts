@@ -183,8 +183,8 @@ export class StaffComponent implements OnInit {
     this.is_submitted = true;
     this.is_table = false;
     this.isProgressBar = true;
-    let userRole = [];
-    userRole = this.staffForm.get('user_role').value;
+    // let userRole = [];
+    // userRole = this.staffForm.get('user_role').value.split(',');
     if (this.staffForm.valid) {
       let staffInfo = {
         'full_name': this.staffForm.get('full_name').value,
@@ -196,17 +196,18 @@ export class StaffComponent implements OnInit {
         'created_date': this.global.getDateZone()
       }
       this.staffService.createStaff(staffInfo).subscribe((user: any) => {
-        userRole.map((d, i) => {
+        // userRole.map((d, i) => {
           let userRoleInfo = {
             'user_role_id': user.data.user_id,
-            'master_role_id': userRole[i],
+            'master_role_id': this.staffForm.get('user_role').value.join(','),
             'session_id': localStorage.getItem('session_id'),
             'created_date': this.global.getDateZone(),
             'created_time': this.global.getTimeZone()
           }
+          console.log("userRoleInfo",userRoleInfo)
           this.staffService.createUserRole(userRoleInfo).subscribe(role => {
           })
-        })
+        // })
         this.staffService.getStaff().subscribe((getStaff: any) => {
           this.obj_staff_data = this.global.tableIndex(getStaff.data)
           this.isProgressBar = false;
@@ -271,6 +272,7 @@ export class StaffComponent implements OnInit {
 
     let updateUserRole = [];
     updateUserRole = this.updateStaffForm.get('update_user_role').value;
+    // console.log("updateUserRole",updateUserRole)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -292,13 +294,14 @@ export class StaffComponent implements OnInit {
           this.is_table = false;
           this.isProgressBar = true;
           this.staffService.updateStaff(update_user_info).subscribe((updateUser: any) => {
-            updateUserRole.map((d, i) => {
+            // updateUserRole.map((d, i) => {
               let userRoleInfo = {
                 'user_role_id': user_id,
-                'master_role_id': d,
-                'old_master_role_id': this.updateUserRole[i],
+                'master_role_id': this.updateStaffForm.get('update_user_role').value,
+                // 'old_master_role_id': this.updateUserRole[i],
                 'session_id': localStorage.getItem('session_id'),
               }
+              // console.log("userRoleInfo",userRoleInfo)
               this.staffService.updateUserRole(userRoleInfo).subscribe(role => {
                 this.staffService.getStaff().subscribe((getStaff: any) => {
                   this.obj_staff_data = this.global.tableIndex(getStaff.data)
@@ -312,7 +315,7 @@ export class StaffComponent implements OnInit {
                   }
                 });
               })
-            })
+            // })
             this.toastr.success("Staff Info Successfully updated!");
             this.updateStaffForm.reset();
             Swal.fire({

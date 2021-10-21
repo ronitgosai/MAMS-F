@@ -10,6 +10,9 @@ import { takeUntil } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 import { SendMailService } from 'app/services/dashboard/master/send-mail.service';
 import { MailContactService } from 'app/services/mail-contact.service';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import autoTable from "jspdf-autotable";
 
 @Component({
   selector: 'app-material-report',
@@ -139,6 +142,13 @@ export class MaterialReportComponent implements OnInit {
       })
     }
   }
+
+  // exportPdf() {
+  //   console.log("export")    
+  //   const doc = new jsPDF();
+  //   autoTable(doc, { html: "#raw_Material" });
+  //   doc.save("rawMaterialList.pdf");
+  // }
 
   senMail(){
     if(this.emailForm.valid){
