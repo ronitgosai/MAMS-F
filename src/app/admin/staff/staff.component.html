@@ -18,7 +18,7 @@
                             <form class="staffForm" [formGroup]="staffForm">
                                 <mat-form-field appearance="fill">
                                     <mat-label>User Role</mat-label>
-                                    <mat-select formControlName="user_role" [multiple]="true" #multiselect>
+                                    <mat-select formControlName="user_role" [multiple]="true" #multiselect required>
                                         <mat-option>
                                             <ngx-mat-select-search [formControl]="userRoleFilterCtrl" placeholderLabel="Search here!"
                                                 [noEntriesFoundLabel]="'Not result found'"></ngx-mat-select-search>
@@ -41,7 +41,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <mat-form-field class="form-field" [formGroup]="staffForm">
-                                            <input matInput class="p-0" formControlName="user_contact" placeholder="Contact" required>
+                                            <input matInput class="p-0" formControlName="user_contact" placeholder="Contact">
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -84,7 +84,7 @@
                                 <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="full_name" [(ngModel)]="full_name" (ngModelChange)="search()" placeholder="Search Staff Name">
                                 </mat-search-bar>
                             </div><br>
-                            <table id="example" class="table">
+                            <table class="table">
                                 <thead class="text font-weight-bold">
                                     <th>#</th>
                                     <th>Role</th>
@@ -109,7 +109,7 @@
                                     <tbody *ngFor="let data of obj_staff_data | paginate: {itemsPerPage:entries_per_page,currentPage:p}; let i = index">
                                         <tr>
                                             <td>{{ data.index }}</td>
-                                            <td>
+                                            <td id="userRoles">
                                                 <ng-container>
                                                     <div class="font-weight-bold">
                                                         <ng-container *ngFor="let name of data.role_name.split(',')">

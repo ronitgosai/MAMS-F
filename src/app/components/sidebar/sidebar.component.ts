@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { UserService } from "app/services/user.service";
 import { environment } from "environments/environment";
 import { ToastrService } from "ngx-toastr";
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 declare const $: any;
 declare interface RouteInfo {
   path?: string;
@@ -157,6 +157,11 @@ export class SidebarComponent implements OnInit {
 
   getUserRole(menuItem){
     return menuItem.role.some(ur => this.user_role.split(',').indexOf(ur) > -1)
+  }
+
+  navigateToProfile(){
+    console.log("JI")
+    this.router.navigateByUrl('/user-profile');
   }
 
   logOut() {

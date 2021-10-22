@@ -4,6 +4,9 @@
 .logo {
   width: 100% !important;
   background-color: white !important;
+  a {
+    color: black;
+  }
 }
 .sidebar-wrapper {
   background-color: white !important;
@@ -22,8 +25,8 @@
       color: white !important;
       background-color: transparent !important;
     }
-    .subMenu{
-      &:hover { 
+    .subMenu {
+      &:hover {
         background-color: rgb(76, 175, 80) !important;
       }
     }

@@ -101,7 +101,6 @@ export class DashboardComponent implements OnInit {
   }
 
   exportPdf() {
-    console.log("export")    
     const doc = new jsPDF();
     autoTable(doc, { html: "#rawMaterialTable" });
     doc.save("rawMaterialList.pdf");

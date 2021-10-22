@@ -36,4 +36,8 @@ export class StaffService {
   deleteStaff(deleteUser) {
     return this.http.put(environment.apiUrl + "/login/delete_user",deleteUser,{ headers: this.header.getToken() });
   }
+
+  deleteStaffRole(deleteUser) {
+    return this.http.put(environment.apiUrl + "/login/delete_user_role",deleteUser,{ headers: this.header.getToken() });
+  }
 }

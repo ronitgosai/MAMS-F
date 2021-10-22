@@ -8,7 +8,6 @@ import {
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UserService } from "app/services/user.service";
-
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",

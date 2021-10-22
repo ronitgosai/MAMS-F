@@ -55,7 +55,8 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     MatCheckboxModule,
     NgxPrintModule,
     MatFileUploadModule,
-    NgxMatFileInputModule
+    NgxMatFileInputModule,
+    // TooltipModule,
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
