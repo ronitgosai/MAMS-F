@@ -144,7 +144,6 @@ export class MaterialReportComponent implements OnInit {
   }
 
   // exportPdf() {
-  //   console.log("export")    
   //   const doc = new jsPDF();
   //   autoTable(doc, { html: "#raw_Material" });
   //   doc.save("rawMaterialList.pdf");

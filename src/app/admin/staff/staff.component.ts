@@ -68,7 +68,7 @@ export class StaffComponent implements OnInit {
       username: ['', [Validators.required, this.global.noWhitespaceValidator]],
       password: ['', [Validators.required, this.global.noWhitespaceValidator]],
       confirm_password: ['', [Validators.required, this.matchValues('password'), this.global.noWhitespaceValidator]],
-      user_contact: ['', [Validators.required]],
+      user_contact: [''],
       user_role: ['', [Validators.required]],
     });
 
@@ -76,7 +76,7 @@ export class StaffComponent implements OnInit {
       update_user_role: ['', [Validators.required]],
       update_full_name: ['', [Validators.required]],
       update_user_email: ['', [Validators.required]],
-      update_user_contact: ['', [Validators.required]],
+      update_user_contact: [''],
     })
 
     this.updateStaffPassword = this.formBuilder.group({
@@ -183,8 +183,6 @@ export class StaffComponent implements OnInit {
     this.is_submitted = true;
     this.is_table = false;
     this.isProgressBar = true;
-    // let userRole = [];
-    // userRole = this.staffForm.get('user_role').value.split(',');
     if (this.staffForm.valid) {
       let staffInfo = {
         'full_name': this.staffForm.get('full_name').value,
@@ -193,35 +191,32 @@ export class StaffComponent implements OnInit {
         'username': this.staffForm.get('username').value,
         'password': this.staffForm.get('password').value,
         'confirm_password': this.staffForm.get('confirm_password').value,
-        'created_date': this.global.getDateZone()
+        'created_date': this.global.getDateZone(),
+        'created_time': this.global.getTimeZone()
       }
       this.staffService.createStaff(staffInfo).subscribe((user: any) => {
-        // userRole.map((d, i) => {
-          let userRoleInfo = {
-            'user_role_id': user.data.user_id,
-            'master_role_id': this.staffForm.get('user_role').value.join(','),
-            'session_id': localStorage.getItem('session_id'),
-            'created_date': this.global.getDateZone(),
-            'created_time': this.global.getTimeZone()
-          }
-          console.log("userRoleInfo",userRoleInfo)
-          this.staffService.createUserRole(userRoleInfo).subscribe(role => {
+        let userRoleInfo = {
+          'user_role_id': user.data.user_id,
+          'master_role_id': this.staffForm.get('user_role').value.join(','),
+          'session_id': localStorage.getItem('session_id'),
+          'created_date': this.global.getDateZone(),
+          'created_time': this.global.getTimeZone()
+        }
+        this.staffService.createUserRole(userRoleInfo).subscribe(role => {
+          this.staffService.getStaff().subscribe((getStaff: any) => {
+            this.obj_staff_data = this.global.tableIndex(getStaff.data)
+            this.isProgressBar = false;
+            if (this.obj_staff_data.length > 0) {
+              this.is_data = false;
+              this.is_table = true;
+            } else if (this.obj_staff_data.length === 0) {
+              this.is_table = false;
+              this.is_data = true;
+            }
           })
-        // })
-        this.staffService.getStaff().subscribe((getStaff: any) => {
-          this.obj_staff_data = this.global.tableIndex(getStaff.data)
-          this.isProgressBar = false;
-          if (this.obj_staff_data.length > 0) {
-            this.is_data = false;
-            this.is_table = true;
-          } else if (this.obj_staff_data.length === 0) {
-            this.is_table = false;
-            this.is_data = true;
-          }
         })
         this.toastr.success('Successfully added staff');
         this.staffForm.reset();
-        // this.is_submitted = fla;
         document.getElementById('collapseButton').click();
       })
     } else {
@@ -267,12 +262,9 @@ export class StaffComponent implements OnInit {
       "full_name": this.updateStaffForm.get('update_full_name').value,
       "user_email": this.updateStaffForm.get('update_user_email').value,
       "user_contact": this.updateStaffForm.get('update_user_contact').value,
-      'updated_date': this.global.getDateZone()
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
     };
-
-    let updateUserRole = [];
-    updateUserRole = this.updateStaffForm.get('update_user_role').value;
-    // console.log("updateUserRole",updateUserRole)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -294,27 +286,24 @@ export class StaffComponent implements OnInit {
           this.is_table = false;
           this.isProgressBar = true;
           this.staffService.updateStaff(update_user_info).subscribe((updateUser: any) => {
-            // updateUserRole.map((d, i) => {
-              let userRoleInfo = {
-                'user_role_id': user_id,
-                'master_role_id': this.updateStaffForm.get('update_user_role').value,
-                // 'old_master_role_id': this.updateUserRole[i],
-                'session_id': localStorage.getItem('session_id'),
-              }
-              // console.log("userRoleInfo",userRoleInfo)
-              this.staffService.updateUserRole(userRoleInfo).subscribe(role => {
-                this.staffService.getStaff().subscribe((getStaff: any) => {
-                  this.obj_staff_data = this.global.tableIndex(getStaff.data)
-                  this.isProgressBar = false;
-                  if (this.obj_staff_data.length > 0) {
-                    this.is_data = false;
-                    this.is_table = true;
-                  } else if (this.obj_staff_data.length === 0) {
-                    this.is_table = false;
-                    this.is_data = true;
-                  }
-                });
-              })
+            let userRoleInfo = {
+              'user_role_id': user_id,
+              'master_role_id': this.updateStaffForm.get('update_user_role').value.join(','),
+              'session_id': localStorage.getItem('session_id'),
+            }
+            this.staffService.updateUserRole(userRoleInfo).subscribe(role => {
+              this.staffService.getStaff().subscribe((getStaff: any) => {
+                this.obj_staff_data = this.global.tableIndex(getStaff.data)
+                this.isProgressBar = false;
+                if (this.obj_staff_data.length > 0) {
+                  this.is_data = false;
+                  this.is_table = true;
+                } else if (this.obj_staff_data.length === 0) {
+                  this.is_table = false;
+                  this.is_data = true;
+                }
+              });
+            })
             // })
             this.toastr.success("Staff Info Successfully updated!");
             this.updateStaffForm.reset();
@@ -350,7 +339,8 @@ export class StaffComponent implements OnInit {
     let update_new_password = {
       "user_id": user_id,
       "password": this.updateStaffPassword.get('new_password').value,
-      'updated_date': this.global.getDateZone()
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
     }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -420,7 +410,8 @@ export class StaffComponent implements OnInit {
   deleteStaff(staff_id) {
     let delete_staff = {
       "user_id": staff_id,
-      'updated_date': this.global.getDateZone()
+      'updated_date': this.global.getDateZone(),
+      'updated_time': this.global.getTimeZone()
     }
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -442,16 +433,18 @@ export class StaffComponent implements OnInit {
         this.is_table = false;
         this.isProgressBar = true;
         this.staffService.deleteStaff(delete_staff).subscribe(data => {
-          this.staffService.getStaff().subscribe((getStaff: any) => {
-            this.obj_staff_data = this.global.tableIndex(getStaff.data)
-            this.isProgressBar = false;
-            if (this.obj_staff_data.length > 0) {
-              this.is_data = false;
-              this.is_table = true;
-            } else if (this.obj_staff_data.length === 0) {
-              this.is_table = false;
-              this.is_data = true;
-            }
+          this.staffService.deleteStaffRole(delete_staff).subscribe(role => {
+            this.staffService.getStaff().subscribe((getStaff: any) => {
+              this.obj_staff_data = this.global.tableIndex(getStaff.data)
+              this.isProgressBar = false;
+              if (this.obj_staff_data.length > 0) {
+                this.is_data = false;
+                this.is_table = true;
+              } else if (this.obj_staff_data.length === 0) {
+                this.is_table = false;
+                this.is_data = true;
+              }
+            })
           })
         })
         Swal.fire({

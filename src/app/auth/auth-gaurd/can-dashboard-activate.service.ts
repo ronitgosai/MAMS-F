@@ -21,6 +21,10 @@ export class CanDashboardActivateService {
     if (userId) {
       if (
         userRole === environment.adminRole ||
+        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/dashboard') ||
+        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/user-profile') ||
+        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/auth/reset-password') ||
+        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/master') ||
         ([environment.adminRole, environment.rawMaterialRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/raw-material') ||
         ([environment.adminRole, environment.inventoryRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/inventory') ||
         ([environment.adminRole, environment.productionRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/production') ||
@@ -33,11 +37,7 @@ export class CanDashboardActivateService {
         ([environment.adminRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/payout') ||
         ([environment.adminRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/report') ||
         ([environment.adminRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/staff') ||
-        ([environment.adminRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/pre-plan-production') ||
-        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/dashboard') ||
-        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/user-profile') ||
-        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/reset-password') ||
-        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/master')
+        ([environment.adminRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/pre-plan-production')
       ) {
         return true;
       }
