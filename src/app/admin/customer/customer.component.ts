@@ -43,9 +43,6 @@ export class CustomerComponent implements OnInit {
   userRole: any;
 
   ngOnInit(): void {
-    // this.http.get('http://localhost:2000/demo',{responseType: 'text'}).subscribe(response => {
-    // })
-
     this.userRole = localStorage.getItem('role');
 
     this.isTable = false;

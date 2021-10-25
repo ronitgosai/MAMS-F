@@ -294,7 +294,7 @@ export class ProductComponent implements OnInit {
   }
 
   viewProductDetails(productId) {
-    const url = 'http://localhost:4200/product-details/' + productId;
+    const url = 'http://mams.modernagrichem.com/product-details/' + productId;
     window.open(url, '_blank').focus();
   }
 

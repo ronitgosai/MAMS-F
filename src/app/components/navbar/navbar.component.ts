@@ -1,10 +1,6 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ROUTES } from "../sidebar/sidebar.component";
-import {
-  Location,
-  LocationStrategy,
-  PathLocationStrategy,
-} from "@angular/common";
+import { Location } from "@angular/common";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UserService } from "app/services/user.service";
@@ -61,7 +57,7 @@ export class NavbarComponent implements OnInit {
 
     this.sidebarVisible = true;
   };
-  
+
   sidebarClose() {
     const body = document.getElementsByTagName('body')[0];
     this.toggleButton.classList.remove('toggled');

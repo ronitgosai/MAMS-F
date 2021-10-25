@@ -19,11 +19,6 @@ const routes: Routes = [
         path: 'login',
         loadChildren: () => import('./login/login.module').then((module) => module.LoginModule),
         canLoad: [CanLoadLoginService],
-      },
-      {
-        path: "reset-password",
-        loadChildren: () => import("./reset-password/reset-password.module").then((module) => module.ResetPasswordModule),
-        canActivate: [CanDashboardActivateService],
       }
     ]
   }

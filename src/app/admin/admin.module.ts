@@ -23,6 +23,11 @@ const routes: Routes = [
         canActivate: [CanDashboardActivateService],
       },
       {
+        path: "reset-password",
+        loadChildren: () => import("./reset-password/reset-password.module").then((module) => module.ResetPasswordModule),
+        canActivate: [CanDashboardActivateService],
+      },
+      {
         path: "raw-material",
         loadChildren: () => import("./raw-material/raw-material.module").then((module) => module.RawMaterialModule),
         canActivate: [CanDashboardActivateService],

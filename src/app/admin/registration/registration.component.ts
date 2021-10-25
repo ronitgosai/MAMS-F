@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl, Title } from '@angular/platform-browser';
+import { CurrencyService } from 'app/services/dashboard/master/currency.service';
 import { NetWorkServiceProviderService } from 'app/services/dashboard/master/NetWorkServiceProvider.service';
 import { ShiftService } from 'app/services/dashboard/master/shift.service';
 import { WorkAreaService } from 'app/services/dashboard/master/work-area.service';
@@ -29,6 +30,7 @@ export class RegistrationComponent implements OnInit {
     private workAreaService: WorkAreaService,
     private shiftService: ShiftService,
     private networkServiceProviderService: NetWorkServiceProviderService,
+    private currencyService: CurrencyService
   ) {
     titelService.setTitle("User | Modern Agrichem")
   }
@@ -40,6 +42,7 @@ export class RegistrationComponent implements OnInit {
 
   staffDetails = [];
   staffDetailsBackup = [];
+  currency = [];
   workArea = [];
   shiftDetails = [];
   netWorkServiceProvider = [];
@@ -64,6 +67,7 @@ export class RegistrationComponent implements OnInit {
       staffName: ['', [Validators.required]],
       staffWorkAreaId: ['', [Validators.required]],
       staffSalary: [''],
+      staffCurrency: ['', [Validators.required]],
       staffShiftId: ['', [Validators.required]],
       staffMobileServiceProviderId: ['', [Validators.required]],
       staffMobileNumber: [''],
@@ -83,6 +87,7 @@ export class RegistrationComponent implements OnInit {
     this.getStaffDetails();
     this.getWorkArea();
     this.getShift();
+    this.getCurrency();
     this.getMobileNetwork();
   }
 
@@ -106,6 +111,12 @@ export class RegistrationComponent implements OnInit {
   getWorkArea() {
     this.workAreaService.getMasterWorkArea().subscribe((workArea: any) => {
       this.workArea = this.global.tableIndex(workArea.data);
+    })
+  }
+
+  getCurrency() {
+    this.currencyService.getCurrency().subscribe((masterCurrency: any) => {
+      this.currency = this.global.tableIndex(masterCurrency.data);
     })
   }
 

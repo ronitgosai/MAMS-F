@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { GlobalService } from 'app/services/global.service';
 import { UserService } from 'app/services/user.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { UserService } from 'app/services/user.service';
 export class UserProfileComponent implements OnInit {
 
   constructor(
+    private global: GlobalService,
     private userService: UserService,
     private titleService: Title
     ) {
@@ -23,7 +25,7 @@ export class UserProfileComponent implements OnInit {
       "user_id": localStorage.getItem('user_id')
     }
     this.userService.getUser(user).subscribe((getUser: any) => {
-      this.user_details = getUser.data
+      this.user_details = getUser.data;
     })
   }
 }
