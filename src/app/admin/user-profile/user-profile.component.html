@@ -1,43 +1,50 @@
 <div class="main-content">
     <div class="container-fluid">
         <!-- User Profile Card -->
-        <ng-container *ngFor="let data of user_details; let i = index">
-            <div class="col-md-12">
-                <table class="card table table-active">
-                    <div class="text-center mt-3 mb-3 fs-18 fw-800">
-                        User Profile
-                    </div>
-                    <tbody>
-                        <tr>
-                            <th class="fs-14 fw-800">Full Name</th>
-                            <td class="fs-14 fw-400">{{ data.full_name }}</td>
-                        </tr>
-                        <tr>
-                            <th class="fs-14 fw-800">User Name</th>
-                            <td class="fs-14 fw-400">{{ data.username }}</td>
-                        </tr>
-                        <tr>
-                            <th class="fs-14 fw-800">Email</th>
-                            <td class="fs-14 fw-400">{{ data.user_email }}</td>
-                        </tr>
-                        <tr>
-                            <th class="fs-14 fw-800">Contact</th>
-                            <td class="fs-14 fw-400">{{ data.user_contact }}</td>
-                        </tr>
-                        <tr>
-                            <th class="fs-14 fw-800">User Role</th>
-                            <td class="fs-14 fw-400">
-                                <ng-container *ngFor="let role of data.role_name.split(',');let i = index">
-                                    <!-- <div> -->
-                                        &nbsp;{{ role }},
-                                    <!-- </div> -->
-                                </ng-container>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="m-20">
+                    <form [formGroup]="userProfileForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline">
+                                    <mat-label> Full Name: </mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="fullName">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline">
+                                    <mat-label> User Name: </mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="userName">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline">
+                                    <mat-label> Email Address:</mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="email">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline">
+                                    <mat-label> Contact Number: </mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="contact">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <mat-label> User Role: </mat-label>
+                                    <textarea matInput style="height: 23px" [readonly]="true" class="width-100" formControlName="userRole"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </ng-container>
+        </div>
         <!-- Reset Password Botton -->
         <div class="col-md-12">
             <div class="card">

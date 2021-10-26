@@ -187,6 +187,7 @@ export class ProductionComponent implements OnInit {
     this.isProgressBar = true;
     this.productionService.getProduction().subscribe((getProduction: any) => {
       this.productionData = this.global.tableIndex(getProduction.data);
+      console.log(this.productionData)
       for (let i = 0; i < this.productionData.length; i++) {
         this.productionData[i].raw_material_quantity = this.productionData[i].raw_material_quantity.split(',')
         for (let j = 0; j < this.productionData[i].raw_material_quantity.length; j++) {

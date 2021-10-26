@@ -428,7 +428,6 @@ export class RawMaterialComponent implements OnInit {
   importRawMaterial() {
     this.isTable = false;
     this.isProgressBarImport = true;
-    console.log(this.importRawMaterialForm.get('import_raw_material_date').value)
     if (this.importRawMaterialForm.valid) {
       let importRawMaterial = {
         'raw_material_id_import': this.importRawMaterialForm.get('raw_material_id_import').value,
@@ -440,7 +439,6 @@ export class RawMaterialComponent implements OnInit {
         'created_date': this.global.getDateZone(),
         'created_time': this.global.getTimeZone()
       }
-      console.log(importRawMaterial)
       let importRawMaterialData = {
         'raw_material_id': this.importRawMaterialForm.get('raw_material_id_import').value,
         'raw_material_quantity': Number(this.importRawMaterialForm.get('raw_material_quantity').value.split(',').join('')),
