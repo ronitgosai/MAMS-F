@@ -55,7 +55,13 @@ export class DashboardComponent implements OnInit {
   sell = [];
   id: any;
 
+  isProgressBar: boolean;
+  isData: boolean;
+
   ngOnInit(): void {
+    // isProgressBar;
+    this.isData = false;
+
     this.ff = this.formBuilder.group({
       value1: [''],
       value2: [''],
@@ -75,7 +81,7 @@ export class DashboardComponent implements OnInit {
     this.getRawMaterial();
     this.getInventory();
     this.getProduct();
-    this.getProduction();
+    this.getProductionList();
     this.getSell();
   }
 
@@ -106,9 +112,14 @@ export class DashboardComponent implements OnInit {
     doc.save("rawMaterialList.pdf");
   }
 
-  getProduction() {
+  getProductionList() {
     this.productionService.getProduction().subscribe((productionInfo: any) => {
       this.production = this.global.tableIndex(productionInfo.data);
+      if (this.production.length > 0) {
+        this.isData = false;
+      } else if (this.production.length === 0) {
+        this.isData = true;
+      }
     })
   }
 

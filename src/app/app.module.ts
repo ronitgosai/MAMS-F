@@ -22,6 +22,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { CommonModule } from "@angular/common";
 import { FooterModule } from './components/footer/footer.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export const MY_FORMATS = {
   parse: {
@@ -58,6 +59,7 @@ export const MY_FORMATS = {
     NgxPaginationModule,
     Ng2SearchPipeModule,
     OrderModule,
+    MatTooltipModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       preventDuplicates: true,

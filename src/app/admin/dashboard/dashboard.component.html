@@ -20,7 +20,12 @@
                                     <th class="max-width-600"> Raw Material Info </th>
                                     <th class="max-width-200"> Start Date </th>
                                     <th class="max-width-200"> Start Time </th>
-                                </thead>
+                                </thead><br>
+                                <ng-container *ngIf="isData">
+                                    <td colspan="6" class="align-items-center m-20 text-center"> 
+                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    </td>
+                                </ng-container>
                                 <tbody *ngFor="let data of production; let i = index; is_ongoing_table">
                                     <tr>
                                         <td clsss="max-width-100"> {{ data.index }} </td>
@@ -28,8 +33,7 @@
                                         <td clsss="max-width-300" appColor [data]="data.category_color"> {{ data.product_name }} </td>
                                         <td>
                                             <div>
-                                                <ng-container
-                                                    *ngFor="let name of data. raw_material_names.split(','); let i = index">
+                                                <ng-container *ngFor="let name of data. raw_material_names.split(','); let i = index">
                                                     <div>
                                                         {{ i+1 }}.&nbsp;
                                                         {{ name }} <span class="fas fa-arrow-right"></span>

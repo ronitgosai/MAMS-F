@@ -439,7 +439,6 @@ export class RawMaterialComponent implements OnInit {
         'created_date': this.global.getDateZone(),
         'created_time': this.global.getTimeZone()
       }
-
       let importRawMaterialData = {
         'raw_material_id': this.importRawMaterialForm.get('raw_material_id_import').value,
         'raw_material_quantity': Number(this.importRawMaterialForm.get('raw_material_quantity').value.split(',').join('')),

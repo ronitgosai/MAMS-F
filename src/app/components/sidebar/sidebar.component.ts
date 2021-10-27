@@ -160,7 +160,6 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateToProfile(){
-    console.log("JI")
     this.router.navigateByUrl('/user-profile');
   }
 

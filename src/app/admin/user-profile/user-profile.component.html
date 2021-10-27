@@ -1,43 +1,54 @@
 <div class="main-content">
     <div class="container-fluid">
         <!-- User Profile Card -->
-        <div class="card">
-            <div class="col-md">
-                <div *ngFor="let data of user_details">
-                    <form class="form-group p-20 c-black">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="m-20">
+                    <form [formGroup]="userProfileForm">
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Full Name</label>
-                                <input type="text" class="form-control bg-white mb-3" value="{{ data.full_name }}" disabled>
+                                <mat-form-field appearance="outline">
+                                    <mat-label> Full Name: </mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="fullName">
+                                </mat-form-field>
                             </div>
                             <div class="col-md-6">
-                                <label>Username</label>
-                                <input type="text" class="form-control bg-white mb-3" value="{{ data.username }}" disabled>
+                                <mat-form-field appearance="outline">
+                                    <mat-label> User Name: </mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="userName">
+                                </mat-form-field>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label>Mail-ID</label>
-                                <input type="mail" class="form-control bg-white mb-3" value="{{ data.user_email }}" disabled>
+                                <mat-form-field appearance="outline">
+                                    <mat-label> Email Address:</mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="email">
+                                </mat-form-field>
                             </div>
                             <div class="col-md-6">
-                                <label>Contact</label>
-                                <input type="mail" class="form-control bg-white mb-3" value="{{ data.user_contact }}" disabled>
+                                <mat-form-field appearance="outline">
+                                    <mat-label> Contact Number: </mat-label>
+                                    <input matInput type="text" [readonly]="true" formControlName="contact">
+                                </mat-form-field>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="font-weight-bold">
-                                <label>Role</label>
-                                <div class="font-weight-bold">
-                                    <!-- <ng-container *ngFor="let name of data.role_name"> -->
-                                        <div><span class="fas fa-arrow-right"></span>&nbsp;&nbsp;{{ data.role_name }}</div>
-                                    <!-- </ng-container> -->
-                                </div>
-                                <!-- <div>{{ data.role_name }}</div> -->
+                        <div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <mat-label> User Role: </mat-label>
+                                    <textarea matInput style="height: 23px" [readonly]="true" class="width-100" formControlName="userRole"></textarea>
+                                </mat-form-field>
                             </div>
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+        <!-- Reset Password Botton -->
+        <div class="col-md-12">
+            <div class="card">
+                <button mat-flat-button routerLink="/reset-password">Reset Password</button>
             </div>
         </div>
     </div>
