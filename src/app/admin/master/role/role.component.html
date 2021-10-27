@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<hr class="m-0 mt-10">
+<hr class="m-0 mt-15">
 <div class="row ml-20 mr-20">
     <div class="col-md-12">
         <div class="card-body">
@@ -40,18 +40,17 @@
                 <table class="table">
                     <thead class="text font-weight-bold">
                         <th>#</th>
-                        <th>Role Id</th>
                         <th>Role Name</th>
                         <th class="text-align-end">Action</th>
                     </thead>
                     <ng-container *ngIf="isProgressBar">
-                        <td colspan="4" class="border-none">
+                        <td colspan="3" class="border-none">
                             <mat-progress-bar mode="indeterminate">   
                             </mat-progress-bar>
                         </td>
                     </ng-container>
                     <ng-container *ngIf="isData">
-                        <td colspan="4" class="align-items-center m-20 text-center">
+                        <td colspan="3" class="align-items-center m-20 text-center">
                             <p class="fs-16 fw-400">No Data Available.</p>
                         </td>
                     </ng-container>
@@ -59,7 +58,6 @@
                         <tbody *ngFor="let data of roleData | paginate: {id:'paginationRole', itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
                             <tr>
                                 <td>{{ data.index }}</td>
-                                <td>{{ data.master_role_id }}</td>
                                 <td>{{ data.role_name }}</td>
                                 <td class="text-align-end">
                                     <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#roleInfo' + i" (click)="editRole(data.master_role_id,i)"><span class="fa fa-pen c-blue"></span></button>

@@ -22,7 +22,7 @@
                                         <form class="productForm" [formGroup]="productForm">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <mat-form-field appearance="fill">
+                                                    <mat-form-field appearance="fill" [formGroup]="productForm">
                                                         <mat-label>Category</mat-label>
                                                         <mat-select formControlName="categoryId" (selectionChange)="categoryChange($event)">
                                                             <ng-container *ngFor="let data of categoryProduct">
@@ -34,17 +34,17 @@
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <mat-form-field class="form-field">
+                                                    <mat-form-field class="form-field" [formGroup]="productForm">
                                                         <input matInput formControlName="productName" placeholder="Product Name">
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <mat-form-field class="form-field">
+                                                    <mat-form-field class="form-field" [formGroup]="productForm">
                                                         <input matInput formControlName="productTechnicalName" placeholder="Product Technical Name">
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <mat-form-field appearance="fill">
+                                                    <mat-form-field appearance="fill" [formGroup]="productForm">
                                                         <mat-label>Product Form</mat-label>
                                                         <mat-select formControlName="productForm" required>
                                                             <mat-option value="1">Liquid Product</mat-option>
@@ -55,7 +55,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <mat-form-field appearance="fill">
+                                                    <mat-form-field appearance="fill" [formGroup]="productForm">
                                                         <mat-label>Inventory Name</mat-label>
                                                         <mat-select formControlName="inventoryId">
                                                             <ng-container *ngFor="let data of inventoryFromProduct">
@@ -67,7 +67,7 @@
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <mat-form-field class="form-field">
+                                                    <mat-form-field class="form-field" [formGroup]="productForm">
                                                         <input matInput class="p-0" [(ngModel)]="unit" (keyup)="printNumber()" formControlName="productQuantity" placeholder="Product Qunatity" required>
                                                     </mat-form-field>
                                                 </div>

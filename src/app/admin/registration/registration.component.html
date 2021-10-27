@@ -18,12 +18,12 @@
                         <div class="card-body">
                             <form class="userForm" [formGroup]="userForm">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <mat-form-field class="form-field">
                                             <input matInput type="text" formControlName="staffName" placeholder="Staff Name">
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <mat-form-field appearance="fill" [formGroup]="userForm">
                                             <mat-label>Work Area</mat-label>
                                             <mat-select formControlName="staffWorkAreaId">
@@ -33,9 +33,20 @@
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <mat-form-field class="form-field" [formGroup]="userForm">
                                             <input matInput formControlName="staffSalary" (keyup)="printNumber()" placeholder="Salary">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field appearance="fill" [formGroup]="userForm">
+                                            <mat-select formControlName="staffCurrency">
+                                                <ng-container *ngFor="let data of currency">
+                                                    <mat-option value="{{ data.currency_id }}">
+                                                        {{ data.currency_name }}
+                                                    </mat-option>
+                                                </ng-container>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -86,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="m-0 mt-10">
+            <hr class="m-0 mt-15">
             <!-- DataTable -->
             <div class="row ml-20 mr-20">
                 <div class="col-md-12">

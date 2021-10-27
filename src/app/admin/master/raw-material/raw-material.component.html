@@ -16,12 +16,12 @@
                     <form class="rawMaterialForm" [formGroup]="rawMaterialForm">
                         <div class="row">
                             <div class="col-md-6">
-                                <mat-form-field class="form-field">
+                                <mat-form-field class="form-field" [formGroup]="rawMaterialForm">
                                     <input matInput class="p-0" formControlName="raw_material_name" placeholder="Raw Material Name">
                                 </mat-form-field>
                             </div>
                             <div class="col-md-6">
-                                <mat-form-field appearance="fill"  class="mt-13">   
+                                <mat-form-field appearance="fill" [formGroup]="rawMaterialForm">   
                                     <mat-label>Units</mat-label>
                                     <mat-select formControlName="raw_material_unit">
                                         <mat-option value="Liter">Litre</mat-option>
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    <hr class="m-0 mt-10">
+    <hr class="m-0 mt-15">
     <div class="row ml-20 mr-20">
         <div class="col-md-12">
             <div class="card-body">
