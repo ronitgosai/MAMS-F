@@ -231,7 +231,8 @@ export class StockComponent implements OnInit {
           'session_id': localStorage.getItem('session_id'),
           'created_date': this.global.getDateZone(),
           'created_time': this.global.getTimeZone()
-        }
+        };
+        console.log("categoryProduct",categoryProduct)
         this.productService.createStockProductCategory(categoryProduct).subscribe((createProductCategory: any) => {});
         let stockProductInfo = {
           'category_id': this.productForm.get('categoryId').value,
@@ -242,8 +243,10 @@ export class StockComponent implements OnInit {
           'created_date': this.global.getDateZone(),
           'created_time': this.global.getTimeZone()
         };
+        console.log("stockProductInfo",stockProductInfo)
         /* Stock Product Table */
         this.stockService.createStock(stockProductInfo).subscribe(createStock => {
+          console.log("complete")
           this.stockService.getStock().subscribe((getStock: any) => {
             this.arr_product_data = this.global.tableIndex(getStock.data);
             for (let i = 0; i < this.arr_product_data.length; i++) {
@@ -261,7 +264,9 @@ export class StockComponent implements OnInit {
           })
         })
       })
-
+      this.toastr.success("Product " + this.productForm.get('productName').value + " add successfully");
+      this.productForm.reset();
+      document.getElementById('collapseButton').click();
 
       // let productInfo = {
       //   'category_id': this.productForm.get('categoryId').value,

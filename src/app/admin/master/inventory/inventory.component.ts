@@ -80,10 +80,10 @@ export class InventoryComponent implements OnInit {
       }
       this.inventoryInfoBackup = this.inventoryInfo;
       this.isProgressBar = false;
-      if (this.inventoryInfo.length > 0) {
+      if (inventoryInfo['success']) {
         this.isData = false;
         this.isTable = true;
-      } else if (this.inventoryInfo.length === 0) {
+      } else if (!inventoryInfo['success']) {
         this.isTable = false;
         this.isData = true;
       }
@@ -139,9 +139,17 @@ export class InventoryComponent implements OnInit {
       this.inventoryForm.reset();
       document.getElementById('collapse').click();
     } else {
+      if (!this.inventoryForm.get('inventoryName').value) {
+        this.toastr.error("Please Enter Inventory Name.");
+      }
+      if (!this.inventoryForm.get('inventoryUnit').value) {
+        this.toastr.error("Please Enter Inventory Unit.");
+      }
+      if (!this.inventoryForm.get('productForm').value) {
+        this.toastr.error("Please Enter Product Form.");
+      }
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Please enter valid data.");
     }
   }
 
@@ -193,17 +201,17 @@ export class InventoryComponent implements OnInit {
           if (this.updateInventoryForm.get("updateInventoryName").value || this.updateInventoryForm.get("updateInventoryUnit").value) {
             this.isTable = false;
             this.isProgressBar = true;
-            this.inventoryService.updateInventory(updateInventoryInfo).subscribe((data) => {
+            this.inventoryService.updateInventory(updateInventoryInfo).subscribe((updateInventory) => {
               this.inventoryService.getInventory().subscribe((getInventory: any) => {
                 this.inventoryInfo = this.global.tableIndex(getInventory.data);
                 for (let i = 0; i < this.inventoryInfo.length; i++) {
                   this.inventoryInfo[i].inventory_quantity = new Intl.NumberFormat('en-IN').format(this.inventoryInfo[i].inventory_quantity)
                 }
                 this.isProgressBar = false;
-                if (this.inventoryInfo.length > 0) {
+                if (updateInventory['success']) {
                   this.isData = false;
                   this.isTable = true;
-                } else if (this.inventoryInfo.length === 0) {
+                } else if (!updateInventory['success']) {
                   this.isTable = false;
                   this.isData = true;
                 }
@@ -223,7 +231,12 @@ export class InventoryComponent implements OnInit {
             }
             );
           } else {
-            this.toastr.error("Please enter Updated Name and Unit.");
+            if (!this.inventoryForm.get('updateInventoryName').value) {
+              this.toastr.error("Please Enter Inventory Name for update.");
+            }
+            if (!this.inventoryForm.get('updateInventoryUnit').value) {
+              this.toastr.error("Please Enter Inventory Unit for update.");
+            }
           }
         } else if (
           /* Read more about handling dismissals below */
@@ -267,17 +280,17 @@ export class InventoryComponent implements OnInit {
         if (result.isConfirmed) {
           this.isTable = false;
           this.isProgressBar = true;
-          this.inventoryService.updateDeleteInventory(deleteInventory).subscribe((data) => {
+          this.inventoryService.updateDeleteInventory(deleteInventory).subscribe((deleteInventory) => {
             this.inventoryService.getInventory().subscribe((inventoryInfo: any) => {
               this.inventoryInfo = this.global.tableIndex(inventoryInfo.data);
               for (let i = 0; i < this.inventoryInfo.length; i++) {
                 this.inventoryInfo[i].inventory_quantity = new Intl.NumberFormat('en-IN').format(this.inventoryInfo[i].inventory_quantity)
               }
               this.isProgressBar = false;
-              if (this.inventoryInfo.length > 0) {
+              if (deleteInventory['success']) {
                 this.isData = false;
                 this.isTable = true;
-              } else if (this.inventoryInfo.length === 0) {
+              } else if (!deleteInventory['success']) {
                 this.isTable = false;
                 this.isData = true;
               }

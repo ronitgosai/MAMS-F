@@ -81,16 +81,16 @@ export class RawMaterialComponent implements OnInit {
 
   getRawMaterial() {
     this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
-      this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
+      this.rawMaterialData = this.global.tableIndex(getRawMaterial.data);
       for (let i = 0; i < this.rawMaterialData.length; i++) {
         this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
       }
       this.rawMaterialDataBackup = this.rawMaterialData
       this.isProgressBar = false;
-      if (this.rawMaterialData.length > 0) {
+      if (getRawMaterial['success']) {
         this.isData = false;
         this.isTable = true;
-      } else if (this.rawMaterialData.length === 0) {
+      } else if (!getRawMaterial['success']) {
         this.isTable = false;
         this.isData = true;
       }
@@ -126,17 +126,17 @@ export class RawMaterialComponent implements OnInit {
         'created_date': this.global.getDateZone(),
         'created_time': this.global.getTimeZone(),
       }
-      this.rawMaterialService.createRawMaterial(rawMaterial).subscribe(data => {
+      this.rawMaterialService.createRawMaterial(rawMaterial).subscribe(insertRawMaterial => {
         this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
           this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
           for (let i = 0; i < this.rawMaterialData.length; i++) {
             this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
           }
           this.isProgressBar = false;
-          if (this.rawMaterialData.length > 0) {
+          if (insertRawMaterial['success']) {
             this.isData = false;
             this.isTable = true;
-          } else if (this.rawMaterialData.length === 0) {
+          } else if (!insertRawMaterial['success']) {
             this.isTable = false;
             this.isData = true;
           }
@@ -147,10 +147,15 @@ export class RawMaterialComponent implements OnInit {
       document.getElementById('collapseButton').click();
     }
     else {
+      if (!this.rawMaterialForm.get('raw_material_name').value) {
+        this.toastr.error("Please Enter Raw Material Name.");
+      }
+      if (!this.rawMaterialForm.get('raw_material_unit').value) {
+        this.toastr.error("Please Enter Raw Material Unit.");
+      }
       this.isCollapsed = false;
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Please enter valid data.");
     }
   }
 
@@ -199,17 +204,17 @@ export class RawMaterialComponent implements OnInit {
         if (this.updatedRawMaterialForm.get('update_raw_material_name').value && this.updatedRawMaterialForm.get('update_raw_material_unit').value) {
           this.isTable = false;
           this.isProgressBar = true;
-          this.rawMaterialService.updateRawMaterial(updateRawMaterialInfo).subscribe((data) => {
+          this.rawMaterialService.updateRawMaterial(updateRawMaterialInfo).subscribe((updateRawMaterial) => {
             this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
               this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
               for (let i = 0; i < this.rawMaterialData.length; i++) {
                 this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
               }
               this.isProgressBar = false;
-              if (this.rawMaterialData.length > 0) {
+              if (updateRawMaterial['success']) {
                 this.isData = false;
                 this.isTable = true;
-              } else if (this.rawMaterialData.length === 0) {
+              } else if (!updateRawMaterial['success']) {
                 this.isTable = false;
                 this.isData = true;
               }
@@ -226,11 +231,16 @@ export class RawMaterialComponent implements OnInit {
             })
           },
             (err) => {
-              this.toastr.success("Something went wrong, Relaod the page and try again.")
+              this.toastr.error("Something went wrong, Relaod the page and try again.")
             })
         }
         else {
-          this.toastr.error("Please enter Updated Name and Unit.")
+          if (!this.updatedRawMaterialForm.get('update_raw_material_name').value) {
+            this.toastr.error("Please Enter Raw Material Name for update.");
+          }
+          if (!this.updatedRawMaterialForm.get('update_raw_material_unit').value) {
+            this.toastr.error("Please Enter Raw Material Unit for update.");
+          }
         }
       } else if (
         /* Read more about handling dismissals below */
@@ -271,17 +281,17 @@ export class RawMaterialComponent implements OnInit {
       if (result.isConfirmed) {
         this.isTable = false;
         this.isProgressBar = true;
-        this.rawMaterialService.deleteUpdateRawMaterial(deletData).subscribe(data => {
+        this.rawMaterialService.deleteUpdateRawMaterial(deletData).subscribe(deleteRawMaterial => {
           this.rawMaterialService.getRawMaterial().subscribe((getRawMaterial: any) => {
             this.rawMaterialData = this.global.tableIndex(getRawMaterial.data)
             for (let i = 0; i < this.rawMaterialData.length; i++) {
               this.rawMaterialData[i].raw_material_quantity = this.global.tableComma(this.rawMaterialData[i].raw_material_quantity)
             }
             this.isProgressBar = false;
-            if (this.rawMaterialData.length > 0) {
+            if (deleteRawMaterial['success']) {
               this.isData = false;
               this.isTable = true;
-            } else if (this.rawMaterialData.length === 0) {
+            } else if (!deleteRawMaterial['success']) {
               this.isTable = false;
               this.isData = true;
             }

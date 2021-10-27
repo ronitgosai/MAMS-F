@@ -19,7 +19,7 @@
                                 <input matInput class="p-0" formControlName="inventoryName" placeholder="Inventory Name">
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4 mt-13">
+                        <div class="col-md-4">
                             <mat-form-field appearance="fill" [formGroup]="inventoryForm">
                                 <mat-label>Unit</mat-label>
                                 <mat-select formControlName="inventoryUnit">
@@ -28,7 +28,7 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-4 mt-13">
+                        <div class="col-md-4">
                             <mat-form-field appearance="fill" [formGroup]="inventoryForm">
                                 <mat-label>For Liquid / Solid / Other Inventory</mat-label>
                                 <mat-select formControlName="productForm">
@@ -38,18 +38,16 @@
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                    </div>
-                    <div class="form-group"><br>
-                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#inventory" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                        <button mat-flat-button type="button" class="save pull-right" (click)="insertInventory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Inventory</button>
-                    </div>
+                    </div><br>
+                    <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                    <button mat-flat-button type="reset" data-toggle="collapse" data-target="#inventory" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                    <button mat-flat-button type="button" class="save pull-right" (click)="insertInventory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Inventory</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<hr class="m-0 mt-10">
+<hr class="m-0 mt-15">
 <div class="row ml-20 mr-20">
     <div class="col-md-12">
         <div class="card-body">

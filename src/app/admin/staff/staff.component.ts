@@ -180,6 +180,8 @@ export class StaffComponent implements OnInit {
   }
 
   insertUser() {
+
+    console.log(this.staffForm)
     this.is_submitted = true;
     this.is_table = false;
     this.isProgressBar = true;
