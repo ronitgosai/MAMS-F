@@ -48,7 +48,6 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   pagination(event){
-
   }
 
 }

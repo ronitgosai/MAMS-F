@@ -28,7 +28,6 @@ export class CategoryComponent implements OnInit {
   category = [];
   categoryBackup = [];
 
-
   isProgressBar: boolean;
   isData: boolean;
   
@@ -78,6 +77,7 @@ export class CategoryComponent implements OnInit {
   }
 
   insertCategory() {
+    this.categoryForm.markAllAsTouched();
     this.pickerColor = this.categoryForm.get('categoryColor').value.hex;
     let category = {
       'category_name': this.categoryForm.get('categoryName').value,

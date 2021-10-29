@@ -89,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="m-0 mt-15">
+            <hr>
             <div class="row ml-20 mr-20">
                 <div class="col-md-12">
                     <div class="card">
@@ -296,7 +296,7 @@
                                 </table>
                             </div>
                             <div class="m-20 text-center" *ngIf="is_data">
-                                <p class="fs-16 fw-400">No Data Available.</p>
+                               <p class="fs-16 fw-400 mt-20">No Data Available.</p>
                             </div>
                             <div class="row text-center" *ngIf="is_show">
                                 <div class="col-md-6 mt-3">
@@ -327,7 +327,7 @@
 
         <div class="card row-title">
             <br><p class="fs-20 fw-500 ml-20 mr-20">Past Production</p>
-            <hr class="m-0 mt-15">
+            <hr>
             <div class="card-body">
                 <div class="col-md-12">
                     <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value1" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="searchPastProduction()" placeholder="Search Product Name">
@@ -398,7 +398,7 @@
                         </tbody>
                     </table><br>
                     <div class="align-items-center m-20 text-center" *ngIf="is_data_past">
-                        <p class="fs-16 fw-400">No Data Available.</p>
+                       <p class="fs-16 fw-400 mt-20">No Data Available.</p>
                     </div>
                     <div class="row" *ngIf="is_show_past">
                         <div class="col-md-6 mt-3">

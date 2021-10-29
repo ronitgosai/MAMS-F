@@ -1,149 +1,165 @@
-<div class="row row-title">
-    <div class="col-md-6">
+<div class="animated fadeIn">
+    <div class="flex-space-between">
         <span class="fs-20 fw-600">Product Category</span>
-    </div>
-    <div class="col-md-6">
-        <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#category" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
-            <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Product Category
+        <button class="btn float-right save" data-toggle="collapse" data-target="#category" id="collapseButton">
+            <span class="fas fa-plus"></span>Add Product Category
         </button>
     </div>
-</div>
-<div class="row ml-20 mr-20">
-    <div class="col-md-12">
-        <div class="collapse " id="category">
-            <div class="card-body">
-                <form class="categoryForm" [formGroup]="categoryForm">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <mat-form-field class="form-field">
-                                <input matInput formControlName="categoryName" placeholder="Category Name">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-2">
-                            <ngx-mat-color-toggle class="c-black fs-14 float-left" matSuffix [for]="picker"></ngx-mat-color-toggle>
-                        </div>
-                        <div class="col-md-2">
-                            <mat-form-field class="form-field">
-                                <input matInput [ngxMatColorPicker]="picker" [readonly]="true" formControlName="categoryColor" placeholder="Category Color">
-                                <ngx-mat-color-picker #picker></ngx-mat-color-picker>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-2">
-                            <div style="height: 30px; width: 30px; border-radius: 20px" [ngStyle]="{'background-color': categoryForm.controls.categoryColor.value }">
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="collapse " id="category">
+                <div class="card-body">
+                    <form class="categoryForm" [formGroup]="categoryForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="form-field">
+                                    <mat-label>Category Name</mat-label>
+                                    <input matInput formControlName="categoryName">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2">
+                                <ngx-mat-color-toggle class="c-black fs-14 float-left" matSuffix [for]="picker">
+                                </ngx-mat-color-toggle>
+                            </div>
+                            <div class="col-md-2">
+                                <div style="height: 30px; width: 30px; border-radius: 20px" [ngStyle]="{'background-color': categoryForm.controls.categoryColor.value }">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field class="form-field">
+                                    <mat-label>Category Color</mat-label>
+                                    <input matInput [ngxMatColorPicker]="picker" [readonly]="true" formControlName="categoryColor">
+                                    <ngx-mat-color-picker #picker></ngx-mat-color-picker>
+                                </mat-form-field>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group"><br>
-                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#category" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                        <button mat-flat-button type="button" class="save pull-right" (click)="insertCategory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Product Category</button>
-                    </div>
-                </form>
+                        <div class="float-right">
+                            <button type="button" class="btn save" (click)="insertCategory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Product Category</button>
+                            <button type="reset" class="btn cancel" data-toggle="collapse" data-target="#category"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button type="reset" class="btn reset"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<hr class="m-0 mt-15">
-<div class="row ml-20 mr-20">
-    <div class="col-md-12">
-        <div class="card-body">
-            <div class="col-md-12">
-                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="categoryName" [(ngModel)]="categoryName" (ngModelChange)="search()" placeholder="Search Product Category Name">
-                </mat-search-bar>
-            </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead class="text font-weight-bold">
-                        <th>#</th>
-                        <th>Category Name</th>
-                        <th class="text-align-center">Category Color</th>
-                        <th class="text-align-end">Action</th>
-                    </thead>
-                    <ng-container *ngIf="isProgressBar">
-                        <td colspan="4" class="border-none"> 
-                            <mat-progress-bar mode="indeterminate">   
-                            </mat-progress-bar>
-                        </td>
-                    </ng-container>
-                    <ng-container *ngIf="category.length <= 0">
-                        <td colspan="4" class="align-items-center m-20 text-center"> 
-                            <p class="fs-16 fw-400">No Data Available.</p>
-                        </td>
-                    </ng-container>
-                    <ng-container *ngIf="category.length > 0">
-                        <tbody *ngFor="let data of category | paginate: {id:'paginationCategory',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
-                            <tr>
-                                <td>{{ data.index }}</td>
-                                <td class="font-weight-bold" [ngStyle]="{'color': data.category_color }">{{ data.category_name }}</td>
-                                <td class="text-align-center">                             
-                                    <div style="height: 30px; width: 30px; border-radius: 20px" [ngStyle]="{'background-color': data.category_color }">
-                                    </div>
-                                </td>
-                                <td class="text-align-end">
-                                    <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#categoryInfo' + i" (click)="editCategory(data.category_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                    <button mat-stroked-button class="ml-3" (click)="deleteCategory(data.category_id,data.category_name)"><span class="fa fa-trash c-red"></span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="p-0">
-                                    <div class="collapse pb-5" id="categoryInfo{{ i }}">
-                                        <div class="card-body">
-                                            <form class="updateCategoryForm" [formGroup]="updateCategoryForm">
-                                                <div class="col-md-12">
-                                                    <span class="fs-16 fw-500">Please enter updated Product category name for selected product category.<br></span>
-                                                </div><br>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <mat-form-field class="form-field">
-                                                            <input matInput class="p-0" formControlName="updateCategoryName" placeholder="Product Category Name">
-                                                        </mat-form-field>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <ngx-mat-color-toggle class="c-black fs-14 float-left" matSuffix [for]="pickerColor"></ngx-mat-color-toggle>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <mat-form-field class="form-field">
-                                                            <input matInput [ngxMatColorPicker]="pickerColor" [readonly]="true" formControlName="updateCategoryColor" placeholder="Category Color">
-                                                            <ngx-mat-color-picker #pickerColor></ngx-mat-color-picker>
-                                                        </mat-form-field>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div style="height: 30px; width: 30px; border-radius: 20px" [ngStyle]="{'background-color': updateCategoryForm.controls.updateCategoryColor.value }">
+    <hr>
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="categoryName" [(ngModel)]="categoryName" (ngModelChange)="search()" placeholder="Search Product Category Name">
+                    </mat-search-bar>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text font-weight-bold">
+                            <th>#</th>
+                            <th>Category Name</th>
+                            <th class="text-align-center">Category Color</th>
+                            <th class="text-align-end">Action</th>
+                        </thead>
+                        <ng-container *ngIf="isProgressBar">
+                            <td colspan="4" class="border-none">
+                                <mat-progress-bar mode="indeterminate">
+                                </mat-progress-bar>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="category.length <= 0">
+                            <td colspan="4" class="align-items-center m-20 text-center">
+                                <p class="fs-16 fw-400 mt-20">No Data Available.</p>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="category.length > 0">
+                            <tbody *ngFor="let data of category | paginate: {id:'paginationCategory',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                <tr>
+                                    <td>{{ data.index }}</td>
+                                    <td class="font-weight-bold" [ngStyle]="{'color': data.category_color }">{{ data.category_name }}</td>
+                                    <td class="text-align-center">
+                                        <div class="categoryColor" [ngStyle]="{'background-color': data.category_color }">
+                                        </div>
+                                    </td>
+                                    <td class="text-align-end">
+                                        <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#categoryInfo' + i" (click)="editCategory(data.category_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                        <button mat-stroked-button class="ml-3" (click)="deleteCategory(data.category_id,data.category_name)"><span class="fa fa-trash c-red"></span></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="p-0">
+                                        <div class="collapse pb-5" id="categoryInfo{{ i }}">
+                                            <div class="card-body">
+                                                <form class="updateCategoryForm" [formGroup]="updateCategoryForm">
+                                                    <div class="col-md-12">
+                                                        <span class="fs-16 fw-500">Please enter updated Product category
+                                                            name for selected product category.<br></span>
+                                                    </div><br>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <mat-form-field class="form-field">
+                                                                <mat-label>Category Name</mat-label>
+                                                                <input matInput class="p-0" formControlName="updateCategoryName">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <ngx-mat-color-toggle class="c-black fs-14 float-left" matSuffix [for]="pickerColor"></ngx-mat-color-toggle>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div style="height: 30px; width: 30px; border-radius: 20px"
+                                                                [ngStyle]="{'background-color': updateCategoryForm.controls.updateCategoryColor.value }">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <mat-form-field class="form-field">
+                                                                <input matInput [ngxMatColorPicker]="pickerColor"
+                                                                    [readonly]="true"
+                                                                    formControlName="updateCategoryColor"
+                                                                    placeholder="Category Color">
+                                                                <ngx-mat-color-picker #pickerColor>
+                                                                </ngx-mat-color-picker>
+                                                            </mat-form-field>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <button type="reset" class="btn btn-success pull-right ml-2 c-b c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                                <button type="reset" class="btn btn-danger pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#categoryInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                <button type="button" class="btn btn-success pull-right" (click)="updateCategory(data.category_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Product Category</button>
-                                            </form>
+                                                    <button type="reset"
+                                                        class="btn btn-success pull-right ml-2 c-b c-b"><span
+                                                            class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                    <button type="reset" class="btn btn-danger pull-right ml-2"
+                                                        data-toggle="collapse"
+                                                        [attr.data-target]="'#categoryInfo' + i"><span
+                                                            class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                    <button type="button" class="btn btn-success pull-right"
+                                                        (click)="updateCategory(data.category_id)"><span
+                                                            class="fas fa-save"></span>&nbsp;&nbsp;Update Product
+                                                        Category</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </ng-container>
+                    </table>
+                    <ng-container *ngIf="category.length > 0">
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <pagination-controls id="paginationCategory" (pageChange)="p = $event" class="f-l">
+                                </pagination-controls>
+                            </div>
+                            <div class="col-md-6 z-index-9">
+                                <mat-form-field appearance="fill" class="width-22 f-r">
+                                    <mat-label>Entries per page</mat-label>
+                                    <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
+                                        [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </ng-container>
-                </table>
-                <ng-container *ngIf="category.length > 0">
-                    <div class="row">
-                        <div class="col-md-6 mt-3">
-                            <pagination-controls id="paginationCategory" (pageChange)="p = $event" class="f-l">
-                            </pagination-controls>
-                        </div>
-                        <div class="col-md-6 z-index-9">
-                            <mat-form-field appearance="fill" class="width-22 f-r">
-                                <mat-label>Entries per page</mat-label>
-                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
-                                    [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                    <mat-option value="10">10</mat-option>
-                                    <mat-option value="20">20</mat-option>
-                                    <mat-option value="35">35</mat-option>
-                                    <mat-option value="40">40</mat-option>
-                                    <mat-option value="50">50</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </ng-container>
+                </div>
             </div>
         </div>
     </div>

@@ -77,6 +77,7 @@ export class NetworkServiceProviderComponent implements OnInit {
   pagination(event) { }
 
   insertMobileNetwork() {
+    this.networkServiceProviderForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.networkServiceProviderForm.valid) {
