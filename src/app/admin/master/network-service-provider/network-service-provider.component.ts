@@ -106,7 +106,6 @@ export class NetworkServiceProviderComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Please enter valid data.");
     }
   }
 

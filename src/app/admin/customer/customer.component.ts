@@ -63,9 +63,9 @@ export class CustomerComponent implements OnInit {
     })
 
     this.customerForm = this.formBuilder.group({
-      customerName: ['', [Validators.required, this.global.noWhitespaceValidator]],
-      customerContact: ['', [Validators.required]],
-      customerAddress: ['', [Validators.required, this.global.noWhitespaceValidator]],
+      customerName: ['', [Validators.required]],
+      customerContact: [''],
+      customerAddress: [''],
     })
 
     this.updateCustomerForm = this.formBuilder.group({
@@ -89,6 +89,7 @@ export class CustomerComponent implements OnInit {
   }
 
   saveData() {
+    this.customerForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.customerForm.valid) {
@@ -100,14 +101,14 @@ export class CustomerComponent implements OnInit {
         'created_date': this.global.getDateZone(),
         'created_time': this.global.getTimeZone()
       }
-      this.customerService.createCustomer(customerDetails).subscribe(data => {
+      this.customerService.createCustomer(customerDetails).subscribe((createCustomer: any) => {
         this.customerService.getCustomer().subscribe((customerInfo: any) => {
           this.customerDetails = this.global.tableIndex(customerInfo.data);
           this.isProgressBar = false;
-          if (this.customerDetails.length > 0) {
+          if (createCustomer['success']) {
             this.isData = false;
             this.isTable = true;
-          } else if (this.customerDetails.length === 0) {
+          } else if (createCustomer['success']) {
             this.isTable = false;
             this.isData = true;
           }
@@ -119,7 +120,6 @@ export class CustomerComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error('Please input the all field');
     }
   }
 

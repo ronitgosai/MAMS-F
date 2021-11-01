@@ -10,7 +10,7 @@
                     </ng-template>
                     <div class="card-body"><br>
                         <div class="col-md-6 f-r">
-                            <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" id="collapseButton" data-target="#manualProduct" aria-expanded="false" aria-controls="collapseExample">
+                            <button class="btn float-right save" data-toggle="collapse" id="collapseButton" data-target="#manualProduct">
                                 <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Manual Product
                             </button>
                         </div>
@@ -22,7 +22,7 @@
                                         <form class="productForm" [formGroup]="productForm">
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <mat-form-field appearance="fill" [formGroup]="productForm">
+                                                    <mat-form-field appearance="fill">
                                                         <mat-label>Category</mat-label>
                                                         <mat-select formControlName="categoryId" (selectionChange)="categoryChange($event)">
                                                             <ng-container *ngFor="let data of categoryProduct">
@@ -34,17 +34,19 @@
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <mat-form-field class="form-field" [formGroup]="productForm">
-                                                        <input matInput formControlName="productName" placeholder="Product Name">
+                                                    <mat-form-field class="form-field">
+                                                        <mat-label>Product Name</mat-label>
+                                                        <input matInput formControlName="productName">
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <mat-form-field class="form-field" [formGroup]="productForm">
-                                                        <input matInput formControlName="productTechnicalName" placeholder="Product Technical Name">
+                                                    <mat-form-field class="form-field">
+                                                        <mat-label>Product Technical Name</mat-label>
+                                                        <input matInput formControlName="productTechnicalName">
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <mat-form-field appearance="fill" [formGroup]="productForm">
+                                                    <mat-form-field appearance="fill">
                                                         <mat-label>Product Form</mat-label>
                                                         <mat-select formControlName="productForm" required>
                                                             <mat-option value="1">Liquid Product</mat-option>
@@ -55,7 +57,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <mat-form-field appearance="fill" [formGroup]="productForm">
+                                                    <mat-form-field appearance="fill">
                                                         <mat-label>Inventory Name</mat-label>
                                                         <mat-select formControlName="inventoryId">
                                                             <ng-container *ngFor="let data of inventoryFromProduct">
@@ -67,14 +69,17 @@
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <mat-form-field class="form-field" [formGroup]="productForm">
-                                                        <input matInput class="p-0" [(ngModel)]="unit" (keyup)="printNumber()" formControlName="productQuantity" placeholder="Product Qunatity" required>
+                                                    <mat-form-field class="form-field">
+                                                        <mat-label>Product Qunatity</mat-label>
+                                                        <input matInput class="p-0" [(ngModel)]="unit" (keyup)="printNumber()" formControlName="productQuantity" required>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
-                                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                            <button mat-flat-button type="reset" data-toggle="collapse" data-target="#manualProduct" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                            <button mat-flat-button type="submit" class="save pull-right" (click)="insertProduct()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Manually Product</button>
+                                            <div class="float-right">
+                                                <button type="submit" class="btn save" (click)="insertProduct()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Manually Product</button>
+                                                <button type="reset" class="btn cancel" data-toggle="collapse" data-target="#manualProduct"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                <button type="reset" class="btn reset"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>

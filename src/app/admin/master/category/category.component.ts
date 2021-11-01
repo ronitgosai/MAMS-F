@@ -95,8 +95,6 @@ export class CategoryComponent implements OnInit {
       this.toastr.success("Product Category " + this.categoryForm.get('categoryName').value + " added successfully.");
       this.categoryForm.reset();
       document.getElementById('collapseButton').click();
-    }else{
-      this.toastr.error("Please enter valid data")
     }
   }
 

@@ -147,7 +147,7 @@ export class SellComponent implements OnInit {
     })
   }
 
-  getProductCategory(){
+  getProductCategory() {
     this.productCategoryService.getMasterProductCategory().subscribe((categoryName: any) => {
       this.category = this.global.tableIndex(categoryName.data);
     })
@@ -176,6 +176,7 @@ export class SellComponent implements OnInit {
   }
 
   insertSellDetails() {
+    this.sellForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     this.isDone = true;
@@ -190,9 +191,11 @@ export class SellComponent implements OnInit {
     }
     if (Number(this.sellForm.get('product_quantity').value.split(',').join('')) >= this.qty) {
       this.toastr.error("Please enter quantity less than stock quantity")
+      this.isProgressBar = false;
       this.isDone = false;
     } else if (Number(this.sellForm.get('product_quantity').value.split(',').join('')) === 0) {
       this.toastr.error("Please enter quantity greater than 0")
+      this.isProgressBar = false;
       this.isDone = false;
     }
     else {
@@ -213,12 +216,14 @@ export class SellComponent implements OnInit {
             for (let i = 0; i < this.sellData.length; i++) {
               this.sellData[i].product_quantity = new Intl.NumberFormat('en-IN').format(this.sellData[i].product_quantity)
             }
-            this.isProgressBar = false;
-            if (this.sellData.length > 0) {
+            // this.isProgressBar = false;
+            if (getSellDetail['success']) {
               this.isData = false;
               this.isTable = true;
-            } else if (this.sellData.length === 0) {
+              this.isProgressBar = false;
+            } else if (!getSellDetail['success']) {
               this.isTable = false;
+              this.isProgressBar = false;
               this.isData = true;
             }
           })
@@ -228,15 +233,19 @@ export class SellComponent implements OnInit {
         })
         this.toastr.success("Sale has been made successfully!");
         this.sellForm.reset();
-        this.isProductEnable = false;
-        this.isInventoryEnable = false;
+        // this.isProductEnable = false;
+        // this.isInventoryEnable = false;
         document.getElementById('collapseButton').click();
       } else {
         this.isProgressBar = false;
         this.isTable = true;
-        this.toastr.error("Please fill the form")
       }
     }
+  }
+
+  cancel() {
+    this.isProductEnable = false;
+    this.isInventoryEnable = false;
   }
 
   deleteSellItem(sell_id) {

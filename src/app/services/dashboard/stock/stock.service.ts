@@ -17,7 +17,6 @@ export class StockService {
   }
 
   createStock(data) {
-    console.log
     return this.http.post(environment.apiUrl + "/stock/create_stock", data, { headers: this.header.getToken() });
   }
 }

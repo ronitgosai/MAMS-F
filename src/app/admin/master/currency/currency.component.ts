@@ -77,6 +77,7 @@ export class CurrencyComponent implements OnInit {
   pagination(event) { }
 
   insertCurrency() {
+    this.currencyForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.currencyForm.valid) {

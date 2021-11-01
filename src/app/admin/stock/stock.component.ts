@@ -213,6 +213,7 @@ export class StockComponent implements OnInit {
   }
 
   insertProduct() {
+    this.productForm.markAllAsTouched();
     if (this.productForm.valid) {
       let productInfo = {
         'product_name': this.productForm.get('productName').value,
@@ -232,7 +233,6 @@ export class StockComponent implements OnInit {
           'created_date': this.global.getDateZone(),
           'created_time': this.global.getTimeZone()
         };
-        console.log("categoryProduct",categoryProduct)
         this.productService.createStockProductCategory(categoryProduct).subscribe((createProductCategory: any) => {});
         let stockProductInfo = {
           'category_id': this.productForm.get('categoryId').value,
@@ -243,10 +243,8 @@ export class StockComponent implements OnInit {
           'created_date': this.global.getDateZone(),
           'created_time': this.global.getTimeZone()
         };
-        console.log("stockProductInfo",stockProductInfo)
         /* Stock Product Table */
         this.stockService.createStock(stockProductInfo).subscribe(createStock => {
-          console.log("complete")
           this.stockService.getStock().subscribe((getStock: any) => {
             this.arr_product_data = this.global.tableIndex(getStock.data);
             for (let i = 0; i < this.arr_product_data.length; i++) {

@@ -1,5 +1,4 @@
 // if (productForm) {
-      //   console.log("Productform")
       //   productForm.append('product_id', productId),
       //   productForm.append('product_name', this.productForm.value.product_name),
       //   productForm.append('product_technical_name', this.productForm.value.product_technical_name),

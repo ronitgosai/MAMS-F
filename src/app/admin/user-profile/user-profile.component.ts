@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { GlobalService } from 'app/services/global.service';
 import { UserService } from 'app/services/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,6 +17,8 @@ export class UserProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private global: GlobalService,
     private userService: UserService,
+    private toastr: ToastrService,
+    private router: Router,
     private titleService: Title
   ) {
     titleService.setTitle("User-Profile | Modern Agrichem");
@@ -45,5 +49,20 @@ export class UserProfileComponent implements OnInit {
         userRole: this.user_details[0]['role_name'],
       })
     })
+  }
+
+  logout(){
+    let user = {
+      "user_id": localStorage.getItem('user_id'),
+      'session_id': localStorage.getItem('session_id')
+    }
+    this.userService.createUserLogLoggedOut(user).subscribe((loggedOut) => {
+    })
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('session_id');
+    localStorage.removeItem('role');
+    this.toastr.success("Logout");
+    this.router.navigateByUrl("auth/login");
   }
 }

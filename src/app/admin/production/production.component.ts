@@ -346,6 +346,7 @@ export class ProductionComponent implements OnInit {
   }
 
   startProduction() {
+    this.productionForm.markAllAsTouched();
     this.is_ongoing_table = false;
     this.isProgressBar = true;
     this.isSubmitted = true;

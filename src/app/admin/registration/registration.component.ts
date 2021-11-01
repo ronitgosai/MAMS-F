@@ -67,7 +67,7 @@ export class RegistrationComponent implements OnInit {
       staffName: ['', [Validators.required]],
       staffWorkAreaId: ['', [Validators.required]],
       staffSalary: [''],
-      staffCurrency: ['', [Validators.required]],
+      staffSalaryCurrency: ['', [Validators.required]],
       staffShiftId: ['', [Validators.required]],
       staffMobileServiceProviderId: ['', [Validators.required]],
       staffMobileNumber: [''],
@@ -95,6 +95,7 @@ export class RegistrationComponent implements OnInit {
     this.isProgressBar = true;
     this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
       this.staffDetails = this.global.tableIndex(staffDetails.data);
+      console.log(this.staffDetails)
       this.staffDetailsBackup = this.staffDetails;
       for (let i = 0; i < this.staffDetails.length; i++) {
         this.staffDetails[i].staff_salary = this.global.tableComma(this.staffDetails[i].staff_salary)
@@ -181,22 +182,21 @@ export class RegistrationComponent implements OnInit {
   }
 
   insertStaff() {
-
+    this.userForm.markAllAsTouched();
     this.isProgressBar = true;
     const salary = parseInt(this.userForm.get('staffSalary').value.split(',').join(''));
     const userFileUpload = new FormData();
-
-    console.log(userFileUpload)
     if (userFileUpload) {
       if (this.userForm.value.staffIdProof === '') {
         userFileUpload.append('staffName', this.userForm.value.staffName),
-          userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
-          userFileUpload.append('staffSalary', salary.toString()),
-          userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
-          userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
-          userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
-          userFileUpload.append('created_date', this.global.getDateZone()),
-          userFileUpload.append('created_time', this.global.getTimeZone())
+        userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
+        userFileUpload.append('staffSalary', salary.toString()),
+        userFileUpload.append('staffSalaryCurrency', this.userForm.value.staffSalaryCurrency),
+        userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
+        userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
+        userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
+        userFileUpload.append('created_date', this.global.getDateZone()),
+        userFileUpload.append('created_time', this.global.getTimeZone())
         this.registrationService.createStaffWithOutFile(userFileUpload).subscribe((createStaff) => {
           this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
             this.staffDetails = this.global.tableIndex(staffDetails.data);
@@ -215,14 +215,15 @@ export class RegistrationComponent implements OnInit {
         document.getElementById('collapseButton').click();
       } else {
         userFileUpload.append('staffName', this.userForm.value.staffName),
-          userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
-          userFileUpload.append('staffSalary', salary.toString()),
-          userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
-          userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
-          userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
-          userFileUpload.append('staffIdProof', this.userForm.value.staffIdProof),
-          userFileUpload.append('created_date', this.global.getDateZone()),
-          userFileUpload.append('created_time', this.global.getTimeZone())
+        userFileUpload.append('staffWorkAreaId', this.userForm.value.staffWorkAreaId),
+        userFileUpload.append('staffSalary', salary.toString()),
+        userFileUpload.append('staffSalaryCurrency', this.userForm.value.staffSalaryCurrency),
+        userFileUpload.append('staffShiftId', this.userForm.value.staffShiftId),
+        userFileUpload.append('mobileServiceProviderId', this.userForm.value.staffMobileServiceProviderId),
+        userFileUpload.append('staffMobileNumber', this.userForm.value.staffMobileNumber),
+        userFileUpload.append('staffIdProof', this.userForm.value.staffIdProof),
+        userFileUpload.append('created_date', this.global.getDateZone()),
+        userFileUpload.append('created_time', this.global.getTimeZone())
         this.registrationService.createStaffWithFile(userFileUpload).subscribe((createStaff) => {
           this.registrationService.getStaffDetails().subscribe((staffDetails: any) => {
             this.staffDetails = this.global.tableIndex(staffDetails.data);

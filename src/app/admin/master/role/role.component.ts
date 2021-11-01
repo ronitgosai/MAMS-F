@@ -105,7 +105,6 @@ export class RoleComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Please input valid data.");
     }
   }
 

@@ -223,13 +223,11 @@ export class ProductComponent implements OnInit {
       this.productService.createProduct(productInfo).subscribe((createProduct: any) => {
         if(this.image){
           const productImageForm = new FormData();
-          console.log("id1",createProduct.data.product_id)
           productImageForm.append('product_id', createProduct.data.product_id),
           productImageForm.append('product_image', this.productDocumentForm.value.product_image, createProduct.data.product_id + '.png'),
           this.productService.createProductImage(productImageForm).subscribe(createProductImage => {})
         }
         if(this.document){
-          console.log("id2",createProduct.data.product_id)
           const productDocumentForm = new FormData();
           productDocumentForm.append('product_id', createProduct.data.product_id),
           productDocumentForm.append('product_document', this.productDocumentForm.value.product_document, createProduct.data.product_id),

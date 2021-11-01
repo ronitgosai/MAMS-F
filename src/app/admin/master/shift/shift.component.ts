@@ -77,6 +77,7 @@ export class ShiftComponent implements OnInit {
   pagination(event) { }
 
   insertShift() {
+    this.shiftForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.shiftForm.valid) {

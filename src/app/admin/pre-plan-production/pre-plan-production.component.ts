@@ -159,13 +159,18 @@ export class PrePlanProductionComponent implements OnInit {
   }
 
   insertPrePlanProduction() {
+    this.prePlanProductionForm.markAllAsTouched();
     let isRawMaterialBackup: boolean = true;
+    let done: boolean = false;
     this.rawMaterialNameBackup.map((d, i) => {
       if (d === null) {
         isRawMaterialBackup = false;
       }
-    })
-    if (isRawMaterialBackup) {
+    });
+    if(this.categoryId != undefined){
+      done = true;
+    }
+    if (done) {
       let prePlanProductionId = uuidv4();
       this.rawMaterialName.map((d, i) => {
         let prePlanData = {
@@ -193,15 +198,14 @@ export class PrePlanProductionComponent implements OnInit {
         })
       })
       this.toastr.success("Successfully Start Production");
-      document.getElementById("collapseButton").click();
       this.prePlanProductionForm.reset();
       this.rawMaterialNameBackup = null;
       this.isProduct = false;
       this.isRawMaterial = false;
+      document.getElementById("collapseButton").click();
     } else {
-      this.isProduct = true;
-      this.isRawMaterial = true;
-      this.toastr.error("Please Enter Raw Material Quantity");
+      this.isProduct = false;
+      this.isRawMaterial = false;
     }
   }
 
