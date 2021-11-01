@@ -1,145 +1,145 @@
 <div class="main-content">
     <div class="container-fluid">
-        <div class="card">
-            <div class="row row-title">
-                <div class="col-md-6">
+        <div class="animated fadeIn">
+            <div class="card">
+                <div class="flex-space-between p-20">
                     <span class="fs-20 fw-600">Customers</span>
-                </div>
-                <div class="col-md-6">
-                    <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" [attr.data-target]="'#customer'" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn float-right save" data-toggle="collapse" [attr.data-target]="'#customer'" id="collapseButton">
                         <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Customer
                     </button>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="collapse" id="customer">
-                        <div class="card-body">
-                            <form class="customerForm" [formGroup]="customerForm">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <mat-form-field class="form-field" [formGroup]="customerForm">
-                                            <input matInput class="p-0" formControlName="customerName" placeholder="Customer Name">
-                                        </mat-form-field>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="collapse" id="customer">
+                            <div class="card-body">
+                                <form class="customerForm" [formGroup]="customerForm">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-form-field class="form-field">
+                                                <input matInput formControlName="customerName" placeholder="Customer Name">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <mat-form-field class="form-field">
+                                                <input matInput type="number" formControlName="customerContact" placeholder="Customer Contact">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <mat-form-field class="form-field">
+                                                <input matInput formControlName="customerAddress" placeholder="Customer Address">
+                                            </mat-form-field>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <mat-form-field class="form-field" [formGroup]="customerForm">
-                                            <input matInput type="number" class="p-0" formControlName="customerContact" placeholder="Customer Contact">
-                                        </mat-form-field>
+                                    <div class="float-right">
+                                        <button type="submit" class="btn save" (click)="saveData()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Customer</button>
+                                        <button type="reset" class="btn cancel" data-toggle="collapse" data-target="#customer"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                        <button type="reset" class="btn reset"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
                                     </div>
-                                    <div class="col-md-4">
-                                        <mat-form-field class="form-field" [formGroup]="customerForm">
-                                            <input matInput class="p-0" formControlName="customerAddress" placeholder="Customer Address">
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                <button mat-flat-button type="reset" data-toggle="collapse" data-target="#customer" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                <button mat-flat-button type="submit" class="save pull-right" (click)="saveData()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Customer</button>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <hr class="m-0 mt-15">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card-body">
-                        <div class="col-md-12">
-                            <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="customer_name" [(ngModel)]="customerName" (ngModelChange)="search()" placeholder="Search Customer Name">
-                            </mat-search-bar>
-                        </div>
-                        <div class="table-responsive">
-                            <table id="example" class="table ">
-                                <thead class="text font-weight-bold">
-                                    <th>#</th>
-                                    <th>Customer Name</th>
-                                    <th>Customer Contact</th>
-                                    <th>Customer Address</th>
-                                    <th class="text-align-end">Action</th>
-                                </thead>
-                                <ng-container *ngIf="isProgressBar">
-                                    <td colspan="5" class="border-none"> 
-                                        <mat-progress-bar mode="indeterminate">   
-                                        </mat-progress-bar>
-                                    </td>
-                                </ng-container>
-                                <ng-container *ngIf="isData">
-                                    <td colspan="5" class="align-items-center m-20 text-center"> 
-                                        <p class="fs-16 fw-400">No Data Available.</p>
-                                    </td>
-                                </ng-container>
-                                <ng-container *ngIf="isTable">
-                                    <tbody *ngFor="let data of customerDetails | paginate: {id:'pagination_customer',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
-                                        <tr>
-                                            <td>{{ data.index }}</td>
-                                            <td>{{ data.customer_name }}</td>
-                                            <td>{{ data.customer_contact }}</td>
-                                            <td>{{ data.customer_address }}</td>
-                                            <td class="text-align-end">
-                                                <button mat-stroked-button class="mr-3" data-toggle="collapse" [attr.data-target]="'#customerInfo' + i" (click)="editCustomer(data.customer_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                                <button mat-stroked-button class="mr-3" (click)="deleteCustomer(data.customer_id,data.customer_name)"><span class="fa fa-trash c-red"></span></button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="5" class="p-0">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="collapse pb-5" id="customerInfo{{ i }}">
-                                                            <div class="card-body">
-                                                                <form class="updateCustomerForm" [formGroup]="updateCustomerForm">
-                                                                    <div class="col-md-12">
-                                                                        <span class="fs-16 fw-500">Please enter customer name OR customer contact OR customer address for above customer.<br></span>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
-                                                                            <mat-form-field class="form-field">
-                                                                                <input matInput class="p-0" formControlName="updateCustomerName" placeholder="Customer Name">
-                                                                            </mat-form-field>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="customer_name" [(ngModel)]="customerName" (ngModelChange)="search()" placeholder="Search Customer Name">
+                                </mat-search-bar>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="example" class="table ">
+                                    <thead class="text font-weight-bold">
+                                        <th>#</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer Contact</th>
+                                        <th>Customer Address</th>
+                                        <th class="text-align-end">Action</th>
+                                    </thead>
+                                    <ng-container *ngIf="isProgressBar">
+                                        <td colspan="5" class="border-none"> 
+                                            <mat-progress-bar mode="indeterminate">   
+                                            </mat-progress-bar>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="isData">
+                                        <td colspan="5" class="align-items-center m-20 text-center"> 
+                                           <p class="fs-16 fw-400 mt-20">No Data Available.</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="isTable">
+                                        <tbody *ngFor="let data of customerDetails | paginate: {id:'pagination_customer',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                            <tr>
+                                                <td>{{ data.index }}</td>
+                                                <td>{{ data.customer_name }}</td>
+                                                <td>{{ data.customer_contact }}</td>
+                                                <td>{{ data.customer_address }}</td>
+                                                <td class="text-align-end">
+                                                    <button mat-stroked-button class="mr-3" data-toggle="collapse" [attr.data-target]="'#customerInfo' + i" (click)="editCustomer(data.customer_id,i)"><span class="fa fa-pen c-blue"></span></button>
+                                                    <button mat-stroked-button class="mr-3" (click)="deleteCustomer(data.customer_id,data.customer_name)"><span class="fa fa-trash c-red"></span></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5" class="p-0">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="collapse pb-5" id="customerInfo{{ i }}">
+                                                                <div class="card-body">
+                                                                    <form class="updateCustomerForm" [formGroup]="updateCustomerForm">
+                                                                        <div class="col-md-12">
+                                                                            <span class="fs-16 fw-500">Please enter customer name OR customer contact OR customer address for above customer.<br></span>
                                                                         </div>
-                                                                        <div class="col-md-4">
-                                                                            <mat-form-field class="form-field">
-                                                                                <input matInput class="p-0" formControlName="updateCustomerContact" placeholder="Customer Contact">
-                                                                            </mat-form-field>
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <mat-form-field class="form-field">
+                                                                                    <input matInput class="p-0" formControlName="updateCustomerName" placeholder="Customer Name">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <mat-form-field class="form-field">
+                                                                                    <input matInput class="p-0" formControlName="updateCustomerContact" placeholder="Customer Contact">
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <mat-form-field class="form-field">
+                                                                                    <input matInput class="p-0" formControlName="updateCustomerAddress" placeholder="Customer Address">
+                                                                                </mat-form-field>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="col-md-4">
-                                                                            <mat-form-field class="form-field">
-                                                                                <input matInput class="p-0" formControlName="updateCustomerAddress" placeholder="Customer Address">
-                                                                            </mat-form-field>
-                                                                        </div>
-                                                                    </div>
-                                                                    <button mat-flat-button type="reset" class="ml-2 reset pull-right c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                                                    <button mat-flat-button type="reset" class="ml-2 cancel btn-danger pull-right" data-toggle="collapse" [attr.data-target]="'#customerInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                                    <button mat-flat-button type="button" class=" save btn-success pull-right" (click)="updateCustomer(data.customer_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update</button>
-                                                                </form>
+                                                                        <button mat-flat-button type="reset" class="ml-2 reset pull-right c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                                        <button mat-flat-button type="reset" class="ml-2 cancel btn-danger pull-right" data-toggle="collapse" [attr.data-target]="'#customerInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                                        <button mat-flat-button type="button" class=" save btn-success pull-right" (click)="updateCustomer(data.customer_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update</button>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody><br>
+                                                </td>
+                                            </tr>
+                                        </tbody><br>
+                                    </ng-container>
+                                </table>
+                                <ng-container *ngIf="isTable">
+                                    <div class="row">
+                                        <div class="col-md-6 mt-3">
+                                            <pagination-controls id="pagination_customer" (pageChange)="p = $event" class="f-l"></pagination-controls>
+                                        </div>
+                                        <div class="col-md-6 z-index-9">
+                                            <mat-form-field appearance="fill"  class="width-22 f-r">
+                                                <mat-label>Entries per page</mat-label>
+                                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                                    <mat-option value="10">10</mat-option>
+                                                    <mat-option value="20">20</mat-option>
+                                                    <mat-option value="35">35</mat-option>
+                                                    <mat-option value="40">40</mat-option>
+                                                    <mat-option value="50">50</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
                                 </ng-container>
-                            </table>
-                            <ng-container *ngIf="isTable">
-                                <div class="row">
-                                    <div class="col-md-6 mt-3">
-                                        <pagination-controls id="pagination_customer" (pageChange)="p = $event" class="f-l"></pagination-controls>
-                                    </div>
-                                    <div class="col-md-6 z-index-9">
-                                        <mat-form-field appearance="fill"  class="width-22 f-r">
-                                            <mat-label>Entries per page</mat-label>
-                                            <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
-                                                <mat-option value="10">10</mat-option>
-                                                <mat-option value="20">20</mat-option>
-                                                <mat-option value="35">35</mat-option>
-                                                <mat-option value="40">40</mat-option>
-                                                <mat-option value="50">50</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </ng-container>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,110 +1,125 @@
-<div class="row row-title">
-    <div class="col-md-6">
+<div class="animated fadeIn">
+    <div class="flex-space-between p-20">
         <span class="fs-20 fw-600">Mobile Network</span>
-    </div>
-    <div class="col-md-6">
-        <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#networkServiceProvider" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
+        <button class="btn float-right save" type="button" data-toggle="collapse"
+            data-target="#networkServiceProvider" id="collapseButton">
             <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Mobile Network
         </button>
-    </div>   
-</div>
-<div class="row ml-20 mr-20">
-    <div class="col-md-12">
-        <div class="collapse " id="networkServiceProvider">
-            <div class="card-body">
-                <form class="networkServiceProviderForm" [formGroup]="networkServiceProviderForm">
-                    <div class="col-md-12">
-                        <mat-form-field class="form-field">
-                            <input matInput formControlName="networkServiceProviderName" placeholder="Network Service Provider Name">
-                        </mat-form-field>
-                    </div>
-                    <div class="form-group"><br>
-                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#networkServiceProvider" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                        <button mat-flat-button type="button" class="save pull-right" (click)="insertMobileNetwork()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Mobile Network</button>
-                    </div>
-                </form>
+    </div>
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="collapse " id="networkServiceProvider">
+                <div class="card-body">
+                    <form class="networkServiceProviderForm" [formGroup]="networkServiceProviderForm">
+                        <div class="col-md-12">
+                            <mat-form-field class="form-field">
+                                <mat-label>Network Service Provider Name</mat-label>
+                                <input matInput formControlName="networkServiceProviderName">
+                            </mat-form-field>
+                        </div>
+                        <div class="float-right">
+                            <button type="button" class="btn save" (click)="insertMobileNetwork()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Mobile Network</button>
+                            <button type="reset" class="btn cancel" data-toggle="collapse" data-target="#networkServiceProvider"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button type="reset" class="btn reset"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<hr class="m-0 mt-15">
-<div class="row ml-20 mr-20">
-    <div class="col-md-12">
-        <div class="card-body">
-            <div class="col-md-12">
-                <mat-search-bar class="form-group m-0 m-5 f-r" type='text' name="mobileNetworkName" [(ngModel)]="mobileNetworkName" (ngModelChange)="search()" placeholder="Search Mobile Network Name">
-                </mat-search-bar>
-            </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead class="text font-weight-bold">
+    <hr>
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" type='text' name="mobileNetworkName"
+                        [(ngModel)]="mobileNetworkName" (ngModelChange)="search()"
+                        placeholder="Search Mobile Network Name">
+                    </mat-search-bar>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text font-weight-bold">
                             <th>#</th>
                             <th>Mobile Network Name</th>
                             <th class="text-align-end">Action</th>
-                    </thead>
-                    <ng-container *ngIf="isProgressBar">
-                        <td colspan="3" class="border-none">
-                            <mat-progress-bar mode="indeterminate">   
-                            </mat-progress-bar>
-                        </td>
-                    </ng-container>
-                    <ng-container *ngIf="isData">
-                        <td colspan="3" class="align-items-center m-20 text-center">
-                            <p class="fs-16 fw-400">No Data Available.</p>
-                        </td>
-                    </ng-container>
+                        </thead>
+                        <ng-container *ngIf="isProgressBar">
+                            <td colspan="3" class="border-none">
+                                <mat-progress-bar mode="indeterminate">
+                                </mat-progress-bar>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="isData">
+                            <td colspan="3" class="align-items-center m-20 text-center">
+                                <p class="fs-16 fw-400 mt-20">No Data Available.</p>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="isTable">
+                            <tbody
+                                *ngFor="let data of mobileNetwork | paginate: {id:'paginationMobileNetwork',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                <tr>
+                                    <td>{{ data.index }}</td>
+                                    <td>{{ data.master_network_service_provider_name }}</td>
+                                    <td class="text-align-end">
+                                        <button mat-stroked-button data-toggle="collapse"
+                                            [attr.data-target]="'#mobileNetworkInfo' + i"
+                                            (click)="editMobileNetwork(data.master_network_service_provider_id,i)"><span
+                                                class="fa fa-pen c-blue"></span></button>
+                                        <button mat-stroked-button class="ml-3"
+                                            (click)="deleteMobileNetwork(data.master_network_service_provider_id,data.master_network_service_provider_name)"><span
+                                                class="fa fa-trash c-red"></span></button>
+                                    </td>
+                                </tr><br>
+                                <tr>
+                                    <td colspan="3" class="p-0">
+                                        <div class="collapse pb-5" id="mobileNetworkInfo{{ i }}">
+                                            <form class="updateNetworkServiceProviderForm"
+                                                [formGroup]="updateNetworkServiceProviderForm">
+                                                <div class="col-md-12">
+                                                    <span class="fs-16 fw-500">Please enter updated mbile network name
+                                                        for selected mobile network.<br></span>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <mat-form-field class="form-field">
+                                                        <mat-label>Mobile Network Service Provider Name</mat-label>
+                                                        <input matInput class="p-0" formControlName="updateNetworkServiceProviderName">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="float-right">
+                                                    <button type="button" class="btn save" (click)="updateMobileNetwork(data.master_network_service_provider_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Network Mobile Network</button>
+                                                    <button type="reset" class="btn cancel" data-toggle="collapse" [attr.data-target]="'#mobileNetworkInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                    <button type="reset" class="btn reset"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody><br>
+                        </ng-container>
+                    </table>
                     <ng-container *ngIf="isTable">
-                        <tbody *ngFor="let data of mobileNetwork | paginate: {id:'paginationMobileNetwork',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
-                            <tr>
-                                <td>{{ data.index }}</td>
-                                <td>{{ data.master_network_service_provider_name }}</td>
-                                <td class="text-align-end">
-                                    <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#mobileNetworkInfo' + i" (click)="editMobileNetwork(data.master_network_service_provider_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                    <button mat-stroked-button class="ml-3" (click)="deleteMobileNetwork(data.master_network_service_provider_id,data.master_network_service_provider_name)"><span class="fa fa-trash c-red"></span></button>
-                                </td>
-                            </tr><br>
-                            <tr>
-                                <td colspan="3" class="p-0">
-                                    <div class="collapse pb-5" id="mobileNetworkInfo{{ i }}">
-                                        <form class="updateNetworkServiceProviderForm" [formGroup]="updateNetworkServiceProviderForm">
-                                            <div class="col-md-12">
-                                                <span class="fs-16 fw-500">Please enter updated mbile network name for selected mobile network.<br></span>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <mat-form-field class="form-field">
-                                                    <input matInput class="p-0" formControlName="updateNetworkServiceProviderName" placeholder="Mobile Network Service Provider Name">
-                                                </mat-form-field>
-                                            </div>
-                                            <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                            <button mat-flat-button type="reset" class="cancel pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#mobileNetworkInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                            <button mat-flat-button type="button" class="save pull-right" (click)="updateMobileNetwork(data.master_network_service_provider_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Network Mobile Network</button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody><br>
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <pagination-controls id="paginationMobileNetwork" (pageChange)="p = $event" class="f-l">
+                                </pagination-controls>
+                            </div>
+                            <div class="col-md-6 z-index-9">
+                                <mat-form-field appearance="fill" class="width-22 f-r">
+                                    <mat-label>Entries per page</mat-label>
+                                    <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
+                                        [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </ng-container>
-                </table>
-                <ng-container *ngIf="isTable">
-                    <div class="row">
-                        <div class="col-md-6 mt-3">
-                            <pagination-controls id="paginationMobileNetwork" (pageChange)="p = $event" class="f-l"></pagination-controls>
-                        </div>
-                        <div class="col-md-6 z-index-9">
-                            <mat-form-field appearance="fill" class="width-22 f-r">
-                                <mat-label>Entries per page</mat-label>
-                                <mat-select id='entriesPerPage' [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                    <mat-option value="10">10</mat-option>
-                                    <mat-option value="20">20</mat-option>
-                                    <mat-option value="35">35</mat-option>
-                                    <mat-option value="40">40</mat-option>
-                                    <mat-option value="50">50</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </ng-container>
+                </div>
             </div>
         </div>
     </div>

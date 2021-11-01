@@ -108,6 +108,7 @@ export class InventoryComponent implements OnInit {
   }
 
   insertInventory() {
+    this.inventoryForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.inventoryForm.valid) {
@@ -139,15 +140,6 @@ export class InventoryComponent implements OnInit {
       this.inventoryForm.reset();
       document.getElementById('collapse').click();
     } else {
-      if (!this.inventoryForm.get('inventoryName').value) {
-        this.toastr.error("Please Enter Inventory Name.");
-      }
-      if (!this.inventoryForm.get('inventoryUnit').value) {
-        this.toastr.error("Please Enter Inventory Unit.");
-      }
-      if (!this.inventoryForm.get('productForm').value) {
-        this.toastr.error("Please Enter Product Form.");
-      }
       this.isProgressBar = false;
       this.isTable = true;
     }
@@ -230,13 +222,6 @@ export class InventoryComponent implements OnInit {
               this.toastr.error("Something went wrong, Please Relaod page and try again!");
             }
             );
-          } else {
-            if (!this.inventoryForm.get('updateInventoryName').value) {
-              this.toastr.error("Please Enter Inventory Name for update.");
-            }
-            if (!this.inventoryForm.get('updateInventoryUnit').value) {
-              this.toastr.error("Please Enter Inventory Unit for update.");
-            }
           }
         } else if (
           /* Read more about handling dismissals below */

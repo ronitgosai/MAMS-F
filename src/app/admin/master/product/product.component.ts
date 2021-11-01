@@ -10,6 +10,7 @@ import { RawMaterialService } from 'app/services/dashboard/raw-material/raw-mate
 import { GlobalService } from 'app/services/global.service';
 import { ProductCategoryService } from 'app/services/dashboard/master/product-category.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-product',
@@ -53,6 +54,9 @@ export class ProductComponent implements OnInit {
   raw_material = [];
   value = 'Clear me';
 
+  image: string;
+  document: string;
+
   fileDetails: { file: any; name: any; size: string; };
 
   protected _onDestroy = new Subject<void>();
@@ -71,7 +75,7 @@ export class ProductComponent implements OnInit {
       product_technical_name: ['', [Validators.required, this.global.noWhitespaceValidator]],
       raw_material_id: ['', [Validators.required]],
       product_form: ['', [Validators.required]],
-      product_description: ['', [Validators.required]],
+      product_description: [''],
     });
 
     this.productDocumentForm = this.formBuilder.group({
@@ -152,6 +156,7 @@ export class ProductComponent implements OnInit {
 
   onImagePicked(event): void {
     let file = null;
+    this.image = event.target.value
     if (event.target) {
       file = (event.target as HTMLInputElement).files[0];
       this.setImageDetails(file);
@@ -166,6 +171,7 @@ export class ProductComponent implements OnInit {
 
   onFilePicked(event): void {
     let file = null;
+    this.document = event.target.value
     if (event.target) {
       file = (event.target as HTMLInputElement).files[0];
       this.setDocumentDetails(file);
@@ -199,44 +205,34 @@ export class ProductComponent implements OnInit {
   }
 
   insertProduct() {
+    this.productForm.markAllAsTouched();
     this.is_table = false;
     this.isProgressBar = true;
     let raw_material_id = this.productForm.get('raw_material_id').value
     let category_id = this.productForm.get('category_id').value
     if (this.productForm.valid) {
-      const productDataForm = new FormData();
-      if (productDataForm) {
-        productDataForm.append('product_name', this.productForm.value.product_name),
-          productDataForm.append('product_technical_name', this.productForm.value.product_technical_name),
-          productDataForm.append('product_form', this.productForm.value.product_form),
-          productDataForm.append('product_description', this.productForm.value.product_description),
-          productDataForm.append('product_image', this.productDocumentForm.value.product_image, this.productForm.value.product_name + '.png'),
-          productDataForm.append('session_id', localStorage.getItem('session_id')),
-          productDataForm.append('created_date', this.global.getDateZone()),
-          productDataForm.append('created_time', this.global.getTimeZone())
+      let productInfo = {
+        'product_name': this.productForm.get('product_name').value,
+        'product_technical_name': this.productForm.get('product_technical_name').value,
+        'product_form': this.productForm.get('product_form').value,
+        'product_description': this.productForm.get('product_description').value,
+        'session_id': localStorage.getItem('session_id'),
+        'created_date': this.global.getDateZone(),
+        'created_time': this.global.getTimeZone()
       }
-      this.productService.createProduct(productDataForm).subscribe((createProduct: any) => {
-        const productDocument = new FormData();
-        if (productDocument) {
-          productDocument.append('product_id', createProduct.data.product_id),
-            productDocument.append('product_document', this.productDocumentForm.value.product_document),
-            productDocument.append('session_id', localStorage.getItem('session_id')),
-            productDocument.append('created_date', this.global.getDateZone()),
-            productDocument.append('created_time', this.global.getTimeZone())
+      this.productService.createProduct(productInfo).subscribe((createProduct: any) => {
+        if(this.image){
+          const productImageForm = new FormData();
+          productImageForm.append('product_id', createProduct.data.product_id),
+          productImageForm.append('product_image', this.productDocumentForm.value.product_image, createProduct.data.product_id + '.png'),
+          this.productService.createProductImage(productImageForm).subscribe(createProductImage => {})
         }
-        this.productService.createProductDocument(productDocument).subscribe(document => {
-          this.productService.getProduct().subscribe((getProduct: any) => {
-            this.arr_product_data = this.global.tableIndex(getProduct.data);
-            this.isProgressBar = false;
-            if (this.arr_product_data.length > 0) {
-              this.is_data = false;
-              this.is_table = true;
-            } else if (this.arr_product_data.length === 0) {
-              this.is_table = false;
-              this.is_data = true;
-            }
-          })
-        })
+        if(this.document){
+          const productDocumentForm = new FormData();
+          productDocumentForm.append('product_id', createProduct.data.product_id),
+          productDocumentForm.append('product_document', this.productDocumentForm.value.product_document, createProduct.data.product_id),
+          this.productService.createProductDocument(productDocumentForm).subscribe(createProductDocument => {})
+        }
         let category = {
           'product_id': createProduct.data.product_id,
           'category_id': category_id,
@@ -245,56 +241,48 @@ export class ProductComponent implements OnInit {
           'created_time': this.global.getTimeZone()
         }
         this.productService.createProductCategory(category).subscribe((createCategory) => {
-          this.productService.getProduct().subscribe((getProduct: any) => {
-            this.arr_product_data = this.global.tableIndex(getProduct.data);
-            this.isProgressBar = false;
-            if (this.arr_product_data.length > 0) {
-              this.is_data = false;
-              this.is_table = true;
-            } else if (this.arr_product_data.length === 0) {
-              this.is_table = false;
-              this.is_data = true;
+          raw_material_id.map((d, index) => {
+            let raw_material = {
+              'product_id': createProduct.data.product_id,
+              'raw_material_id': raw_material_id[index],
+              'session_id': localStorage.getItem('session_id'),
+              'created_date': this.global.getDateZone(),
+              'created_time': this.global.getTimeZone()
             }
-          })
-        })
-        raw_material_id.map((d, index) => {
-          let raw_material = {
-            'product_id': createProduct.data.product_id,
-            'raw_material_id': raw_material_id[index],
-            'session_id': localStorage.getItem('session_id'),
-            'created_date': this.global.getDateZone(),
-            'created_time': this.global.getTimeZone()
-          }
-          this.productService.createProductRawMaterial(raw_material).subscribe((createRawMaterial) => {
-            this.productService.getProduct().subscribe((getProduct: any) => {
-              this.arr_product_data = this.global.tableIndex(getProduct.data);
-              this.isProgressBar = false;
-              if (this.arr_product_data.length > 0) {
-                this.is_data = false;
-                this.is_table = true;
-              } else if (this.arr_product_data.length === 0) {
-                this.is_table = false;
-                this.is_data = true;
-              }
+            this.productService.createProductRawMaterial(raw_material).subscribe((createRawMaterial) => {
+              this.productService.getProduct().subscribe((getProduct: any) => {
+                this.arr_product_data = this.global.tableIndex(getProduct.data);
+                this.isProgressBar = false;
+                if (this.arr_product_data.length > 0) {
+                  this.is_data = false;
+                  this.is_table = true;
+                } else if (this.arr_product_data.length === 0) {
+                  this.is_table = false;
+                  this.is_data = true;
+                }
+              })
             })
           })
         })
-      })
-      this.productService.getProduct().subscribe((getProduct: any) => {
-        this.arr_product_data = this.global.tableIndex(getProduct.data);
       })
       this.toastr.success("Product " + this.productForm.get('product_name').value + " add successfully");
       this.productForm.reset();
       document.getElementById('collapseButton').click();
     } else {
+      if (!this.productDocumentForm.value.product_image) {
+        this.toastr.error('Please select a product image');
+      }
+      if (!this.productDocumentForm.value.product_document) {
+        this.toastr.error('Please select a product document');
+      }
       this.isProgressBar = false;
       this.is_table = true;
-      this.toastr.error("Please input all the field");
     }
   }
 
   viewProductDetails(productId) {
-    const url = 'http://mams.modernagrichem.com/product-details/' + productId;
+    // const url = 'http://mams.modernagrichem.com/product-details/' + productId;
+    const url = 'http://localhost:4200/product-details/' + productId;
     window.open(url, '_blank').focus();
   }
 

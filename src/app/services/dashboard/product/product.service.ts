@@ -32,8 +32,12 @@ export class ProductService {
     return this.http.post(environment.apiUrl + "/product/create_product", data, { headers: this.header.getToken() });
   }
 
+  createProductImage(data) {
+    return this.http.put(environment.apiUrl + "/product/create_product_image", data, { headers: this.header.getToken() });
+  }
+
   createProductDocument(data) {
-    return this.http.post(environment.apiUrl + "/product/create_product_document", data, { headers: this.header.getToken() });
+    return this.http.put(environment.apiUrl + "/product/create_product_document", data, { headers: this.header.getToken() });
   }
 
   createStockProductCategory(data) {

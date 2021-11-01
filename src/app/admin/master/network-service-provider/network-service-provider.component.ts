@@ -77,6 +77,7 @@ export class NetworkServiceProviderComponent implements OnInit {
   pagination(event) { }
 
   insertMobileNetwork() {
+    this.networkServiceProviderForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.networkServiceProviderForm.valid) {
@@ -105,7 +106,6 @@ export class NetworkServiceProviderComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Please enter valid data.");
     }
   }
 

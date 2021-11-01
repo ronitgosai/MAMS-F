@@ -115,6 +115,7 @@ export class RawMaterialComponent implements OnInit {
   }
 
   insertRawMaterial() {
+    this.rawMaterialForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.rawMaterialForm.valid) {
@@ -147,12 +148,6 @@ export class RawMaterialComponent implements OnInit {
       document.getElementById('collapseButton').click();
     }
     else {
-      if (!this.rawMaterialForm.get('raw_material_name').value) {
-        this.toastr.error("Please Enter Raw Material Name.");
-      }
-      if (!this.rawMaterialForm.get('raw_material_unit').value) {
-        this.toastr.error("Please Enter Raw Material Unit.");
-      }
       this.isCollapsed = false;
       this.isProgressBar = false;
       this.isTable = true;
@@ -233,14 +228,6 @@ export class RawMaterialComponent implements OnInit {
             (err) => {
               this.toastr.error("Something went wrong, Relaod the page and try again.")
             })
-        }
-        else {
-          if (!this.updatedRawMaterialForm.get('update_raw_material_name').value) {
-            this.toastr.error("Please Enter Raw Material Name for update.");
-          }
-          if (!this.updatedRawMaterialForm.get('update_raw_material_unit').value) {
-            this.toastr.error("Please Enter Raw Material Unit for update.");
-          }
         }
       } else if (
         /* Read more about handling dismissals below */

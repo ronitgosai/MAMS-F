@@ -160,6 +160,7 @@ export class InventoryComponent implements OnInit {
   }
 
   insertInventory() {
+    this.inventoryForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.inventoryForm.valid) {
@@ -193,7 +194,6 @@ export class InventoryComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Pleaseinput valid data.");
     }
   }
 
@@ -377,6 +377,7 @@ export class InventoryComponent implements OnInit {
   }
 
   importInventory() {
+    this.importInventoryForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBarImport = true;
     if (this.importInventoryForm.valid) {
@@ -436,7 +437,6 @@ export class InventoryComponent implements OnInit {
     } else {
       this.isProgressBarImport = false;
       this.isTableImport = true;
-      this.toastr.error("Please enter valid data");
     }
   }
 

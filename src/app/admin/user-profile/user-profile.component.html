@@ -37,7 +37,8 @@
                             <div>
                                 <mat-form-field appearance="outline">
                                     <mat-label> User Role: </mat-label>
-                                    <textarea matInput style="height: 23px" [readonly]="true" class="width-100" formControlName="userRole"></textarea>
+                                    <textarea matInput style="height: 23px" [readonly]="true" class="width-100"
+                                        formControlName="userRole"></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -45,10 +46,16 @@
                 </div>
             </div>
         </div>
+        <!-- Logout -->
+        <!-- <div class="col-md-12">
+            <div class="card">
+                <button mat-flat-button class="cancel" (click)="logout()">Logout</button>
+            </div>
+        </div> -->
         <!-- Reset Password Botton -->
         <div class="col-md-12">
             <div class="card">
-                <button mat-flat-button routerLink="/reset-password">Reset Password</button>
+                <button mat-flat-button class="btn cancel" routerLink="/reset-password">Reset Password</button>
             </div>
         </div>
     </div>

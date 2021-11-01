@@ -180,8 +180,7 @@ export class StaffComponent implements OnInit {
   }
 
   insertUser() {
-
-    console.log(this.staffForm)
+    this.staffForm.markAllAsTouched();
     this.is_submitted = true;
     this.is_table = false;
     this.isProgressBar = true;
@@ -224,7 +223,6 @@ export class StaffComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.is_table = true;
-      this.toastr.error("Please fill the form!")
     }
   }
 

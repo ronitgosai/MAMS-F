@@ -1,147 +1,167 @@
-<div class="row row-title">
-    <div class="col-md-6">
+<div class="animated fadeIn">
+    <div class="flex-space-between p-20">
         <span class="fs-20 fw-600">Inventory</span>
-    </div>
-    <div class="col-md-6">
-        <button mat-flat-button class="float-right save" type="button" data-toggle="collapse" data-target="#inventory" id="collapse" aria-expanded="false" aria-controls="collapseExample">
+        <button type="button" class="btn float-right save" data-toggle="collapse" data-target="#inventory" id="collapse">
             <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Inventory
         </button>
     </div>
-</div>
-<div class="row ml-20 mr-20">
-    <div class="col-md-12">
-        <div class="collapse " id="inventory">
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
+            <div class="collapse" id="inventory">
+                <div class="card-body">
+                    <form class="inventoryForm" [formGroup]="inventoryForm">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <mat-form-field class="form-field">
+                                    <mat-label>Inventory Name</mat-label>
+                                    <input matInput class="p-0" formControlName="inventoryName">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Unit</mat-label>
+                                    <mat-select formControlName="inventoryUnit">
+                                        <mat-option value="Piece">Piece</mat-option>
+                                        <mat-option value="Dozen">Dozen</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>For Liquid / Solid / Other Inventory</mat-label>
+                                    <mat-select formControlName="productForm">
+                                        <mat-option value="1">For Liquid Product</mat-option>
+                                        <mat-option value="2">For Solid Product</mat-option>
+                                        <mat-option value="0">For Other Inventory</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <button type="button" class="btn save" (click)="insertInventory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Inventory</button>
+                            <button type="reset" class="btn cancel" data-toggle="collapse" data-target="#inventory"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button type="reset" class="btn reset"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row ml-20 mr-20">
+        <div class="col-md-12">
             <div class="card-body">
-                <form class="inventoryForm" [formGroup]="inventoryForm">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <mat-form-field class="form-field" [formGroup]="inventoryForm">
-                                <input matInput class="p-0" formControlName="inventoryName" placeholder="Inventory Name">
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" [formGroup]="inventoryForm">
-                                <mat-label>Unit</mat-label>
-                                <mat-select formControlName="inventoryUnit">
-                                    <mat-option value="Piece">Piece</mat-option>
-                                    <mat-option value="Dozen">Dozen</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill" [formGroup]="inventoryForm">
-                                <mat-label>For Liquid / Solid / Other Inventory</mat-label>
-                                <mat-select formControlName="productForm">
-                                    <mat-option value="1">For Liquid Product</mat-option>
-                                    <mat-option value="2">For Solid Product</mat-option>
-                                    <mat-option value="0">For Other Inventory</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div><br>
-                    <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                    <button mat-flat-button type="reset" data-toggle="collapse" data-target="#inventory" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                    <button mat-flat-button type="button" class="save pull-right" (click)="insertInventory()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Inventory</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<hr class="m-0 mt-15">
-<div class="row ml-20 mr-20">
-    <div class="col-md-12">
-        <div class="card-body">
-            <div class="col-md-12">
-                <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="inventoryName" [(ngModel)]="inventoryName" (ngModelChange)="search()" placeholder="Search Invnetory Name">
-                </mat-search-bar>
-            </div>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead class="text font-weight-bold">
-                        <th>#</th>
-                        <th>Inventory Name</th>
-                        <th>Unit</th>
-                        <th>Quantity</th>
-                        <th class="text-align-end">Action</th>
-                    </thead>
-                    <ng-container *ngIf="isProgressBar">
-                        <td colspan="5" class="border-none">
-                            <mat-progress-bar mode="indeterminate">   
-                            </mat-progress-bar>
-                        </td>
-                    </ng-container>
-                    <ng-container *ngIf="isData">
-                        <td colspan="5" class="align-items-center m-20 text-center">
-                            <p class="fs-16 fw-400">No Data Available.</p>
-                        </td>
-                    </ng-container>
-                    <ng-container *ngIf="isTable">
-                        <tbody *ngFor="let data of inventoryInfo | paginate: {id:'paginationInventory',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
-                            <tr>
-                                <td >{{ data.index }}</td>
-                                <td>{{ data.inventory_name }}</td>
-                                <td>{{ data.inventory_unit }}</td>
-                                <td>{{ data.inventory_quantity }}</td>
-                                <td class="text-align-end">
-                                    <button mat-stroked-button data-toggle="collapse" [attr.data-target]="'#invnetoryInfo' + i" (click)="editInventory(data.inventory_id,i)"><span class="fa fa-pen c-blue"></span></button>
-                                    <button mat-stroked-button class="ml-3" (click)="deleteInventory(data.inventory_id,data.inventory_name)"><span class="fa fa-trash c-red"></span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="5" class="p-0">
-                                    <div class="collapse pb-5" id="invnetoryInfo{{ i }}">
-                                        <div class="card-body">
-                                            <form class="updateInventoryForm" [formGroup]="updateInventoryForm">
-                                                <div class="col-md-12">
-                                                    <span class="fs-16 fw-500">Please enter updated inventory name OR inventory unit for selected inventory.<br></span>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <mat-form-field class="form-field">
-                                                            <input matInput class="p-0" formControlName="updateInventoryName" placeholder="Inventory Name">
-                                                        </mat-form-field>   
+                <div class="col-md-12">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="inventoryName"
+                        [(ngModel)]="inventoryName" (ngModelChange)="search()" placeholder="Search Invnetory Name">
+                    </mat-search-bar>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text font-weight-bold">
+                            <th>#</th>
+                            <th>Inventory Name</th>
+                            <th>Unit</th>
+                            <th>Quantity</th>
+                            <th class="text-align-end">Action</th>
+                        </thead>
+                        <ng-container *ngIf="isProgressBar">
+                            <td colspan="5" class="border-none">
+                                <mat-progress-bar mode="indeterminate">
+                                </mat-progress-bar>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="isData">
+                            <td colspan="5" class="align-items-center m-20 text-center">
+                                <p class="fs-16 fw-400 mt-20">No Data Available.</p>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngIf="isTable">
+                            <tbody
+                                *ngFor="let data of inventoryInfo | paginate: {id:'paginationInventory',itemsPerPage:entriesPerPage,currentPage:p}; let i = index">
+                                <tr>
+                                    <td>{{ data.index }}</td>
+                                    <td>{{ data.inventory_name }}</td>
+                                    <td>{{ data.inventory_unit }}</td>
+                                    <td>{{ data.inventory_quantity }}</td>
+                                    <td class="text-align-end">
+                                        <button mat-stroked-button data-toggle="collapse"
+                                            [attr.data-target]="'#invnetoryInfo' + i"
+                                            (click)="editInventory(data.inventory_id,i)"><span
+                                                class="fa fa-pen c-blue"></span></button>
+                                        <button mat-stroked-button class="ml-3"
+                                            (click)="deleteInventory(data.inventory_id,data.inventory_name)"><span
+                                                class="fa fa-trash c-red"></span></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" class="p-0">
+                                        <div class="collapse pb-5" id="invnetoryInfo{{ i }}">
+                                            <div class="card-body">
+                                                <form class="updateInventoryForm" [formGroup]="updateInventoryForm">
+                                                    <div class="col-md-12">
+                                                        <span class="fs-16 fw-500">Please enter updated inventory name
+                                                            OR inventory unit for selected inventory.<br></span>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <mat-form-field class="form-field">
-                                                            <mat-label>Unit</mat-label>
-                                                            <mat-select formControlName="updateInventoryUnit">
-                                                                <mat-option value="Piece">Piece</mat-option>
-                                                                <mat-option value="Dozen">Dozen</mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <mat-form-field class="form-field">
+                                                                <input matInput class="p-0"
+                                                                    formControlName="updateInventoryName"
+                                                                    placeholder="Inventory Name">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <mat-form-field class="form-field">
+                                                                <mat-label>Unit</mat-label>
+                                                                <mat-select formControlName="updateInventoryUnit">
+                                                                    <mat-option value="Piece">Piece</mat-option>
+                                                                    <mat-option value="Dozen">Dozen</mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <button type="reset" class="btn btn-success pull-right ml-2 c-b c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                                                <button type="reset" class="btn btn-danger pull-right ml-2" data-toggle="collapse" [attr.data-target]="'#invnetoryInfo' + i"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                                                <button type="button" class="btn btn-success pull-right" (click)="updateInventory(data.inventory_id)"><span class="fas fa-save"></span>&nbsp;&nbsp;Update Inventory</button>
-                                            </form>
+                                                    <button type="reset"
+                                                        class="btn btn-success pull-right ml-2 c-b c-b"><span
+                                                            class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                                                    <button type="reset" class="btn btn-danger pull-right ml-2"
+                                                        data-toggle="collapse"
+                                                        [attr.data-target]="'#invnetoryInfo' + i"><span
+                                                            class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                                                    <button type="button" class="btn btn-success pull-right"
+                                                        (click)="updateInventory(data.inventory_id)"><span
+                                                            class="fas fa-save"></span>&nbsp;&nbsp;Update
+                                                        Inventory</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody><br>
+                                    </td>
+                                </tr>
+                            </tbody><br>
+                        </ng-container>
+                    </table>
+                    <ng-container *ngIf="isTable">
+                        <div class="row">
+                            <div class="col-md-6 mt-3">
+                                <pagination-controls id="paginationInventory" (pageChange)="p = $event" class="f-l">
+                                </pagination-controls>
+                            </div>
+                            <div class="col-md-6 z-index-9">
+                                <mat-form-field appearance="fill" class="width-22 f-r">
+                                    <mat-label>Entries per page</mat-label>
+                                    <mat-select id='entriesPerPage' [(value)]="entriesPerPage"
+                                        [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
+                                        <mat-option value="10">10</mat-option>
+                                        <mat-option value="20">20</mat-option>
+                                        <mat-option value="35">35</mat-option>
+                                        <mat-option value="40">40</mat-option>
+                                        <mat-option value="50">50</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
                     </ng-container>
-                </table>
-                <ng-container *ngIf="isTable">
-                    <div class="row">
-                        <div class="col-md-6 mt-3">
-                            <pagination-controls id="paginationInventory" (pageChange)="p = $event" class="f-l"></pagination-controls>
-                        </div>
-                        <div class="col-md-6 z-index-9">
-                            <mat-form-field appearance="fill"  class="width-22 f-r">
-                                <mat-label>Entries per page</mat-label>
-                                <mat-select id='entriesPerPage'  [(value)]="entriesPerPage" [(ngModel)]="entriesPerPage" (selectionChange)="pagination($event)">
-                                    <mat-option value="10">10</mat-option>
-                                    <mat-option value="20">20</mat-option>
-                                    <mat-option value="35">35</mat-option>
-                                    <mat-option value="40">40</mat-option>
-                                    <mat-option value="50">50</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </ng-container>
+                </div>
             </div>
         </div>
     </div>
-</div>

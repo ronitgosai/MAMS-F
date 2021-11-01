@@ -76,6 +76,7 @@ export class RoleComponent implements OnInit {
   }
 
   addRole() {
+    this.roleForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.roleForm.valid) {
@@ -104,11 +105,22 @@ export class RoleComponent implements OnInit {
     } else {
       this.isProgressBar = false;
       this.isTable = true;
-      this.toastr.error("Please input valid data.");
     }
   }
 
-  editṚole(roleId, cardIndex) {
+  editRole(roleId, cardIndex) {
+    if (this.old_card_index === undefined) {
+      this.old_card_index = cardIndex
+    } else {
+      if (this.old_card_index !== cardIndex) {
+        let id = document.getElementById("roleInfo" + this.old_card_index).classList.remove('show')
+        this.old_card_index = cardIndex
+      }
+    }
+    let editData = this.roleData.find(d => d.master_role_id === roleId)
+    this.updateRoleForm.patchValue({
+      updateRoleName: editData.role_name,
+    })
   }
 
   updateRole(roleId) {

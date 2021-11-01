@@ -21,6 +21,7 @@ export class CanDashboardActivateService {
     if (userId) {
       if (
         userRole === environment.adminRole ||
+        ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/product-details') ||
         ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/dashboard') ||
         ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/user-profile') ||
         ([environment.adminRole, environment.rawMaterialRole, environment.inventoryRole, environment.productionRole, environment.productRole, environment.stockRole, environment.sellRole, environment.customerRole, environment.staffRole].some(ur => userRole.split(',').indexOf(ur) > -1) && state.url === '/reset-password') ||

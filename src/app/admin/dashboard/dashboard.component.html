@@ -22,8 +22,8 @@
                                     <th class="max-width-200"> Start Time </th>
                                 </thead><br>
                                 <ng-container *ngIf="isData">
-                                    <td colspan="6" class="align-items-center m-20 text-center"> 
-                                        <p class="fs-16 fw-400">No Data Available.</p>
+                                    <td colspan="6" class="text-center"> 
+                                       <p class="fs-16 fw-400 mt-20">No Data Available.</p>
                                     </td>
                                 </ng-container>
                                 <tbody *ngFor="let data of production; let i = index; is_ongoing_table">

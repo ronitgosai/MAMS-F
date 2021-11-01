@@ -183,6 +183,7 @@ export class RawMaterialComponent implements OnInit {
   }
 
   insertRawMaterial() {
+    this.rawMaterialForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBar = true;
     if (this.rawMaterialForm.valid) {
@@ -426,6 +427,7 @@ export class RawMaterialComponent implements OnInit {
   }
 
   importRawMaterial() {
+    this.importRawMaterialForm.markAllAsTouched();
     this.isTable = false;
     this.isProgressBarImport = true;
     if (this.importRawMaterialForm.valid) {
@@ -483,7 +485,6 @@ export class RawMaterialComponent implements OnInit {
     } else {
       this.isTableImport = true;
       this.isProgressBarImport = false;
-      this.toastr.error("Please input valid data.");
     }
   }
 

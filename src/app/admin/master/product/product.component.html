@@ -1,97 +1,114 @@
-<div class="card">
-    <div class="row row-title">
-        <div class="col-md-6">
-            <span class="fs-20 fw-600">Products</span>
-        </div>
-        <div class="col-md-6">
-            <button mat-flat-button class="float-right save" data-toggle="collapse" data-target="#product" id="collapseButton" aria-expanded="false" aria-controls="collapseExample">
-                <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Product
-            </button>
-        </div>
+<div class="animated fadeIn">
+    <div class="flex-space-between p-20">
+        <span class="fs-20 fw-600">Product</span>
+        <button class="btn float-right save" data-toggle="collapse" data-target="#product" id="collapseButton">
+            <span class="fas fa-plus"></span>&nbsp;&nbsp;Add Product
+        </button>
     </div>
     <div class="row ml-20 mr-20">
         <div class="col-md-12">
             <div class="collapse" id="product">
                 <div class="card-body">
-                    <form class="">
+                    <form class="productForm" [formGroup]="productForm">
                         <div class="row">
-                            <div class="col-md-4" [formGroup]="productForm">
+                            <div class="col-md-4">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Category</mat-label>
                                     <mat-select formControlName="category_id">
                                         <ng-container *ngFor="let data of category">
-                                            <mat-option value="{{ data.category_id }}">{{ data.category_name }}</mat-option>
+                                            <mat-option value="{{ data.category_id }}">{{ data.category_name }}
+                                            </mat-option>
                                         </ng-container>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4" [formGroup]="productForm">
+                            <div class="col-md-4">
                                 <mat-form-field class="form-field">
-                                    <input matInput class="p-0" formControlName="product_name" placeholder="Product Name" required>
+                                    <mat-label>Product Name</mat-label>
+                                    <input matInput class="p-0" formControlName="product_name">
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4" [formGroup]="productForm">
+                            <div class="col-md-4">
                                 <mat-form-field class="form-field">
-                                    <input matInput class="p-0" formControlName="product_technical_name" placeholder="Product Technical Name" required>
+                                    <mat-label>Product Technical Name</mat-label>
+                                    <input matInput class="p-0" formControlName="product_technical_name">
                                 </mat-form-field>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-4" [formGroup]="productForm">
+                            <div class="col-md-6">
                                 <mat-form-field appearance="fill">
-                                    <mat-select class="fs-15 fw-400" formControlName="raw_material_id" [multiple]="true" placeholder="Raw Material Name" required #multiselect>
+                                    <mat-label>Raw Material Name</mat-label>
+                                    <mat-select class="fs-15 fw-400" formControlName="raw_material_id" [multiple]="true"
+                                        #multiselect>
                                         <mat-option>
-                                            <ngx-mat-select-search [formControl]="raw_material_multi_FilterCtrl" placeholderLabel="Search here!"
-                                                [noEntriesFoundLabel]="'Not result found'"></ngx-mat-select-search>
+                                            <ngx-mat-select-search [formControl]="raw_material_multi_FilterCtrl"
+                                                placeholderLabel="Search here!"
+                                                [noEntriesFoundLabel]="'Not result found'">
+                                            </ngx-mat-select-search>
                                         </mat-option>
-                                        <mat-option *ngFor="let data of filtered_raw_material_name_multi | async" [value]="data.raw_material_id">
+                                        <mat-option *ngFor="let data of filtered_raw_material_name_multi | async"
+                                            [value]="data.raw_material_id">
                                             {{ data.raw_material_name }}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4 dropdown" [formGroup]="productForm">
+                            <div class="col-md-6 dropdown">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Product Form</mat-label>
-                                    <mat-select formControlName="product_form" required>
+                                    <mat-select formControlName="product_form">
                                         <mat-option value="1">Liquid Product</mat-option>
                                         <mat-option value="2">Solid Product</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-4" [formGroup]="productDocumentForm">
-                                <mat-form-field class="form-field" style="margin-top: 8px !important">
-                                    <input matInput type="file" id="product_image" (change)="onImagePicked($event)"/>
-                                </mat-form-field>
-                            </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6" [formGroup]="productForm">
+                            <div class="col-md-12">
                                 <mat-form-field appearance="fill">
                                     <mat-label>Product Description</mat-label>
-                                    <textarea matInput formControlName="product_description" placeholder="Product Description"></textarea>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6" style="margin-top: 1.4rem !important;" [formGroup]="productDocumentForm">
-                                <mat-form-field class="form-field" style="margin-top: 8px !important">
-                                    <input matInput type="file" id="product_document" (change)="onFilePicked($event)"/>
+                                    <textarea matInput formControlName="product_description" value=""></textarea>
                                 </mat-form-field>
                             </div>
                         </div>
-                        <button mat-flat-button type="reset" class="reset pull-right ml-2 c-b"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
-                        <button mat-flat-button type="reset" data-toggle="collapse" data-target="#product" class="cancel pull-right ml-2"><span class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
-                        <button mat-flat-button type="button" class="save pull-right" (click)="insertProduct()"><span class="fas fa-save"></span>&nbsp;&nbsp;Add Product</button>
+                        <form class="productDocumentForm" [formGroup]="productDocumentForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <mat-label>Product Image</mat-label>
+                                    <mat-form-field class="form-field">
+                                        <input matInput type="file" id="product_image"
+                                            (change)="onImagePicked($event)" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-label>Product Document</mat-label>
+                                    <mat-form-field class="form-field">
+                                        <input matInput type="file" id="product_document"
+                                            (change)="onFilePicked($event)" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="float-right">
+                            <button type="button" class="btn save" (click)="insertProduct()"><span
+                                    class="fas fa-save"></span>&nbsp;&nbsp;Add Product</button>
+                            <button type="reset" class="btn cancel" data-toggle="collapse" data-target="#product"><span
+                                    class="fas fa-times"></span>&nbsp;&nbsp;Cancel</button>
+                            <button type="reset" class="btn reset"><span class="fas fa-redo"></span>&nbsp;&nbsp;Reset</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <hr class="m-0 mt-15">
+    <hr>
     <div class="row ml-20 mr-20">
         <div class="col-md-12">
             <div class="card-body">
                 <div class="col-md-12">
-                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="product_name" [(ngModel)]="product_name" (ngModelChange)="search()" placeholder="Search Product Name">
+                    <mat-search-bar class="form-group m-0 m-5 f-r" [(ngModel)]="value" type='text' name="product_name"
+                        [(ngModel)]="product_name" (ngModelChange)="search()" placeholder="Search Product Name">
                     </mat-search-bar>
                 </div><br><br>
                 <div class="table-responsive">
@@ -107,34 +124,39 @@
                         </thead><br>
                         <ng-container *ngIf="isProgressBar">
                             <td colspan="6" class="border-none">
-                                <mat-progress-bar mode="indeterminate">   
+                                <mat-progress-bar mode="indeterminate">
                                 </mat-progress-bar>
                             </td>
                         </ng-container>
                         <ng-container *ngIf="is_data">
                             <td colspan="6" class="align-items-center m-20 text-center">
-                                <p class="fs-16 fw-400">No Data Available.</p>
+                                <p class="fs-16 fw-400 mt-20">No Data Available.</p>
                             </td>
                         </ng-container>
                         <ng-container *ngIf="is_table">
-                            <tbody *ngFor="let data of arr_product_data | paginate: {id:'paginationProduct',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
+                            <tbody
+                                *ngFor="let data of arr_product_data | paginate: {id:'paginationProduct',itemsPerPage:entries_per_page,currentPage:p}; let i = index">
                                 <tr>
                                     <td>{{ data.index }}</td>
                                     <td appColor [data]="data.category_color">{{ data.category_names }}</td>
-                                    <td appColor [data]="data.category_color" >{{ data.product_name }} </td>
+                                    <td appColor [data]="data.category_color">{{ data.product_name }} </td>
                                     <td>{{ data.product_technical_name }}</td>
                                     <td>
                                         <div class="font-weight-bold">
                                             <ng-container *ngFor="let name of data.raw_material_names.split(',')">
-                                                <div><span class="fas fa-arrow-right"></span>&nbsp;&nbsp;{{ name }}</div>
+                                                <div><span class="fas fa-arrow-right"></span>&nbsp;&nbsp;{{ name }}
+                                                </div>
                                             </ng-container>
                                         </div>
                                     </td>
                                     <td class="text-align-end">
-                                        <button mat-stroked-button (click)="viewProductDetails(data.product_id)"><i class="fas fa-eye"></i></button>
+                                        <button mat-stroked-button (click)="viewProductDetails(data.product_id)"><i
+                                                class="fas fa-eye"></i></button>
                                     </td>
                                     <td class="text-align-end">
-                                        <button mat-stroked-button class="ml-3" (click)="deleteProduct(data.product_id,data.product_name)"><span class="fa fa-trash c-red"></span></button>
+                                        <button mat-stroked-button class="ml-3"
+                                            (click)="deleteProduct(data.product_id,data.product_name)"><span
+                                                class="fa fa-trash c-red"></span></button>
                                     </td>
                                 </tr>
                             </tbody><br>
@@ -142,13 +164,15 @@
                     </table>
                     <ng-container *ngIf="is_table">
                         <div class="row">
-                            <div class="col-md-6">  
-                                <pagination-controls id="paginationProduct" (pageChange)="p = $event" class="f-l"></pagination-controls>
+                            <div class="col-md-6">
+                                <pagination-controls id="paginationProduct" (pageChange)="p = $event" class="f-l">
+                                </pagination-controls>
                             </div>
                             <div class="col-md-6 z-index-9">
                                 <mat-form-field appearance="fill" class="width-22 f-r">
                                     <mat-label>Entries per page</mat-label>
-                                    <mat-select id='entries_per_page' [(value)]="entries_per_page" [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
+                                    <mat-select id='entries_per_page' [(value)]="entries_per_page"
+                                        [(ngModel)]="entries_per_page" (selectionChange)="pagination($event)">
                                         <mat-option value="10">10</mat-option>
                                         <mat-option value="20">20</mat-option>
                                         <mat-option value="35">35</mat-option>
